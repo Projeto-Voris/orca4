@@ -48,7 +48,7 @@ def generate_launch_description():
     orca_params_file = os.path.join(orca_bringup_dir, 'params', 'sim_orca_params.yaml')
     rosbag2_record_qos_file = os.path.join(orca_bringup_dir, 'params', 'rosbag2_record_qos.yaml')
     rviz_file = os.path.join(orca_bringup_dir, 'cfg', 'sim_launch.rviz')
-    world_file = os.path.join(orca_description_dir, 'worlds', 'sand.world')
+    world_file = os.path.join(orca_description_dir, 'worlds', 'inpetu.world')
 
     sim_left_ini = os.path.join(orca_bringup_dir, 'cfg', 'sim_left.ini')
     sim_right_ini = os.path.join(orca_bringup_dir, 'cfg', 'sim_right.ini')
@@ -91,14 +91,19 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'rviz',
-            default_value='True',
+            default_value='False',
             description='Launch rviz?',
         ),
 
         DeclareLaunchArgument(
             'slam',
-            default_value='True',
+            default_value='False',
             description='Launch SLAM?',
+        ),
+        DeclareLaunchArgument(
+            'world',
+            default_value='inpetu',
+            description='world to be launched',
         ),
 
         # Bag useful topics
@@ -225,4 +230,6 @@ def generate_launch_description():
             }.items(),
         ),
     ])
+
+
 
