@@ -2,31 +2,8 @@
 <sdf version="1.6">
     <world name="inpetu">
 
-        <!-- 3D scene -->
-        <plugin filename="MinimalScene" name="3D View">
-            <gz-gui>
-                <title>3D View</title>
-                <property type="bool" key="showTitleBar">false</property>
-                <property type="string" key="state">docked</property>
-            </gz-gui>
-
-            <engine>ogre2</engine>
-            <scene>scene</scene>
-<!--            <ambient_light>0.4 0.4 0.4</ambient_light>-->
-<!--            <background_color>0.8 0.8 0.8</background_color>-->
+        <scene>
             <!-- For turquoise ambient to match particle effect -->
-            <ambient>0.0 1.0 1.0</ambient>
-            <background>0.0 0.7 0.8</background>
-            <camera_pose>-6 0 6 0 0.5 0</camera_pose>
-            <camera_clip>
-                <near>0.25</near>
-                <far>25000</far>
-            </camera_clip>
-        </plugin>
-
-
-<!--        <scene>
-            &lt;!&ndash; For turquoise ambient to match particle effect &ndash;&gt;
             <ambient>0.0 1.0 1.0</ambient>
             <background>0.0 0.7 0.8</background>
         </scene>
@@ -34,7 +11,8 @@
         <physics name="1ms" type="ode">
             <max_step_size>0.001</max_step_size>
             <real_time_factor>1.0</real_time_factor>
-        </physics>-->
+        </physics>
+
         <!-- Base Gazebo plugins -->
         <plugin
                 filename="gz-sim-physics-system"
@@ -104,14 +82,5 @@
             <uri>model://inpetu_pool</uri>
             <pose>0 0 -6 0 0 0</pose>
         </include>
-
-<!--        <gui fullscreen='0'>-->
-<!--            <camera name='user_camera'>-->
-<!--                <pose> 0 0.328 0.376</pose>-->
-<!--                <view_controller>orbit</view_controller>-->
-<!--                <projection_type>perspective</projection_type>-->
-<!--            </camera>-->
-<!--        </gui>-->
-
     </world>
 </sdf>
