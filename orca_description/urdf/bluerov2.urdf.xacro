@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot name="BlueROV2" xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:property name="gazebo_sim" value="True"/>
+
+    <xacro:include filename="$(find-pkg-share orca_description)/urdf/bluerov2_base.xacro"/>
+
+    <xacro:bluerov2_base
+        robot_namespace="${namespace}"
+        mass="${mass}">
+
+    </xacro:bluerov2_base>
+
+
+    <xacro:if value="${gazebo_sim}">
+    </xacro:if>
+</robot>

@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="bluerov2_base"
+                 params="robot_namespace mass">
+        <link name="${robot_namespace}/base_link">
+            <inertial>
+                <mass value="${mass}"/>  <!-- [kg] -->
+                <origin xyz="0 0 0"/>
+                <!--                <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.00" iyz="0.0" izz="0.0"/>-->
+                <xacro:insert_block name="inertia"/>
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://orca_description/models/orca4/meshes/bluerov2.dae"
+                          scale="0.25 0.25 0.25"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.457 0.338 0.06506286173008947"/>  <!-- [m] [m] [m] -->
+                </geometry>
+            </collision>
+        </link>
+        <!--        <joint name="${robot_namespace}/base_joint" type="fixed">-->
+        <!--            <origin xyz="0 0 0" rpy="0 0 0"/>-->
+        <!--            <parent name="${robot_namespace}/base_link"/>-->
+        <!--            <child name="base_link_visual"/>-->
+        <!--        </joint>-->
+
+        <!--        <link name="base_link_visual">-->
+        <!--            -->
+        <!--        </link>-->
+        <gazebo reference="${robot_namespace}/base_link">
+            <plugin filename="gz-sim-hydrodynamics-system" name="gz::sim::systems::Hydrodynamics">
+                <link_name>base_link</link_name>
+                <water_density>1000</water_density>
+                <!-- Added mass: -->
+                <xDotU>0</xDotU>
+                <yDotV>0</yDotV>
+                <zDotW>0</zDotW>
+                <kDotP>0</kDotP>
+                <mDotQ>0</mDotQ>
+                <nDotR>0</nDotR>
+                <!-- First order stability derivative: -->
+                <xU>0</xU>
+                <yV>0</yV>
+                <zW>0</zW>
+                <kP>0</kP>
+                <mQ>0</mQ>
+                <nR>0</nR>
+                <!-- Second order stability derivative: -->
+                <xUabsU>-33.800000000000004</xUabsU>
+                <yVabsV>-54.26875</yVabsV>
+                <zWabsW>-73.37135</zWabsW>
+                <kPabsP>-4.0</kPabsP>
+                <mQabsQ>-4.0</mQabsQ>
+                <nRabsR>-4.0</nRabsR>
+            </plugin>
+        </gazebo>
+
+    </xacro:macro>
+
+    <xacro:macro name="thruster" params="robot_namespace parent motor_n axis xyz rpy">
+        <joint name="${robot_namespace}/thruster${motor_n}_joint" type="revolute">
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+            <parent name="${parent}"/>
+            <child name="${robot_namespace}/thruster${motor_n}_link"/>
+            <axis xyz="0 0 -1"/>
+        </joint>
+
+    </xacro:macro>
+</robot>
