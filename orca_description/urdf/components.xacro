@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:macro name="sm2" params="namespace camera_name parent_link frame_rate
+      horizontal_fov image_width image_height image_format min_distance
+      max_distance noise_mean noise_stddev enable_visual origin_offset_x
+      baseline_y origin_offset_z mass">
+        <joint name="base_to_camera" type="fixed">
+            <parent link="${namespace}/base_link"/>
+            <child lin="${namespace}/sm2/camera_left_link"/>
+            <origin xyz="${xyz_left}" rpy="${rpy_left}"/>
+        </joint>
+        <link name="${namespace}/sm2/camera_base_link">
+            <collision>
+                <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+                <geometry>
+                    <cylinder radius=".015" length="${baseline_y}"/>
+                </geometry>
+            </collision>
+            <visual>
+                <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi/2}"/>
+                <geometry>
+                    <mesh filename="$(find vant3d_description)/meshes/stereo.dae" scale="1 1 1"/>
+                </geometry>
+            </visual>
+            <inertial>
+                <mass value="${mass}"/>
+                <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+            </inertial>
+        </link>
+
+        <joint name="${namespace}/camera_left_joint" type="fixed">
+            <origin xyz="${origin_offset_x} ${baseline_y/2} ${origin_offset_z}" rpy="0 0 0"/>
+            <parent link="${namespace}/sm2/camera_base_link"/>
+            <child link="${namespace}/sm2/camera_left_link"/>
+        </joint>
+
+        <link name="${namespace}/sm2/camera_left_link">
+        </link>
+
+
+        <!-- Both cameras in the pair are anchored off the left camera frame. -->
+        <gazebo reference="${namespace}/sm2/camera_left_link">
+            <sensor type="multicamera" name="${namespace}_sm2_stereo_camera">
+                <update_rate>${frame_rate}</update_rate>
+                <visualize>false</visualize>
+
+                <!-- Here we set up the individual cameras of the stereo.yaml head. -->
+                <camera name="left">
+                    <pose>0 0 0 0 0 -0.07</pose>
+                    <horizontal_fov>${horizontal_fov}</horizontal_fov>
+                    <image>
+                        <width>${image_width}</width>
+                        <height>${image_height}</height>
+                        <format>${image_format}</format>
+                    </image>
+                    <clip>
+                        <near>${min_distance}</near>
+                        <far>${max_distance}</far>
+                    </clip>
+                    <noise>
+                        <type>gaussian</type>
+                        <!-- Noise is sampled independently per pixel on each frame.
+                             That pixel's noise value is added to each of its color
+                             channels, which at that point lie in the range [0,1]. -->
+                        <mean>${noise_mean}</mean>
+                        <stddev>${noise_stddev}</stddev>
+                    </noise>
+                </camera>
+
+
+                <camera name="right">
+                    <pose>0 ${-baseline_y} 0 0 0 +0.07</pose>
+                    <horizontal_fov>${horizontal_fov}</horizontal_fov>
+                    <visualize>false</visualize>
+                    <image>
+                        <width>${image_width}</width>
+                        <height>${image_height}</height>
+                        <format>${image_format}</format>
+                    </image>
+                    <clip>
+                        <near>${min_distance}</near>
+                        <far>${max_distance}</far>
+                    </clip>
+                    <noise>
+                        <type>gaussian</type>
+                        <!-- Noise is sampled independently per pixel on each frame.
+                             That pixel's noise value is added to each of its color
+                             channels, which at that point lie in the range [0,1]. -->
+                        <mean>${noise_mean}</mean>
+                        <stddev>${noise_stddev}</stddev>
+                    </noise>
+                </camera>
+
+
+                <!-- Stereo controller, setting the transforms between the two cameras. -->
+                <plugin name="${namespace}_stereo_camera_controller" filename="libgazebo_ros_multicamera.so">
+                    <alwaysOn>true</alwaysOn>
+                    <updateRate>0.0</updateRate>
+                    <cameraName>${camera_name}</cameraName>
+                    <imageTopicName>image_raw</imageTopicName>
+                    <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                    <frameName>camera_left_link</frameName>
+                    <hackBaseline>${baseline_y}</hackBaseline>
+                    <distortionK1>0.0</distortionK1>
+                    <distortionK2>0.0</distortionK2>
+                    <distortionK3>0.0</distortionK3>
+                    <distortionT1>0.0</distortionT1>
+                    <distortionT2>0.0</distortionT2>
+                </plugin>
+            </sensor>
+        </gazebo>
+
+    </xacro:macro>
+</robot>

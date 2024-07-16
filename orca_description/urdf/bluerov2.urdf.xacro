@@ -1,16 +1,162 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <robot name="BlueROV2" xmlns:xacro="http://ros.org/wiki/xacro">
-    <xacro:property name="gazebo_sim" value="True"/>
+    <!--Macro Properties ROV-->
+    <xacro:property name="namespace" value="bluerov2"/>
+    <xacro:property name="mass" value="1"/>
+    <xacro:property name="gz_sim" value="True"/>
+    <!--Sistema de Medição 2-->
+    <xacro:property name="use_sm2" value="True"/>
+    <xacro:property name="sm2_h_res" value="1600"/>
+    <xacro:property name="sm2_v_res" value="1200"/>
+    <xacro:property name="sm2_h_fov" value="1.6757"/> <!--FoV H: 96 deg-->
 
-    <xacro:include filename="$(find-pkg-share orca_description)/urdf/bluerov2_base.xacro"/>
+    <!--Includes-->
+    <xacro:include filename="bluerov2_base.xacro"/>
+    <xacro:include filename="components.xacro" />
 
-    <xacro:bluerov2_base
-        robot_namespace="${namespace}"
-        mass="${mass}">
-
+    <xacro:bluerov2_base robot_namespace="${namespace}"
+                         mass="${mass}"
+                         filename="package://orca_description/models/orca4/meshes/bluerov2.dae"
+        use_gz="${gz_sim}">
     </xacro:bluerov2_base>
 
 
-    <xacro:if value="${gazebo_sim}">
-    </xacro:if>
+    <xacro:thruster robot_namespace="${namespace}" motor_n="1"
+                    use_gz="${gz_sim}"
+                    visual_rpy="${pi/2} 0 0"
+                    color="Blue"
+                    axis="0 0 -1"
+                    xyz="0.14 -0.092 0"
+                    rpy="-${pi/2} ${pi/2} ${pi/4}"
+                    uri_mesh="package://orca_description/models/orca4/meshes/t200-cw-prop.dae">
+    </xacro:thruster>
+
+    <xacro:thruster robot_namespace="${namespace}" motor_n="2"
+                    use_gz="${gz_sim}"
+                    color="Red"
+                    visual_rpy="-${pi/2} 0 0"
+                    axis="0 0 -1"
+                    xyz="0.14 0.092 0"
+                    rpy="-${pi/2} ${pi/2} ${3*pi/4}"
+                    uri_mesh="package://orca_description/models/orca4/meshes/t200-ccw-prop.dae">
+    </xacro:thruster>
+
+    <xacro:thruster robot_namespace="${namespace}" motor_n="3"
+                    use_gz="${gz_sim}"
+                    color="Red"
+                    visual_rpy="-${pi/2} 0 0"
+                    axis="0 0 -1"
+                    xyz="-0.14 -0.092 0"
+                    rpy="-${pi/2} ${pi/2} ${pi/4}"
+                    uri_mesh="package://orca_description/models/orca4/meshes/t200-ccw-prop.dae">
+    </xacro:thruster>
+
+    <xacro:thruster robot_namespace="${namespace}" motor_n="4"
+                    use_gz="${gz_sim}"
+                    color="Blue"
+                    visual_rpy="${pi/2} 0 0"
+                    axis="0 0 -1"
+                    xyz="-0.14 0.092 0"
+                    rpy="-${pi/2} ${pi/2} ${3*pi/4}"
+                    uri_mesh="package://orca_description/models/orca4/meshes/t200-cw-prop.dae">
+    </xacro:thruster>
+
+    <xacro:thruster robot_namespace="${namespace}" motor_n="5"
+                    use_gz="${gz_sim}"
+                    color="Red"
+                    visual_rpy="-${pi/2} 0 ${pi/2}"
+                    axis="0 0 -1"
+                    xyz="0 -0.109 0.077"
+                    rpy="0 0 0"
+                    uri_mesh="package://orca_description/models/orca4/meshes/t200-ccw-prop.dae">
+    </xacro:thruster>
+
+    <xacro:thruster robot_namespace="${namespace}" motor_n="6"
+                    use_gz="${gz_sim}"
+                    color="Blue"
+                    visual_rpy="${pi/2} 0 ${pi/2}"
+                    axis="0 0 -1"
+                    xyz="0 0.109 0.077"
+                    rpy="0 0 0"
+                    uri_mesh="package://orca_description/models/orca4/meshes/t200-cw-prop.dae">
+    </xacro:thruster>
+
+    <gazebo>
+        <plugin name="ArduPilotPlugin" filename="libArduPilotPlugin.so">
+            <!-- Port settings -->
+            <fdm_addr>127.0.0.1</fdm_addr>
+            <fdm_port_in>9002</fdm_port_in>
+            <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
+            <lock_step>1</lock_step>
+
+            <!-- Transform from the Gazebo body frame (x-forward, y-left, z-up)
+                 to the ArduPilot body frame (x-forward, y-right, z-down) -->
+            <modelXYZToAirplaneXForwardZDown>0 0 0 ${pi} 0 0</modelXYZToAirplaneXForwardZDown>
+
+            <!-- Transform from the Gazebo world frame (ENU)
+                 to the ArduPilot world frame (NED) -->
+            <gazeboXYZToNED>0 0 0 ${pi} 0 ${pi/2}</gazeboXYZToNED>
+
+            <!-- Sensors -->
+            <imuName>imu_sensor</imuName>
+
+            <!-- Thrusters -->
+            <control channel="0">
+                <jointName>${namespace}/thruster1_joint</jointName>
+                <servo_min>1100</servo_min>
+                <servo_max>1900</servo_max>
+                <type>COMMAND</type>
+                <cmd_topic>/model/orca4/joint/thruster1_joint/cmd_thrust</cmd_topic>
+                <offset>-0.5</offset>
+                <multiplier>100</multiplier>
+            </control>
+            <control channel="1">
+                <jointName>${namespace}/thruster2_joint</jointName>
+                <servo_min>1100</servo_min>
+                <servo_max>1900</servo_max>
+                <type>COMMAND</type>
+                <cmd_topic>/model/orca4/joint/thruster2_joint/cmd_thrust</cmd_topic>
+                <offset>-0.5</offset>
+                <multiplier>100</multiplier>
+            </control>
+            <control channel="2">
+                <jointName>${namespace}/thruster3_joint</jointName>
+                <servo_min>1100</servo_min>
+                <servo_max>1900</servo_max>
+                <type>COMMAND</type>
+                <cmd_topic>/model/orca4/joint/thruster3_joint/cmd_thrust</cmd_topic>
+                <offset>-0.5</offset>
+                <multiplier>100</multiplier>
+            </control>
+            <control channel="3">
+                <jointName>${namespace}/thruster4_joint</jointName>
+                <servo_min>1100</servo_min>
+                <servo_max>1900</servo_max>
+                <type>COMMAND</type>
+                <cmd_topic>/model/orca4/joint/thruster4_joint/cmd_thrust</cmd_topic>
+                <offset>-0.5</offset>
+                <multiplier>100</multiplier>
+            </control>
+            <control channel="4">
+                <jointName>${namespace}/thruster5_joint</jointName>
+                <servo_min>1100</servo_min>
+                <servo_max>1900</servo_max>
+                <type>COMMAND</type>
+                <cmd_topic>/model/orca4/joint/thruster5_joint/cmd_thrust</cmd_topic>
+                <offset>-0.5</offset>
+                <multiplier>100</multiplier>
+            </control>
+            <control channel="5">
+                <jointName>${namespace}/thruster6_joint</jointName>
+                <servo_min>1100</servo_min>
+                <servo_max>1900</servo_max>
+                <type>COMMAND</type>
+                <cmd_topic>/model/orca4/joint/thruster6_joint/cmd_thrust</cmd_topic>
+                <offset>-0.5</offset>
+                <multiplier>100</multiplier>
+            </control>
+        </plugin>
+    </gazebo>
+
+
 </robot>

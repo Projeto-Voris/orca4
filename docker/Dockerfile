@@ -30,6 +30,7 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/p
 RUN apt-get update \
   && apt-get -y --quiet --no-install-recommends install \
     gz-garden \
+    ros-humble-urdf-launch \
   && rm -rf /var/lib/apt/lists/*
 
 # Install NVIDIA software

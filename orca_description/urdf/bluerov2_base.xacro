@@ -1,40 +1,37 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
     <xacro:macro name="bluerov2_base"
-                 params="robot_namespace mass">
-        <link name="${robot_namespace}/base_link">
-            <inertial>
-                <mass value="${mass}"/>  <!-- [kg] -->
-                <origin xyz="0 0 0"/>
-                <!--                <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.00" iyz="0.0" izz="0.0"/>-->
-                <xacro:insert_block name="inertia"/>
-            </inertial>
+                 params="robot_namespace mass use_gz filename">
+
+        <link name="${namespace}/base_link">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <mesh filename="package://orca_description/models/orca4/meshes/bluerov2.dae"
-                          scale="0.25 0.25 0.25"/>
+                    <mesh filename="${filename}"
+                          scale="0.025 0.025 0.025"/>
                 </geometry>
             </visual>
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <box size="0.457 0.338 0.06506286173008947"/>  <!-- [m] [m] [m] -->
+                    <box size="0.4571 0.3381 0.2539"/>  <!-- [m] [m] [m] -->
                 </geometry>
             </collision>
+            <xacro:if value="${use_gz}">
+            <!-- IMU sensor gyro and accel data will be sent to ArduSub -->
+            <sensor name="imu_sensor" type="imu">
+                <!-- Transform from the Gazebo body frame (x-forward, y-left, z-up)
+                     to the ArduPilot body frame (x-forward, y-right, z-down) -->
+                <pose>0 0 0 ${pi} 0 0</pose>
+                <always_on>1</always_on>
+                <update_rate>1000.0</update_rate>
+            </sensor>
+            </xacro:if>
         </link>
-        <!--        <joint name="${robot_namespace}/base_joint" type="fixed">-->
-        <!--            <origin xyz="0 0 0" rpy="0 0 0"/>-->
-        <!--            <parent name="${robot_namespace}/base_link"/>-->
-        <!--            <child name="base_link_visual"/>-->
-        <!--        </joint>-->
-
-        <!--        <link name="base_link_visual">-->
-        <!--            -->
-        <!--        </link>-->
+        <xacro:if value="${use_gz}">
         <gazebo reference="${robot_namespace}/base_link">
             <plugin filename="gz-sim-hydrodynamics-system" name="gz::sim::systems::Hydrodynamics">
-                <link_name>base_link</link_name>
+                <link_name>${robot_namespace}/base_link</link_name>
                 <water_density>1000</water_density>
                 <!-- Added mass: -->
                 <xDotU>0</xDotU>
@@ -59,16 +56,46 @@
                 <nRabsR>-4.0</nRabsR>
             </plugin>
         </gazebo>
-
+        </xacro:if>
     </xacro:macro>
 
-    <xacro:macro name="thruster" params="robot_namespace parent motor_n axis xyz rpy">
-        <joint name="${robot_namespace}/thruster${motor_n}_joint" type="revolute">
-            <origin xyz="${xyz}" rpy="${rpy}"/>
-            <parent name="${parent}"/>
-            <child name="${robot_namespace}/thruster${motor_n}_link"/>
-            <axis xyz="0 0 -1"/>
-        </joint>
+    <xacro:macro name="thruster" params="robot_namespace visual_rpy color motor_n axis xyz rpy uri_mesh use_gz">
 
+
+        <link name="${namespace}/thruster${motor_n}_link">
+            <visual name="thruster_prop_visual">
+                <origin xyz="0 0 0" rpy="${visual_rpy}"/>
+                <geometry>
+                    <mesh filename="${uri_mesh}"/>
+                </geometry>
+            </visual>
+            <inertial>
+                <mass value="0.002"/>
+                <inertia ixx="1e-3" ixy="0.0" ixz="0.0" iyy="1e-3" iyz="0.0" izz="1e-3"/>
+            </inertial>
+        </link>
+
+        <joint name="${namespace}/thruster${motor_n}_joint" type="continuous">
+            <parent link="${namespace}/base_link"/>
+            <child link="${namespace}/thruster${motor_n}_link"/>
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+            <axis xyz="${axis}"/>
+        </joint>
+        <xacro:if value="${use_gz}">
+            <gazebo>
+                <plugin filename="gz-sim-thruster-system" name="gz::sim::systems::Thruster">
+                    <namespace>${namespace}</namespace>
+                    <joint_name>${namespace}/thruster${motor_n}_joint</joint_name>
+                    <thrust_coefficient>0.02</thrust_coefficient>
+                    <fluid_density>1000</fluid_density>
+                    <propeller_diameter>0.1</propeller_diameter>
+                    <velocity_control>true</velocity_control>
+                    <use_angvel_cmd>False</use_angvel_cmd>
+                </plugin>
+            </gazebo>
+            <gazebo reference="${namespace}/thruster${motor_n}_link">
+                <material>Gazebo/${color}</material>
+            </gazebo>
+        </xacro:if>
     </xacro:macro>
 </robot>

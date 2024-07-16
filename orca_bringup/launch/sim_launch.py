@@ -55,7 +55,7 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument(
             'ardusub',
-            default_value='True',
+            default_value='False',
             description='Launch ArduSUB with SIM_JSON?'
         ),
 
@@ -97,7 +97,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'slam',
-            default_value='True',
+            default_value='False',
             description='Launch SLAM?',
         ),
 

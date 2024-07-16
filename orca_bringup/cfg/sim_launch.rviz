@@ -45,6 +45,11 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
+    - Class: rviz_default_plugins/RobotModel
+      Description Topic:
+        Value: /robot_description
+      Name: RobotModel
+      Value: true
     - Class: rviz_default_plugins/Axes
       Enabled: false
       Length: 1
