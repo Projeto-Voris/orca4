@@ -54,7 +54,7 @@ RUN apt-get update \
     libgz-sim7-dev \
     rapidjson-dev \
     xterm \
-    libgstreamer1.0-dev \ 
+    libgstreamer1.0-dev \
     libgstreamer-plugins-base1.0-dev \
   && rm -rf /var/lib/apt/lists/*
 

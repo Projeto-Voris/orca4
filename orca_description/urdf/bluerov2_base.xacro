@@ -1,7 +1,13 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="box_inertia" params="x y z mass">
+        <inertia ixx="${0.0833333 * mass * (y*y + z*z)}" ixy="0.0" ixz="0.0"
+                 iyy="${0.0833333 * mass * (x*x + z*z)}" iyz="0.0"
+                 izz="${0.0833333 * mass * (x*x + y*y)}"/>
+    </xacro:macro>
+
     <xacro:macro name="bluerov2_base"
-                 params="robot_namespace mass use_gz filename">
+                 params="robot_namespace mass use_gz filename x y z heavy">
 
         <link name="${namespace}/base_link">
             <visual>
@@ -14,9 +20,14 @@
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <box size="0.4571 0.3381 0.2539"/>  <!-- [m] [m] [m] -->
+                    <box size="${x} ${y} ${z}"/>  <!-- [m] [m] [m] -->
                 </geometry>
             </collision>
+            <inertial>
+                <mass value="${mass}"/>
+                <origin xyz="0 0 0"/>
+                <xacro:box_inertia mass="${mass}" x="${x}" y="${y}" z="${z}"/>
+=            </inertial>
             <xacro:if value="${use_gz}">
             <!-- IMU sensor gyro and accel data will be sent to ArduSub -->
             <sensor name="imu_sensor" type="imu">
@@ -48,9 +59,16 @@
                 <mQ>0</mQ>
                 <nR>0</nR>
                 <!-- Second order stability derivative: -->
-                <xUabsU>-33.800000000000004</xUabsU>
-                <yVabsV>-54.26875</yVabsV>
-                <zWabsW>-73.37135</zWabsW>
+                <xacro:if value="${heavy}">
+                    <xUabsU>-58.42</xUabsU>
+                    <yVabsV>-55.137</yVabsV>
+                    <zWabsW>-124.818</zWabsW>
+                </xacro:if>
+                <xacro:unless value="${heavy}">
+                    <xUabsU>-33.800000000000004</xUabsU>
+                    <yVabsV>-54.26875</yVabsV>
+                    <zWabsW>-73.37135</zWabsW>
+                </xacro:unless>
                 <kPabsP>-4.0</kPabsP>
                 <mQabsQ>-4.0</mQabsQ>
                 <nRabsR>-4.0</nRabsR>
@@ -58,6 +76,7 @@
         </gazebo>
         </xacro:if>
     </xacro:macro>
+
 
     <xacro:macro name="thruster" params="robot_namespace visual_rpy color motor_n axis xyz rpy uri_mesh use_gz">
 

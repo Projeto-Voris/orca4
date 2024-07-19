@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <robot name="BlueROV2" xmlns:xacro="http://ros.org/wiki/xacro">
     <!--Macro Properties ROV-->
-    <xacro:property name="namespace" value="bluerov2"/>
-    <xacro:property name="mass" value="1"/>
+    <xacro:property name="namespace" value="bluerov2_voris"/>
+    <xacro:property name="mass" value="13"/>
     <xacro:property name="gz_sim" value="True"/>
     <!--Sistema de Medição 2-->
     <xacro:property name="use_sm2" value="True"/>
@@ -19,20 +19,20 @@
                          filename="package://orca_description/models/orca4/meshes/bluerov2.dae"
                          use_gz="${gz_sim}"
                          x="0.457"
-                         y="0.338"
-                         z="0.065"
-                         heavy="False">
+                         y="0.575"
+                         z="0.05"
+                        heavy="True">
     </xacro:bluerov2_base>
 
 
     <xacro:thruster robot_namespace="${namespace}" motor_n="1"
                     use_gz="${gz_sim}"
-                    visual_rpy="${pi/2} 0 0"
+                    visual_rpy="-${pi/2} 0 0"
                     color="Blue"
                     axis="0 0 -1"
-                    xyz="0.14 -0.092 0"
-                    rpy="-${pi/2} ${pi/2} ${pi/4}"
-                    uri_mesh="package://orca_description/models/orca4/meshes/t200-cw-prop.dae">
+                    xyz="0.14 -0.092 0.0"
+                    rpy="-${pi/2} ${pi/2} -${pi/4}"
+                    uri_mesh="package://orca_description/models/orca4/meshes/t200-ccw-prop.dae">
     </xacro:thruster>
 
     <xacro:thruster robot_namespace="${namespace}" motor_n="2"
@@ -40,19 +40,19 @@
                     color="Red"
                     visual_rpy="-${pi/2} 0 0"
                     axis="0 0 -1"
-                    xyz="0.14 0.092 0"
-                    rpy="-${pi/2} ${pi/2} ${3*pi/4}"
+                    xyz="0.14 0.092 0.0"
+                    rpy="-${pi/2} ${pi/2} -${3*pi/4}"
                     uri_mesh="package://orca_description/models/orca4/meshes/t200-ccw-prop.dae">
     </xacro:thruster>
 
     <xacro:thruster robot_namespace="${namespace}" motor_n="3"
                     use_gz="${gz_sim}"
                     color="Red"
-                    visual_rpy="-${pi/2} 0 0"
+                    visual_rpy="${pi/2} 0 0"
                     axis="0 0 -1"
-                    xyz="-0.14 -0.092 0"
+                    xyz="-0.15 -0.092 0.0"
                     rpy="-${pi/2} ${pi/2} ${pi/4}"
-                    uri_mesh="package://orca_description/models/orca4/meshes/t200-ccw-prop.dae">
+                    uri_mesh="package://orca_description/models/orca4/meshes/t200-cw-prop.dae">
     </xacro:thruster>
 
     <xacro:thruster robot_namespace="${namespace}" motor_n="4"
@@ -60,8 +60,8 @@
                     color="Blue"
                     visual_rpy="${pi/2} 0 0"
                     axis="0 0 -1"
-                    xyz="-0.14 0.092 0"
-                    rpy="-${pi/2} ${pi/2} ${3*pi/4}"
+                    xyz="-0.15 0.092 0.0"
+                    rpy="-${pi/2} -${pi/2} ${3*pi/4}"
                     uri_mesh="package://orca_description/models/orca4/meshes/t200-cw-prop.dae">
     </xacro:thruster>
 
@@ -70,7 +70,7 @@
                     color="Red"
                     visual_rpy="-${pi/2} 0 ${pi/2}"
                     axis="0 0 -1"
-                    xyz="0 -0.109 0.077"
+                    xyz="0.118 -0.215 0.064"
                     rpy="0 0 0"
                     uri_mesh="package://orca_description/models/orca4/meshes/t200-ccw-prop.dae">
     </xacro:thruster>
@@ -80,30 +80,50 @@
                     color="Blue"
                     visual_rpy="${pi/2} 0 ${pi/2}"
                     axis="0 0 -1"
-                    xyz="0 0.109 0.077"
+                    xyz="0.118 0.215 0.064"
                     rpy="0 0 0"
                     uri_mesh="package://orca_description/models/orca4/meshes/t200-cw-prop.dae">
     </xacro:thruster>
 
-    <xacro:sm2 namespace="${namespace}"
-               camera_name="stereo"
-               parent_link="${namespace}/base_link"
-               frame_rate="60"
-               horizontal_fov="${pi/180*91}"
-               image_width="1600"
-               image_height="1200"
-               image_format="Mono8"
-               min_distance="2"
-               max_distance="10"
-               noise_mean="0.0"
-               noise_stddev="0"
-               enable_visual="1"
-               origin_offset_x="0.055"
-               baseline_y="1"
-               origin_offset_z="-0.001"
-               mass="0.01"
-    >
-    </xacro:sm2>
+    <xacro:thruster robot_namespace="${namespace}" motor_n="7"
+                    use_gz="${gz_sim}"
+                    color="Blue"
+                    visual_rpy="${pi/2} 0 ${pi/2}"
+                    axis="0 0 -1"
+                    xyz="-0.118 -0.215 0.064"
+                    rpy="0 0 0"
+                    uri_mesh="package://orca_description/models/orca4/meshes/t200-cw-prop.dae">
+    </xacro:thruster>
+
+    <xacro:thruster robot_namespace="${namespace}" motor_n="8"
+                    use_gz="${gz_sim}"
+                    color="Blue"
+                    visual_rpy="-${pi/2} 0 ${pi/2}"
+                    axis="0 0 -1"
+                    xyz="-0.118 0.215 0.064"
+                    rpy="0 0 0"
+                    uri_mesh="package://orca_description/models/orca4/meshes/t200-ccw-prop.dae">
+    </xacro:thruster>
+
+<!--    <xacro:sm2 namespace="${namespace}"-->
+<!--               camera_name="stereo"-->
+<!--               parent_link="${namespace}/base_link"-->
+<!--               frame_rate="60"-->
+<!--               horizontal_fov="${pi/180*91}"-->
+<!--               image_width="1600"-->
+<!--               image_height="1200"-->
+<!--               image_format="Mono8"-->
+<!--               min_distance="2"-->
+<!--               max_distance="10"-->
+<!--               noise_mean="0.0"-->
+<!--               noise_stddev="0"-->
+<!--               enable_visual="1"-->
+<!--               origin_offset_x="0.055"-->
+<!--               baseline_y="1"-->
+<!--               origin_offset_z="-0.001"-->
+<!--               mass="0.01"-->
+<!--    >-->
+<!--    </xacro:sm2>-->
     <xacro:if value="${gz_sim}">
         <gazebo>
             <plugin name="ArduPilotPlugin" filename="libArduPilotPlugin.so">
@@ -176,6 +196,23 @@
                     <servo_max>1900</servo_max>
                     <type>COMMAND</type>
                     <cmd_topic>/model/orca4/joint/thruster6_joint/cmd_thrust</cmd_topic>
+                    <offset>-0.5</offset>
+                    <multiplier>100</multiplier>
+                <control channel="6">
+                    <jointName>${namespace}/thruster7_joint</jointName>
+                    <servo_min>1100</servo_min>
+                    <servo_max>1900</servo_max>
+                    <type>COMMAND</type>
+                    <cmd_topic>/model/bluerov2_heavy/joint/thruster7_joint/cmd_thrust</cmd_topic>
+                    <offset>-0.5</offset>
+                    <multiplier>100</multiplier>
+                </control>
+                <control channel="7">
+                    <jointName>${namespace}/thruster8_joint</jointName>
+                    <servo_min>1100</servo_min>
+                    <servo_max>1900</servo_max>
+                    <type>COMMAND</type>
+                    <cmd_topic>/model/bluerov2_heavy/joint/thruster8_joint/cmd_thrust</cmd_topic>
                     <offset>-0.5</offset>
                     <multiplier>100</multiplier>
                 </control>
