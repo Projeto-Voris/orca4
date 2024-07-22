@@ -30,6 +30,7 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/p
 RUN apt-get update \
   && apt-get -y --quiet --no-install-recommends install \
     gz-garden \
+    ros-humble-urdf-launch \
   && rm -rf /var/lib/apt/lists/*
 
 # Install NVIDIA software
@@ -53,7 +54,7 @@ RUN apt-get update \
     libgz-sim7-dev \
     rapidjson-dev \
     xterm \
-    libgstreamer1.0-dev \ 
+    libgstreamer1.0-dev \
     libgstreamer-plugins-base1.0-dev \
   && rm -rf /var/lib/apt/lists/*
 
@@ -122,6 +123,9 @@ RUN vcs import < orca4/workspace.repos
 WORKDIR /home/$USERNAME/colcon_ws
 RUN rosdep update \
   && rosdep install -y --from-paths . --ignore-src --skip-keys="gz-transport12 gz-sim7 gz-math7 gz-msgs9"
+
+# force version of setuptools to be installed
+RUN pip install --upgrade setuptools==70.2.0
 
 # Build everything so far
 RUN [ "/bin/bash" , "-c" , "\
