@@ -29,6 +29,7 @@ Includes Gazebo, ArduSub, RViz, mavros, all ROS nodes.
 """
 
 import os
+import argparse
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
@@ -38,8 +39,8 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
-
 def generate_launch_description():
+    world_name = 'inpetu'
     orca_bringup_dir = get_package_share_directory('orca_bringup')
     orca_description_dir = get_package_share_directory('orca_description')
 
@@ -48,7 +49,7 @@ def generate_launch_description():
     orca_params_file = os.path.join(orca_bringup_dir, 'params', 'sim_orca_params.yaml')
     rosbag2_record_qos_file = os.path.join(orca_bringup_dir, 'params', 'rosbag2_record_qos.yaml')
     rviz_file = os.path.join(orca_bringup_dir, 'cfg', 'sim_launch.rviz')
-    world_file = os.path.join(orca_description_dir, 'worlds', 'sand.world')
+    world_file = os.path.join(orca_description_dir, 'worlds', world_name+'.world')
 
     sim_left_ini = os.path.join(orca_bringup_dir, 'cfg', 'sim_left.ini')
     sim_right_ini = os.path.join(orca_bringup_dir, 'cfg', 'sim_right.ini')
@@ -97,9 +98,10 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'slam',
-            default_value='True',
+            default_value='False',
             description='Launch SLAM?',
         ),
+
 
         # Bag useful topics
         ExecuteProcess(
@@ -149,10 +151,11 @@ def generate_launch_description():
         # gz must be on the $PATH
         # libArduPilotPlugin.so must be on the GZ_SIM_SYSTEM_PLUGIN_PATH
         ExecuteProcess(
-            cmd=['gz', 'sim', '-v', '3', '-r', world_file],
+            cmd=['gz', 'sim', '-v', '3', '-r',world_file],
             output='screen',
             condition=IfCondition(LaunchConfiguration('gzclient')),
         ),
+
 
         # Launch Gazebo Sim server-only
         ExecuteProcess(
@@ -225,4 +228,6 @@ def generate_launch_description():
             }.items(),
         ),
     ])
+
+
 

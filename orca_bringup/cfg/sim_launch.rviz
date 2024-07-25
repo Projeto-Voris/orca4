@@ -65,6 +65,8 @@ Visualization Manager:
           Value: true
         left_camera_link:
           Value: true
+        right_camera_link:
+          Value: true
         map:
           Value: true
         map_ned:
@@ -89,6 +91,8 @@ Visualization Manager:
               base_link_frd:
                 {}
               left_camera_link:
+                {}
+              right_camera_link:
                 {}
             odom_ned:
               {}
