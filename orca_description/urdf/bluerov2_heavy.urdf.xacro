@@ -198,6 +198,7 @@
                     <cmd_topic>/model/orca4/joint/thruster6_joint/cmd_thrust</cmd_topic>
                     <offset>-0.5</offset>
                     <multiplier>100</multiplier>
+                </control>
                 <control channel="6">
                     <jointName>${namespace}/thruster7_joint</jointName>
                     <servo_min>1100</servo_min>

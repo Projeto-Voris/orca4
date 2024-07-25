@@ -58,11 +58,6 @@
     </include>
 
     <include>
-        <uri>robot://bluerov2.urdf</uri>
-        <pose>5 5 0 0 0 0</pose>
-    </include>
-
-    <include>
      <uri>model://axes</uri>
      <pose>0 0 0.2 0 0 0</pose>
     </include>

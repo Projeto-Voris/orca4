@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
 <sdf version="1.6">
     <world name="sand">
-        <scene>
-            <!-- For turquoise ambient to match particle effect -->
-            <ambient>0.0 1.0 1.0</ambient>
-            <background>0.0 0.7 0.8</background>
-        </scene>
+<!--        <scene>-->
+<!--            &lt;!&ndash; For turquoise ambient to match particle effect &ndash;&gt;-->
+<!--            <ambient>0.0 1.0 1.0</ambient>-->
+<!--            <background>0.0 0.7 0.8</background>-->
+<!--        </scene>-->
 
         <physics name="1ms" type="ode">
             <max_step_size>0.001</max_step_size>
@@ -78,19 +78,20 @@
 
         <include>
             <uri>model://sunk_ship</uri>
-            <pose>-5 10 -4 -1.28 0 0</pose>
+            <pose>20 15 -11 0 -1 0</pose>
             <name>Ship 1</name>
         </include>
 
         <include>
             <uri>model://sunk_ship</uri>
-            <pose>10 -15 -11 0 0 1</pose>
+            <pose>19 -1 -10 0 0 1</pose>
             <name>Ship 2</name>
         </include>
 
-<!--        <include>-->
-<!--            <uri>model://turbidity_generator</uri>-->
-<!--            <pose>0 0 0 0 0 0</pose>-->
-<!--        </include>-->
+        <include>
+            <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Water tower</uri>
+            <pose>15 5 -10 0 0 0.707</pose>
+        </include>
+
     </world>
 </sdf>

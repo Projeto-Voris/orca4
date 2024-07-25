@@ -55,11 +55,11 @@ orb_slam2_stereo:
     map_file: "map.bin"
     load_map: False
 
-    ORBextractor/nFeatures: 1200
+    ORBextractor/nFeatures: 1500
     ORBextractor/scaleFactor: 1.2
     ORBextractor/nLevels: 8
-    ORBextractor/iniThFAST: 20
-    ORBextractor/minThFAST: 7
+    ORBextractor/iniThFAST: 16
+    ORBextractor/minThFAST: 4
 
     camera_fps: 30
     # Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale)
@@ -68,4 +68,4 @@ orb_slam2_stereo:
     # See https://github.com/raulmur/ORB_SLAM2/issues/89 for the author's explanation of these:
     ThDepth: 40.0
     depth_map_factor: 1.0
-    camera_baseline: 171.0  # Right camera info p[3], flip sign
+    camera_baseline: 150.0  # Right camera info p[3], flip sign

@@ -168,10 +168,9 @@ def generate_launch_description():
         # Replacement for an URDF file: base_link->left_camera_link is static
         ExecuteProcess(
             cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
-                 '--x', '-0.15',
-                 '--y', '0.18',
-                 '--z', '-0.0675',
-                 '--pitch', str(math.pi/2),
+                 '--x', '0.19',
+                 '--y', '0.075',
+                 '--z', '0.201',
                  '--frame-id', 'base_link',
                  '--child-frame-id', 'left_camera_link'],
             output='screen',
@@ -179,10 +178,9 @@ def generate_launch_description():
         # Replacement for an URDF file: base_link->left_camera_link is static
         ExecuteProcess(
             cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
-                 '--x', '-0.15',
-                 '--y', '-0.18',
-                 '--z', '-0.0675',
-                 '--pitch', str(math.pi/2),
+                 '--x', '0.19',
+                 '--y', '-0.075',
+                 '--z', '0.201',
                  '--frame-id', 'base_link',
                  '--child-frame-id', 'right_camera_link'],
             output='screen',
@@ -191,7 +189,7 @@ def generate_launch_description():
         # Provide down frame to accommodate down-facing cameras
         ExecuteProcess(
             cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
-                 '--pitch', str(math.pi/2),
+                 '--pitch', '0',
                  '--frame-id', 'slam',
                  '--child-frame-id', 'down'],
             output='screen',

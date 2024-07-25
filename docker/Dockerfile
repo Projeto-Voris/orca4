@@ -125,7 +125,7 @@ RUN rosdep update \
   && rosdep install -y --from-paths . --ignore-src --skip-keys="gz-transport12 gz-sim7 gz-math7 gz-msgs9"
 
 # force version of setuptools to be installed
-RUN pip install --upgrade setuptools==70.2.0
+RUN pip install --upgrade setuptools==70.2.0 pynput==1.7.7
 
 # Build everything so far
 RUN [ "/bin/bash" , "-c" , "\
