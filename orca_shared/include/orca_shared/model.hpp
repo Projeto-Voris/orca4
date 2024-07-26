@@ -107,6 +107,8 @@ struct Model
 
   // Estimate maximum yaw torque by looking at 4 thrusters (2 forward, 2 reverse),
   // each mounted ~tangent to a circle with radius = 18cm
+  static constexpr double MAX_TORQUE_ROLL = 0.18 * 2 * (T200_MAX_POS_FORCE + T200_MAX_NEG_FORCE);
+  static constexpr double MAX_TORQUE_PITCH = 0.18 * 2 * (T200_MAX_POS_FORCE + T200_MAX_NEG_FORCE);
   static constexpr double MAX_TORQUE_YAW = 0.18 * 2 * (T200_MAX_POS_FORCE + T200_MAX_NEG_FORCE);
 
   //=====================================================================================
@@ -120,12 +122,26 @@ struct Model
   //=====================================================================================
 
   // Assume a uniform distribution of mass in the vehicle box
+  double moment_of_inertia_roll_ = mdl_mass_ / 12.0 *
+    (ROV_DIM_Y * ROV_DIM_Y + ROV_DIM_Z * ROV_DIM_Z);
+  // Assume a uniform distribution of mass in the vehicle box
+  double moment_of_inertia_pitch_ = mdl_mass_ / 12.0 *
+    (ROV_DIM_X * ROV_DIM_X + ROV_DIM_Z * ROV_DIM_Z);
+  // Assume a uniform distribution of mass in the vehicle box
   double moment_of_inertia_yaw_ = mdl_mass_ / 12.0 *
     (ROV_DIM_X * ROV_DIM_X + ROV_DIM_Y * ROV_DIM_Y);
 
   // Force / torque => acceleration
   [[nodiscard]] double force_to_accel(double force) const {return force / mdl_mass_;}
 
+  [[nodiscard]] double torque_to_accel_roll(double torque_roll) const
+  {
+    return torque_roll / moment_of_inertia_roll_;
+  }
+  [[nodiscard]] double torque_to_accel_pitch(double torque_pitch) const
+  {
+    return torque_pitch / moment_of_inertia_pitch_;
+  }
   [[nodiscard]] double torque_to_accel_yaw(double torque_yaw) const
   {
     return torque_yaw / moment_of_inertia_yaw_;
@@ -134,6 +150,14 @@ struct Model
   // Acceleration => force / torque
   [[nodiscard]] double accel_to_force(double accel) const {return mdl_mass_ * accel;}
 
+  [[nodiscard]] double accel_to_torque_roll(double accel_roll) const
+  {
+    return moment_of_inertia_roll_ * accel_roll;
+  }
+  [[nodiscard]] double accel_to_torque_pitch(double accel_pitch) const
+  {
+    return moment_of_inertia_pitch_ * accel_pitch;
+  }
   [[nodiscard]] double accel_to_torque_yaw(double accel_yaw) const
   {
     return moment_of_inertia_yaw_ * accel_yaw;

@@ -46,11 +46,15 @@ namespace orca_base
   CXT_MACRO_MEMBER(x_vel, double, 0.4) \
   CXT_MACRO_MEMBER(y_vel, double, 0.4) \
   CXT_MACRO_MEMBER(z_vel, double, 0.2) \
+  CXT_MACRO_MEMBER(roll_vel, double, 0.4) \
+  CXT_MACRO_MEMBER(pitch_vel, double, 0.4) \
   CXT_MACRO_MEMBER(yaw_vel, double, 0.4) \
  \
   CXT_MACRO_MEMBER(x_accel, double, 0.4) \
   CXT_MACRO_MEMBER(y_accel, double, 0.4) \
   CXT_MACRO_MEMBER(z_accel, double, 0.2) \
+  CXT_MACRO_MEMBER(roll_accel, double, 0.4) \
+  CXT_MACRO_MEMBER(pitch_accel, double, 0.4) \
   CXT_MACRO_MEMBER(yaw_accel, double, 0.4) \
  \
   CXT_MACRO_MEMBER(coast, bool, false) \

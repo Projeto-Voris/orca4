@@ -75,6 +75,32 @@ set_rpy(geometry_msgs::msg::Quaternion & q, const double & r, const double & p, 
   q = tf2::toMsg(tf2_q);
 }
 
+double get_roll(const geometry_msgs::msg::Quaternion & q)
+{
+  double r, p, y;
+  get_rpy(q, r, p, y);
+  return r;
+}
+
+void set_roll(geometry_msgs::msg::Quaternion & q, const double & roll)
+{
+  double r, p, y;
+  get_rpy(q, r, p, y);
+  set_rpy(q, r, p, roll);
+}
+double get_pitch(const geometry_msgs::msg::Quaternion & q)
+{
+  double r, p, y;
+  get_rpy(q, r, p, y);
+  return p;
+}
+
+void set_pitch(geometry_msgs::msg::Quaternion & q, const double & pitch)
+{
+  double r, p, y;
+  get_rpy(q, r, p, y);
+  set_rpy(q, r, p, pitch);
+}
 double get_yaw(const geometry_msgs::msg::Quaternion & q)
 {
   double r, p, y;

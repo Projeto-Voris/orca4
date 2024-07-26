@@ -89,6 +89,8 @@ geometry_msgs::msg::Accel UnderwaterMotion::calc_accel(
   result.linear.x = CLAMP((v1.linear.x - v0.linear.x) / motion_.dt, cxt_.x_accel_);
   result.linear.y = CLAMP((v1.linear.y - v0.linear.y) / motion_.dt, cxt_.y_accel_);
   result.linear.z = CLAMP((v1.linear.z - v0.linear.z) / motion_.dt, cxt_.z_accel_);
+  result.angular.x = CLAMP((v1.angular.x - v0.angular.x) / motion_.dt, cxt_.roll_accel_);
+  result.angular.y = CLAMP((v1.angular.y - v0.angular.y) / motion_.dt, cxt_.pitch_accel_);
   result.angular.z = CLAMP((v1.angular.z - v0.angular.z) / motion_.dt, cxt_.yaw_accel_);
   return result;
 }
@@ -102,6 +104,8 @@ geometry_msgs::msg::Twist UnderwaterMotion::calc_vel(
   result.linear.x = CLAMP(v0.linear.x + a.linear.x * motion_.dt, cxt_.x_vel_);
   result.linear.y = CLAMP(v0.linear.y + a.linear.y * motion_.dt, cxt_.y_vel_);
   result.linear.z = CLAMP(v0.linear.z + a.linear.z * motion_.dt, cxt_.z_vel_);
+  result.angular.x = CLAMP(v0.angular.x + a.angular.x * motion_.dt, cxt_.roll_vel_);
+  result.angular.y = CLAMP(v0.angular.y + a.angular.y * motion_.dt, cxt_.pitch_vel_);
   result.angular.z = CLAMP(v0.angular.z + a.angular.z * motion_.dt, cxt_.yaw_vel_);
   return result;
 }
