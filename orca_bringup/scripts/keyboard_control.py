@@ -12,10 +12,12 @@ class KeyListenerNode(Node):
         self.channels = [1500] * 18  # Initialize RC channels with neutral values
 
         self.default_values = {
+            1-1: 1500,  # Default for channel pitch
+            2-1: 1500,  # Default for channel roll
+            4-1: 1500,  # Default for channel yaw
+            3-1: 1500,  # Default for channel 3 throttle
             5-1: 1500,  # Default for channel 5 forward
             6-1: 1500,  # Default for channel 6 lateral
-            3-1: 1500,  # Default for channel 3 throttle
-            4-1: 1500,  # Default for channel yaw
         }
 
         self.key_to_channel_map = {
@@ -27,6 +29,10 @@ class KeyListenerNode(Node):
             keyboard.KeyCode(char='s'): 3-1,
             keyboard.KeyCode(char='a'): 4-1,
             keyboard.KeyCode(char='d'): 4-1,
+            keyboard.KeyCode(char='8'): 1-1,
+            keyboard.KeyCode(char='2'): 1-1,
+            keyboard.KeyCode(char='4'): 2-1,
+            keyboard.KeyCode(char='6'): 2-1,
         }
 
         self.listener = keyboard.Listener(on_press=self.on_press, on_release=self.on_release)
@@ -35,11 +41,9 @@ class KeyListenerNode(Node):
     def on_press(self, key):
         if key in self.key_to_channel_map:
             channel = self.key_to_channel_map[key]
-            change = 1 if key in (keyboard.Key.up, keyboard.Key.right, keyboard.KeyCode(char='w'), keyboard.KeyCode(char='d')) else -1
+            change = 1 if key in (keyboard.Key.up, keyboard.Key.right, keyboard.KeyCode(char='w'), keyboard.KeyCode(char='d'), keyboard.KeyCode(char='2'), keyboard.KeyCode(char='6')) else -1
             self.channels[channel] += change * 10  # Change value by 10 units
             self.channels[channel] = max(1100, min(1900, self.channels[channel]))    # Limit range
-            if channel == 2:
-                self.channels[channel] = max(500, min(1900, self.channels[channel]))
             self.publish_channels()
 
     def on_release(self, key):
@@ -54,7 +58,7 @@ class KeyListenerNode(Node):
         msg = OverrideRCIn()
         msg.channels = self.channels
         self.publisher_.publish(msg)
-        self.get_logger().info(f'Published RC Override: {self.channels}')
+        # self.get_logger().info(f'Published RC Override: {self.channels}')
 
 def main(args=None):
     rclpy.init(args=args)

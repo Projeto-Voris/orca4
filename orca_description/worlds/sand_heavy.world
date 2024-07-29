@@ -54,7 +54,7 @@
         </include>
 
         <include>
-            <uri>model://orca4</uri>
+            <uri>model://bluerov2_heavy</uri>
             <pose>0 0 -0.2 0 0 0</pose>
         </include>
 
@@ -67,6 +67,5 @@
             <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Water tower</uri>
             <pose>15 5 -10 0 0 0.707</pose>
         </include>
-
     </world>
 </sdf>

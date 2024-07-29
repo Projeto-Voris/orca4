@@ -43,7 +43,7 @@ namespace orca
 // roll and pitch are always 0
 
 #define MODEL_PARAMS \
-  CXT_MACRO_MEMBER(mdl_mass, double, 9.75) \
+  CXT_MACRO_MEMBER(mdl_mass, double, 12) \
   CXT_MACRO_MEMBER(mdl_volume, double, 0.01) \
   CXT_MACRO_MEMBER(mdl_fluid_density, double, 997) \
   /* kg/m^3, 997 for freshwater, 1029 for seawater  */ \

@@ -10,7 +10,7 @@
         <link name="base_link">
             <inertial>
                 <pose>0 0 0.011 0 0 0</pose>
-                <mass>13</mass>
+                <mass>10</mass>
                 <inertia>
                     <ixx>0.26</ixx>
                     <ixy>0</ixy>
@@ -37,6 +37,7 @@
                 <geometry>
                     <box>
                         <size>0.457 0.338 0.06506286173008947</size>
+<!--                        <size>0.457 0.436 0.253</size>-->
                     </box>
                 </geometry>
             </collision>
@@ -87,7 +88,7 @@
                 <pose>0 0 0 1.5707963267948966 0 0</pose>
                 <geometry>
                     <mesh>
-                        <uri>model://bluerov2_heavy/meshes/t200-cw-prop.dae</uri>
+                        <uri>model://bluerov2_heavy/meshes/t200-ccw-prop.dae</uri>
                     </mesh>
                 </geometry>
             </visual>
@@ -128,12 +129,12 @@
         </link>
 
         <link name="thruster3">
-            <pose>-0.15 -0.092 0 -1.5707963267948966 1.5707963267948966 0.7853981633974483</pose>
+            <pose>-0.14 -0.092 0 -1.5707963267948966 1.5707963267948966 0.7853981633974483</pose>
             <visual name="thruster_prop_visual">
                 <pose>0 0 0 -1.5707963267948966 0 0</pose>
                 <geometry>
                     <mesh>
-                        <uri>model://bluerov2_heavy/meshes/t200-ccw-prop.dae</uri>
+                        <uri>model://bluerov2_heavy/meshes/t200-cw-prop.dae</uri>
                     </mesh>
                 </geometry>
             </visual>
@@ -151,7 +152,7 @@
         </link>
 
         <link name="thruster4">
-            <pose>-0.15 0.092 0 -1.5707963267948966 1.5707963267948966 2.356194490192345</pose>
+            <pose>-0.14 0.092 0 -1.5707963267948966 1.5707963267948966 2.356194490192345</pose>
             <visual name="thruster_prop_visual">
                 <pose>0 0 0 1.5707963267948966 0 0</pose>
                 <geometry>
@@ -248,7 +249,7 @@
                 <pose>0 0 0 1.5707963267948966 0 1.5707963267948966</pose>
                 <geometry>
                     <mesh>
-                        <uri>model://bluerov2_heavy/meshes/t200-cw-prop.dae</uri>
+                        <uri>model://bluerov2_heavy/meshes/t200-ccw-prop.dae</uri>
                     </mesh>
                 </geometry>
             </visual>
@@ -331,7 +332,7 @@
 
         <plugin filename="gz-sim-thruster-system"
                 name="gz::sim::systems::Thruster">
-            <namespace>orca4</namespace>
+            <namespace>bluerov2_heavy</namespace>
             <joint_name>thruster1_joint</joint_name>
             <thrust_coefficient>0.02</thrust_coefficient>
             <fluid_density>1000</fluid_density>
@@ -341,7 +342,7 @@
         </plugin>
         <plugin filename="gz-sim-thruster-system"
                 name="gz::sim::systems::Thruster">
-            <namespace>orca4</namespace>
+            <namespace>bluerov2_heavy</namespace>
             <joint_name>thruster2_joint</joint_name>
             <thrust_coefficient>0.02</thrust_coefficient>
             <fluid_density>1000</fluid_density>
@@ -351,7 +352,7 @@
         </plugin>
         <plugin filename="gz-sim-thruster-system"
                 name="gz::sim::systems::Thruster">
-            <namespace>orca4</namespace>
+            <namespace>bluerov2_heavy</namespace>
             <joint_name>thruster3_joint</joint_name>
             <!-- Reverse spin to balance torque -->
             <thrust_coefficient>-0.02</thrust_coefficient>
@@ -362,7 +363,7 @@
         </plugin>
         <plugin filename="gz-sim-thruster-system"
                 name="gz::sim::systems::Thruster">
-            <namespace>orca4</namespace>
+            <namespace>bluerov2_heavy</namespace>
             <joint_name>thruster4_joint</joint_name>
             <!-- Reverse spin to balance torque -->
             <thrust_coefficient>-0.02</thrust_coefficient>
@@ -373,7 +374,7 @@
         </plugin>
         <plugin filename="gz-sim-thruster-system"
                 name="gz::sim::systems::Thruster">
-            <namespace>orca4</namespace>
+            <namespace>bluerov2_heavy</namespace>
             <joint_name>thruster5_joint</joint_name>
             <thrust_coefficient>0.02</thrust_coefficient>
             <fluid_density>1000</fluid_density>
@@ -383,7 +384,7 @@
         </plugin>
         <plugin filename="gz-sim-thruster-system"
                 name="gz::sim::systems::Thruster">
-            <namespace>orca4</namespace>
+            <namespace>bluerov2_heavy</namespace>
             <joint_name>thruster6_joint</joint_name>
             <!-- Reverse spin to balance torque -->
             <thrust_coefficient>-0.02</thrust_coefficient>
@@ -394,7 +395,7 @@
         </plugin>
         <plugin filename="gz-sim-thruster-system"
                 name="gz::sim::systems::Thruster">
-            <namespace>orca4</namespace>
+            <namespace>bluerov2_heavy</namespace>
             <joint_name>thruster7_joint</joint_name>
             <!-- Reverse spin to balance torque -->
             <thrust_coefficient>-0.02</thrust_coefficient>
@@ -405,10 +406,9 @@
         </plugin>
         <plugin filename="gz-sim-thruster-system"
                 name="gz::sim::systems::Thruster">
-            <namespace>orca4</namespace>
+            <namespace>bluerov2_heavy</namespace>
             <joint_name>thruster8_joint</joint_name>
-            <!-- Reverse spin to balance torque -->
-            <thrust_coefficient>-0.02</thrust_coefficient>
+            <thrust_coefficient>0.02</thrust_coefficient>
             <fluid_density>1000</fluid_density>
             <propeller_diameter>0.1</propeller_diameter>
             <velocity_control>true</velocity_control>
@@ -439,7 +439,7 @@
                 <servo_min>1100</servo_min>
                 <servo_max>1900</servo_max>
                 <type>COMMAND</type>
-                <cmd_topic>/model/orca4/joint/thruster1_joint/cmd_thrust</cmd_topic>
+                <cmd_topic>/model/bluerov2_heavy/joint/thruster1_joint/cmd_thrust</cmd_topic>
                 <offset>-0.5</offset>
                 <multiplier>100</multiplier>
             </control>
@@ -448,7 +448,7 @@
                 <servo_min>1100</servo_min>
                 <servo_max>1900</servo_max>
                 <type>COMMAND</type>
-                <cmd_topic>/model/orca4/joint/thruster2_joint/cmd_thrust</cmd_topic>
+                <cmd_topic>/model/bluerov2_heavy/joint/thruster2_joint/cmd_thrust</cmd_topic>
                 <offset>-0.5</offset>
                 <multiplier>100</multiplier>
             </control>
@@ -457,7 +457,7 @@
                 <servo_min>1100</servo_min>
                 <servo_max>1900</servo_max>
                 <type>COMMAND</type>
-                <cmd_topic>/model/orca4/joint/thruster3_joint/cmd_thrust</cmd_topic>
+                <cmd_topic>/model/bluerov2_heavy/joint/thruster3_joint/cmd_thrust</cmd_topic>
                 <offset>-0.5</offset>
                 <multiplier>100</multiplier>
             </control>
@@ -466,7 +466,7 @@
                 <servo_min>1100</servo_min>
                 <servo_max>1900</servo_max>
                 <type>COMMAND</type>
-                <cmd_topic>/model/orca4/joint/thruster4_joint/cmd_thrust</cmd_topic>
+                <cmd_topic>/model/bluerov2_heavy/joint/thruster4_joint/cmd_thrust</cmd_topic>
                 <offset>-0.5</offset>
                 <multiplier>100</multiplier>
             </control>
@@ -475,7 +475,7 @@
                 <servo_min>1100</servo_min>
                 <servo_max>1900</servo_max>
                 <type>COMMAND</type>
-                <cmd_topic>/model/orca4/joint/thruster5_joint/cmd_thrust</cmd_topic>
+                <cmd_topic>/model/bluerov2_heavy/joint/thruster5_joint/cmd_thrust</cmd_topic>
                 <offset>-0.5</offset>
                 <multiplier>100</multiplier>
             </control>
@@ -484,7 +484,7 @@
                 <servo_min>1100</servo_min>
                 <servo_max>1900</servo_max>
                 <type>COMMAND</type>
-                <cmd_topic>/model/orca4/joint/thruster6_joint/cmd_thrust</cmd_topic>
+                <cmd_topic>/model/bluerov2_heavy/joint/thruster6_joint/cmd_thrust</cmd_topic>
                 <offset>-0.5</offset>
                 <multiplier>100</multiplier>
             </control>
@@ -493,7 +493,7 @@
                 <servo_min>1100</servo_min>
                 <servo_max>1900</servo_max>
                 <type>COMMAND</type>
-                <cmd_topic>/model/orca4/joint/thruster7_joint/cmd_thrust</cmd_topic>
+                <cmd_topic>/model/bluerov2_heavy/joint/thruster7_joint/cmd_thrust</cmd_topic>
                 <offset>-0.5</offset>
                 <multiplier>100</multiplier>
             </control>
@@ -502,7 +502,7 @@
                 <servo_min>1100</servo_min>
                 <servo_max>1900</servo_max>
                 <type>COMMAND</type>
-                <cmd_topic>/model/orca4/joint/thruster8_joint/cmd_thrust</cmd_topic>
+                <cmd_topic>/model/bluerov2_heavy/joint/thruster8_joint/cmd_thrust</cmd_topic>
                 <offset>-0.5</offset>
                 <multiplier>100</multiplier>
             </control>
@@ -599,7 +599,7 @@
                 filename="gz-sim-odometry-publisher-system"
                 name="gz::sim::systems::OdometryPublisher">
             <odom_frame>map</odom_frame>
-            <robot_base_frame>orca4</robot_base_frame>
+            <robot_base_frame>bluerov2_heavy</robot_base_frame>
             <dimensions>3</dimensions>
         </plugin>
 

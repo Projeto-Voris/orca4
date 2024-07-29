@@ -43,12 +43,12 @@ def generate_launch_description():
     orca_bringup_dir = get_package_share_directory('orca_bringup')
     orca_description_dir = get_package_share_directory('orca_description')
 
-    ardusub_params_file = os.path.join(orca_bringup_dir, 'cfg', 'sub.parm')
+    ardusub_params_file = os.path.join(orca_bringup_dir, 'cfg', 'sub-6dof.param')
     mavros_params_file = os.path.join(orca_bringup_dir, 'params', 'sim_mavros_params.yaml')
-    orca_params_file = os.path.join(orca_bringup_dir, 'params', 'sim_orca_params.yaml')
+    orca_params_file = os.path.join(orca_bringup_dir, 'params', 'sim_heavy_params.yaml')
     rosbag2_record_qos_file = os.path.join(orca_bringup_dir, 'params', 'rosbag2_record_qos.yaml')
     rviz_file = os.path.join(orca_bringup_dir, 'cfg', 'heavy_sim_launch.rviz')
-    world_file = os.path.join(orca_description_dir, 'worlds', 'sand.world')
+    world_file = os.path.join(orca_description_dir, 'worlds', 'sand_heavy.world')
 
     sim_left_ini = os.path.join(orca_bringup_dir, 'cfg', 'orbslam2', 'sim_left.ini')
     sim_right_ini = os.path.join(orca_bringup_dir, 'cfg', 'orbslam2', 'sim_right.ini')
