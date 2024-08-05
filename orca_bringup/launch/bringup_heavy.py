@@ -160,7 +160,7 @@ def generate_launch_description():
         ExecuteProcess(
             cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
                  '--frame-id', 'odom',
-                 '--child-frame-id', 'baselink'],
+                 '--child-frame-id', 'base_link'],
             output='screen',
             condition=UnlessCondition(LaunchConfiguration('base')),
         ),

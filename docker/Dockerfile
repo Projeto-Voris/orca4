@@ -22,6 +22,7 @@ RUN apt-get update \
     sudo \
     wget \
     vim \
+    nano \
   && rm -rf /var/lib/apt/lists/*
 
 # Install Gazebo Garden

@@ -10,7 +10,7 @@
         <link name="base_link">
             <inertial>
                 <pose>0 0 0.011 0 0 0</pose>
-                <mass>10</mass>
+                <mass>17.08</mass>
                 <inertia>
                     <ixx>0.26</ixx>
                     <ixy>0</ixy>
@@ -36,7 +36,7 @@
                 <pose>0 0 0.06 0 0 0</pose>
                 <geometry>
                     <box>
-                        <size>0.457 0.338 0.06506286173008947</size>
+                        <size>0.457 0.575 0.06506286173008947</size>
 <!--                        <size>0.457 0.436 0.253</size>-->
                     </box>
                 </geometry>
@@ -521,6 +521,7 @@
                     <image>
                         <width>1600</width>
                         <height>1200</height>
+<!--                        <format>L8</format>-->
                     </image>
                     <clip>
                         <near>0.2</near>
@@ -563,6 +564,7 @@
                     <image>
                         <width>1600</width>
                         <height>1200</height>
+<!--                        <format>L8</format>-->
                     </image>
                     <clip>
                         <near>0.2</near>

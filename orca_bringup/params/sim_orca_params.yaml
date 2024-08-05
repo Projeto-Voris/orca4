@@ -61,7 +61,7 @@ orb_slam2_stereo:
     ORBextractor/iniThFAST: 16
     ORBextractor/minThFAST: 4
 
-    camera_fps: 30
+    camera_fps: 10
     # Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale)
     camera_rgb_encoding: True
 

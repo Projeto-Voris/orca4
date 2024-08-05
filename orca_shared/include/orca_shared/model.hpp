@@ -43,7 +43,7 @@ namespace orca
 // roll and pitch are always 0
 
 #define MODEL_PARAMS \
-  CXT_MACRO_MEMBER(mdl_mass, double, 12) \
+  CXT_MACRO_MEMBER(mdl_mass, double, 9.75) \
   CXT_MACRO_MEMBER(mdl_volume, double, 0.01) \
   CXT_MACRO_MEMBER(mdl_fluid_density, double, 997) \
   /* kg/m^3, 997 for freshwater, 1029 for seawater  */ \
@@ -85,7 +85,7 @@ struct Model
   //=====================================================================================
 
   static constexpr double ROV_DIM_X = 0.457;       // Length
-  static constexpr double ROV_DIM_Y = 0.338;       // Width
+  static constexpr double ROV_DIM_Y = 0.575;       // Width
   static constexpr double ROV_DIM_Z = 0.254;       // Height
 
   static constexpr double TETHER_DIAM = 0.008;
@@ -102,8 +102,8 @@ struct Model
   static constexpr double BOLLARD_FORCE_XY = 0.76 * 2 * (T200_MAX_POS_FORCE + T200_MAX_NEG_FORCE);
 
   // Up and down forces are different
-  static constexpr double BOLLARD_FORCE_Z_UP = 2 * T200_MAX_POS_FORCE;
-  static constexpr double BOLLARD_FORCE_Z_DOWN = 2 * T200_MAX_NEG_FORCE;
+  static constexpr double BOLLARD_FORCE_Z_UP = 4 * T200_MAX_POS_FORCE;
+  static constexpr double BOLLARD_FORCE_Z_DOWN = 4 * T200_MAX_NEG_FORCE;
 
   // Estimate maximum yaw torque by looking at 4 thrusters (2 forward, 2 reverse),
   // each mounted ~tangent to a circle with radius = 18cm

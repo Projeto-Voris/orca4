@@ -19,8 +19,8 @@ base_controller:
     camera_frame_id: "left_camera_link"  # Note: the link, not the frame
 
     # Motion model
-    mdl_mass: 10
-    mdl_volume: 0.01
+    mdl_mass: 17.08
+    mdl_volume: 0.02
     mdl_fluid_density: 997.0
     mdl_drag_partial_const_yaw: 0.07  # Hand-tuned drag value for yaw_vel == 0.25, see nav2 params
     mdl_thrust_dz_pwm: 0  # No input deadzone for rc override
@@ -61,11 +61,11 @@ orb_slam2_stereo:
     ORBextractor/iniThFAST: 16
     ORBextractor/minThFAST: 4
 
-    camera_fps: 30
+    camera_fps: 10
     # Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale)
     camera_rgb_encoding: True
 
     # See https://github.com/raulmur/ORB_SLAM2/issues/89 for the author's explanation of these:
     ThDepth: 40.0
     depth_map_factor: 1.0
-    camera_baseline: 150.0  # Right camera info p[3], flip sign
+    camera_baseline: 116.7  # Right camera info p[3], flip sign

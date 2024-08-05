@@ -48,7 +48,7 @@ def generate_launch_description():
     orca_params_file = os.path.join(orca_bringup_dir, 'params', 'sim_heavy_params.yaml')
     rosbag2_record_qos_file = os.path.join(orca_bringup_dir, 'params', 'rosbag2_record_qos.yaml')
     rviz_file = os.path.join(orca_bringup_dir, 'cfg', 'heavy_sim_launch.rviz')
-    world_file = os.path.join(orca_description_dir, 'worlds', 'sand_heavy.world')
+    world_file = os.path.join(orca_description_dir, 'worlds', 'inpetu_heavy.world')
 
     sim_left_ini = os.path.join(orca_bringup_dir, 'cfg', 'orbslam2', 'sim_left.ini')
     sim_right_ini = os.path.join(orca_bringup_dir, 'cfg', 'orbslam2', 'sim_right.ini')
@@ -73,7 +73,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'gzclient',
-            default_value='True',
+            default_value='False',
             description='Launch Gazebo UI?'
         ),
 
@@ -91,13 +91,13 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'rviz',
-            default_value='False',
+            default_value='True',
             description='Launch rviz?',
         ),
 
         DeclareLaunchArgument(
             'slam',
-            default_value='False',
+            default_value='True',
             description='Launch SLAM?',
         ),
 

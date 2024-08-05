@@ -4,5 +4,5 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 cd $DIR
 
-docker build -f $DIR/Dockerfile -t orca4:latest .. && docker rmi `docker images --filter dangling=true -q`
+docker build -f $DIR/Dockerfile -t orca4:latest .. #&& docker rmi `docker images --filter dangling=true -q`
 
