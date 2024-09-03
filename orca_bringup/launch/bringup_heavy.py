@@ -175,6 +175,7 @@ def generate_launch_description():
                  '--child-frame-id', 'left_camera_link'],
             output='screen',
         ),
+
         # Replacement for an URDF file: base_link->left_camera_link is static
         ExecuteProcess(
             cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
@@ -189,7 +190,6 @@ def generate_launch_description():
         # Provide down frame to accommodate down-facing cameras
         ExecuteProcess(
             cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
-                 '--pitch', '0',
                  '--frame-id', 'slam',
                  '--child-frame-id', 'down'],
             output='screen',

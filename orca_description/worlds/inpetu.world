@@ -77,10 +77,15 @@
             <uri>model://orca4</uri>
             <pose>0 0 -0.2 0 0 0</pose>
         </include>
-
+        <!--Inicializar o ROV na borda da piscina-->
         <include>
             <uri>model://inpetu_pool</uri>
-            <pose>0 0 -6 0 0 0</pose>
+            <pose>2 1.3 -6 0 0 1.57</pose>
+        </include>
+
+        <include>
+            <uri>model://caixa_tubo</uri>
+            <pose>3 1.3 -6 0 0 0</pose>
         </include>
     </world>
 </sdf>
