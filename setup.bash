@@ -11,7 +11,7 @@ if [[ -z "${ARDUPILOT_HOME}" ]]; then
 fi
 
 if [[ -z "${COLCON_WS}" ]]; then
-  export COLCON_WS="$HOME/colcon_ws"
+  export COLCON_WS="$HOME/ros2_ws"
 fi
 
 
@@ -19,7 +19,7 @@ fi
 export PATH=$ARDUPILOT_HOME/build/sitl/bin:$PATH
 
 # Add results of colcon build
-source ${COLCON_WS}/install/setup.bash
+source $COLCON_WS/install/setup.bash
 
 # Add ardupilot_gazebo plugin
 export GZ_SIM_SYSTEM_PLUGIN_PATH=${ARDUPILOT_GAZEBO}/build:$GZ_SIM_SYSTEM_PLUGIN_PATH
