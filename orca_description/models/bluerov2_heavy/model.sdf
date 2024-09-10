@@ -22,10 +22,11 @@
             </inertial>
 
             <visual name="base_link_visual">
+                <pose>0 0 0 0 0 1.5707963268</pose>
                 <geometry>
                     <mesh>
                         <uri>model://bluerov2_heavy/meshes/bluerov2_heavy_skid.dae</uri>
-                        <scale>0.025 0.025 0.025</scale>
+                        <scale>1 1 1</scale>
                         <!--            <scale>1 1 1</scale>-->
                     </mesh>
                 </geometry>
@@ -83,7 +84,7 @@
         </plugin>
 
         <link name="thruster1">
-            <pose>0.14 -0.092 0 -1.5707963267948966 1.5707963267948966 -0.7853981633974483</pose>
+            <pose>0.138 -0.098 -0.0137 -1.5707963267948966 1.5707963267948966 -0.7853981633974483</pose>
             <visual name="thruster_prop_visual">
                 <pose>0 0 0 1.5707963267948966 0 0</pose>
                 <geometry>
@@ -106,7 +107,7 @@
         </link>
 
         <link name="thruster2">
-            <pose>0.14 0.092 0 -1.5707963267948966 1.5707963267948966 -2.356194490192345</pose>
+            <pose>0.138 0.098 -0.0137 -1.5707963267948966 1.5707963267948966 -2.356194490192345</pose>
             <visual name="thruster_prop_visual">
                 <pose>0 0 0 -1.5707963267948966 0 0</pose>
                 <geometry>
@@ -129,7 +130,7 @@
         </link>
 
         <link name="thruster3">
-            <pose>-0.14 -0.092 0 -1.5707963267948966 1.5707963267948966 0.7853981633974483</pose>
+            <pose>-0.1465 -0.1065 -0.0137 -1.5707963267948966 1.5707963267948966 0.7853981633974483</pose>
             <visual name="thruster_prop_visual">
                 <pose>0 0 0 -1.5707963267948966 0 0</pose>
                 <geometry>
@@ -152,7 +153,7 @@
         </link>
 
         <link name="thruster4">
-            <pose>-0.14 0.092 0 -1.5707963267948966 1.5707963267948966 2.356194490192345</pose>
+            <pose>-0.1465 0.1065 -0.0137 -1.5707963267948966 1.5707963267948966 2.356194490192345</pose>
             <visual name="thruster_prop_visual">
                 <pose>0 0 0 1.5707963267948966 0 0</pose>
                 <geometry>
@@ -175,7 +176,7 @@
         </link>
 
         <link name="thruster5">
-            <pose>0.118 -0.215 0.064 0 0 0</pose>
+            <pose>0.120 -0.218 0.048 0 0 0</pose>
             <visual name="thruster_prop_visual">
                 <pose>0 0 0 -1.5707963267948966 0 1.5707963267948966</pose>
                 <geometry>
@@ -198,7 +199,7 @@
         </link>
 
         <link name="thruster6">
-            <pose>0.118 0.215 0.064 0 0 0</pose>
+            <pose>0.120 0.218 0.048 0 0 0</pose>
             <visual name="thruster_prop_visual">
                 <pose>0 0 0 1.5707963267948966 0 1.5707963267948966</pose>
                 <geometry>
@@ -221,7 +222,7 @@
         </link>
 
         <link name="thruster7">
-            <pose>-0.118 -0.215 0.064 0 0 0</pose>
+            <pose>-0.120 -0.218 0.048 0 0 0</pose>
             <visual name="thruster_prop_visual">
                 <pose>0 0 0 1.5707963267948966 0 1.5707963267948966</pose>
                 <geometry>
@@ -244,7 +245,7 @@
         </link>
 
         <link name="thruster8">
-            <pose>-0.118 0.215 0.064 0 0 0</pose>
+            <pose>-0.120 0.218 0.048 0 0 0</pose>
             <visual name="thruster_prop_visual">
                 <pose>0 0 0 1.5707963267948966 0 1.5707963267948966</pose>
                 <geometry>
