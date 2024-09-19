@@ -187,6 +187,28 @@ def generate_launch_description():
             output='screen',
         ),
 
+        # Replacement for an URDF file: base_link->left_camera_link is static
+        ExecuteProcess(
+            cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
+                 '--x', '0.19',
+                 '--y', '0.075',
+                 '--z', '0.201',
+                 '--frame-id', 'base_link',
+                 '--child-frame-id', 'bw_left_camera_link'],
+            output='screen',
+        ),
+
+        # Replacement for an URDF file: base_link->left_camera_link is static
+        ExecuteProcess(
+            cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
+                 '--x', '0.19',
+                 '--y', '-0.075',
+                 '--z', '0.201',
+                 '--frame-id', 'base_link',
+                 '--child-frame-id', 'bw_right_camera_link'],
+            output='screen',
+        ),
+
         # Provide down frame to accommodate down-facing cameras
         ExecuteProcess(
             cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
@@ -207,6 +229,8 @@ def generate_launch_description():
             remappings=[
                 ('/image_left/image_color_rect', '/stereo_left'),
                 ('/image_right/image_color_rect', '/stereo_right'),
+                ('/image_left/image_color_rect', '/stereo_bw_left'),
+                ('/image_right/image_color_rect', '/stereo_bw_right'),
                 ('/camera/camera_info', '/stereo_right/camera_info'),
             ],
             condition=IfCondition(LaunchConfiguration('slam')),

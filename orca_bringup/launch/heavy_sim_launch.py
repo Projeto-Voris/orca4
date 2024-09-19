@@ -52,6 +52,8 @@ def generate_launch_description():
 
     sim_left_ini = os.path.join(orca_bringup_dir, 'cfg', 'orbslam2', 'sim_left.ini')
     sim_right_ini = os.path.join(orca_bringup_dir, 'cfg', 'orbslam2', 'sim_right.ini')
+    sim_bw_left_ini = os.path.join(orca_bringup_dir, 'cfg', 'orbslam2', 'sim_bw_left.ini')
+    sim_bw_right_ini = os.path.join(orca_bringup_dir, 'cfg', 'orbslam2', 'sim_bw_right.ini')
     return LaunchDescription([
         DeclareLaunchArgument(
             'ardusub',
@@ -165,7 +167,7 @@ def generate_launch_description():
         Node(
             package='ros_gz_image',
             executable='image_bridge',
-            arguments=['stereo_left', 'stereo_right'],
+            arguments=['stereo_left', 'stereo_right','stereo_bw_left', 'stereo_bw_right'],
             output='screen',
         ),
 
@@ -199,6 +201,38 @@ def generate_launch_description():
             }],
             remappings=[
                 ('/camera_info', '/stereo_right/camera_info'),
+            ],
+        ),
+
+        Node(
+            package='orca_base',
+            executable='camera_info_publisher',
+            name='bw_left_info_publisher',
+            output='screen',
+            parameters=[{
+                'camera_info_url': 'file://' + sim_bw_left_ini,
+                'camera_name': 'stereo_bw_left',
+                'frame_id': 'stereo_bw_left_frame',
+                'timer_period_ms': 50,
+            }],
+            remappings=[
+                ('/camera_info', '/stereo_bw_left/camera_info'),
+            ],
+        ),
+
+        Node(
+            package='orca_base',
+            executable='camera_info_publisher',
+            name='bw_right_info_publisher',
+            output='screen',
+            parameters=[{
+                'camera_info_url': 'file://' + sim_bw_right_ini,
+                'camera_name': 'stereo_ba_right',
+                'frame_id': 'stereo_bw_right_frame',
+                'timer_period_ms': 50,
+            }],
+            remappings=[
+                ('/camera_info', '/stereo_bw_right/camera_info'),
             ],
         ),
 
