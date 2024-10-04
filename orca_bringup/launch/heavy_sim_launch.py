@@ -227,7 +227,7 @@ def generate_launch_description():
             output='screen',
             parameters=[{
                 'camera_info_url': 'file://' + sim_bw_right_ini,
-                'camera_name': 'stereo_ba_right',
+                'camera_name': 'stereo_bw_right',
                 'frame_id': 'stereo_bw_right_frame',
                 'timer_period_ms': 50,
             }],
@@ -241,7 +241,7 @@ def generate_launch_description():
             package='ros_gz_bridge',
             executable='parameter_bridge',
             arguments=[
-                '/model/bluerov2_heavy/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry',
+                '/model/bluerov2_heavy/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry]',
             ],
             output='screen'
         ),        # Publish ground truth pose from Ignition Gazebo
@@ -249,7 +249,7 @@ def generate_launch_description():
             package='ros_gz_bridge',
             executable='parameter_bridge',
             arguments=[
-                '/model/bluerov2_heavy/pose@geometry_msgs/msg/PoseArray[gz.msgs.Pose_V',
+                '/model/bluerov2_heavy/pose@geometry_msgs/msg/PoseArray[gz.msgs.Pose_V]',
             ],
             output='screen'
         ),
