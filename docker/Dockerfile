@@ -22,7 +22,6 @@ RUN apt-get update \
     sudo \
     wget \
     vim \
-    nano \
   && rm -rf /var/lib/apt/lists/*
 
 # Install Gazebo Garden
@@ -52,7 +51,6 @@ ENV QT_X11_NO_MITSHM=1
 RUN apt-get update \
  && apt-get -y --quiet --no-install-recommends install \
     python3-wxgtk4.0 \
-    libgz-sim7-dev \
     rapidjson-dev \
     xterm \
     libgstreamer1.0-dev \
@@ -111,17 +109,17 @@ RUN [ "/bin/bash" , "-c" , " \
 
 # Create colcon workspace and copy workspace.repos file
 WORKDIR /home/$USERNAME
-RUN mkdir -p colcon_ws/src/orca4
-COPY --chown=$USER_UID:$USER_GID workspace.repos colcon_ws/src/orca4
+RUN mkdir -p ros2_ws/src/orca4
+COPY --chown=$USER_UID:$USER_GID workspace.repos ros2_ws/src/orca4
 
 # Get workspace repos
-WORKDIR /home/$USERNAME/colcon_ws/src
+WORKDIR /home/$USERNAME/ros2_ws/src
 RUN vcs import < orca4/workspace.repos
 
 # Run rosdep over workspace repos
 # Note: ros_gz asks for some Gazebo Garden keys which are not yet present in rosdistro.
 # This is fine, since Gazebo Garden has already been installed.
-WORKDIR /home/$USERNAME/colcon_ws
+WORKDIR /home/$USERNAME/ros2_ws
 RUN rosdep update \
   && rosdep install -y --from-paths . --ignore-src --skip-keys="gz-transport12 gz-sim7 gz-math7 gz-msgs9"
 
@@ -160,10 +158,10 @@ RUN [ "/bin/bash" , "-c" , "\
   && colcon build" ]
 
 # Set up the environment
-WORKDIR /home/$USERNAME/colcon_ws
+WORKDIR /home/$USERNAME/ros2_ws
 RUN echo "export PATH=/home/$USERNAME/.local/bin:\$PATH" >> /home/$USERNAME/.bashrc \
   && echo "export PATH=/home/$USERNAME/.local/lib/python3.10/site-packages:\$PATH" >> /home/$USERNAME/.bashrc \
-  && echo "source /home/$USERNAME/colcon_ws/src/orca4/setup.bash" >> /home/$USERNAME/.bashrc
+  && echo "source /home/$USERNAME/ros2_ws/src/orca4/setup.bash" >> /home/$USERNAME/.bashrc
 
 # Required to use the --console option on sim_vehicle.py:
 # RUN pip3 install matplotlib

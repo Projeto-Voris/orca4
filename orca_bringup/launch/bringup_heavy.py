@@ -50,7 +50,7 @@ def generate_launch_description():
     orca_params_file = LaunchConfiguration('orca_params_file')
 
     # get_package_share_directory('orb_slam2_ros') will fail if orb_slam2_ros isn't installed
-    orb_voc_file = os.path.join('install', 'orb_slam2_ros', 'share', 'orb_slam2_ros',
+    orb_voc_file = os.path.join('src', 'orb_slam2_ros', 'share', 'orb_slam2_ros',
                                 'orb_slam2', 'Vocabulary', 'ORBvoc.txt')
 
     # Rewrite to add the full path
@@ -202,7 +202,7 @@ def generate_launch_description():
             output='screen',
             name='orb_slam2_stereo',
             parameters=[orca_params_file, {
-                'voc_file': orb_voc_file,
+                'voc_file': '/home/daniel/ros2_ws/src/orb_slam_2_ros/orb_slam2/Vocabulary/ORBvoc.txt',
             }],
             remappings=[
                 ('/image_left/image_color_rect', '/stereo_left'),
