@@ -50,8 +50,8 @@ def generate_launch_description():
     rviz_file = os.path.join(orca_bringup_dir, 'cfg', 'sim_launch.rviz')
     world_file = os.path.join(orca_description_dir, 'worlds', 'sand.world')
 
-    sim_left_ini = os.path.join(orca_bringup_dir, 'cfg', 'sim_left.ini')
-    sim_right_ini = os.path.join(orca_bringup_dir, 'cfg', 'sim_right.ini')
+    sim_left_ini = os.path.join(orca_bringup_dir, 'cfg', 'orbslam2', 'sim_left.ini')
+    sim_right_ini = os.path.join(orca_bringup_dir, 'cfg', 'orbslam2', 'sim_right.ini')
     return LaunchDescription([
         DeclareLaunchArgument(
             'ardusub',
@@ -91,13 +91,13 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'rviz',
-            default_value='True',
+            default_value='False',
             description='Launch rviz?',
         ),
 
         DeclareLaunchArgument(
             'slam',
-            default_value='True',
+            default_value='False',
             description='Launch SLAM?',
         ),
 
@@ -210,6 +210,14 @@ def generate_launch_description():
                 '/model/orca4/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry',
             ],
             output='screen'
+        ),        # Publish ground truth pose from Ignition Gazebo
+        Node(
+            package='ros_gz_bridge',
+            executable='parameter_bridge',
+            arguments=[
+                '/model/orca4/pose@geometry_msgs/msg/PoseArray[gz.msgs.Pose_V',
+            ],
+            output='screen'
         ),
 
         # Bring up Orca and Nav2 nodes
@@ -225,4 +233,3 @@ def generate_launch_description():
             }.items(),
         ),
     ])
-
