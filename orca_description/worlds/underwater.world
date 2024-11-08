@@ -72,7 +72,7 @@
         </include>
 
         <include>
-            <uri>model://orca4</uri>
+            <uri>model://bluerov2_heavy</uri>
             <pose>0 0 -0.2 0 0 0</pose>
         </include>
 

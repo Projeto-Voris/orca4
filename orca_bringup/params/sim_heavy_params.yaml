@@ -7,7 +7,7 @@ manager:
 
 base_controller:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: True
     timer_rate: 20  # Motion model period
 
     # List frames for clarity:
