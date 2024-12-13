@@ -47,7 +47,6 @@ def generate_launch_description():
     mavros_params_file = LaunchConfiguration('mavros_params_file')
     nav2_bt_file = os.path.join(orca_bringup_dir, 'behavior_trees', 'orca4_bt.xml')
     nav2_params_file = os.path.join(orca_bringup_dir, 'params', 'nav2_params.yaml')
-    orca_params_file = LaunchConfiguration('orca_params_file')
 
     # Rewrite to add the full path
     # The rewriter will only rewrite existing keys
@@ -60,12 +59,6 @@ def generate_launch_description():
 
     return LaunchDescription([
         SetEnvironmentVariable('RCUTILS_LOGGING_BUFFERED_STREAM', '1'),
-
-        DeclareLaunchArgument(
-            'base',
-            default_value='True',
-            description='Launch base controller?',
-        ),
 
         DeclareLaunchArgument(
             'mavros',
@@ -101,34 +94,6 @@ def generate_launch_description():
             # name='mavros_node',
             parameters=[mavros_params_file],
             condition=IfCondition(LaunchConfiguration('mavros')),
-        ),
-
-        # Manage overall system (start, stop, etc.)
-        Node(
-            package='orca_base',
-            executable='manager',
-            output='screen',
-            name='manager',
-            parameters=[orca_params_file],
-            remappings=[
-                # Topic is hard coded in orb_slam2_ros to /orb_slam2_stereo_node/pose
-                ('/camera_pose', '/orb_slam2_stereo_node/pose'),
-            ],
-            condition=IfCondition(LaunchConfiguration('base')),
-        ),
-
-        # Base controller and localizer; manage external nav input, publish tf2 transforms, etc.
-        Node(
-            package='orca_base',
-            executable='base_controller',
-            output='screen',
-            name='base_controller',
-            parameters=[orca_params_file],
-            remappings=[
-                # Topic is hard coded in orb_slam2_ros to /orb_slam2_stereo_node/pose
-                ('/camera_pose', '/orb_slam2_stereo_node/pose'),
-            ],
-            condition=IfCondition(LaunchConfiguration('base')),
         ),
 
         # Include the rest of Nav2

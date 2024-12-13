@@ -91,13 +91,13 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'rviz',
-            default_value='True',
+            default_value='False',
             description='Launch rviz?',
         ),
 
         DeclareLaunchArgument(
             'slam',
-            default_value='True',
+            default_value='False',
             description='Launch SLAM?',
         ),
 

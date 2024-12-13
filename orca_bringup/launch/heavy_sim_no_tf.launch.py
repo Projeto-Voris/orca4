@@ -189,29 +189,14 @@ def generate_launch_description():
             executable='parameter_bridge',
             arguments=[
                 '/model/bluerov2_heavy/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry',
-            ],
-            output='screen'
-        ),        # Publish ground truth pose from Ignition Gazebo
-        Node(
-            package='ros_gz_bridge',
-            executable='parameter_bridge',
-            arguments=[
                 '/model/bluerov2_heavy/pose@geometry_msgs/msg/PoseArray[gz.msgs.Pose_V',
-            ],
-            output='screen'
-        ),
-        # Publish IMU with remapping
-        Node(
-            package='ros_gz_bridge',
-            executable='parameter_bridge',
-            arguments=[
                 '/world/inpetu/model/bluerov2_heavy/link/base_link/sensor/imu_sensor/imu@sensor_msgs/msg/Imu[gz.msgs.IMU',
             ],
-            output='screen',
             remappings=[
                 ('/world/inpetu/model/bluerov2_heavy/link/base_link/sensor/imu_sensor/imu', 'model/bluerov2_heavy/imu')
-            ]
-        ),
+             ],
+            output='screen'
+        ),        # Publish ground truth pose from Ignition Gazebo
 
         # Bring up Orca and Nav2 nodes
         IncludeLaunchDescription(
