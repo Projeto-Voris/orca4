@@ -210,7 +210,7 @@ def generate_launch_description():
                 '/model/bluerov2_heavy/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry',
             ],
             output='screen'
-        ),        # Publish ground truth pose from Ignition Gazebo
+        ),
         Node(
             package='ros_gz_bridge',
             executable='parameter_bridge',

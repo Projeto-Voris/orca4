@@ -49,7 +49,8 @@
                      to the ArduPilot body frame (x-forward, y-right, z-down) -->
                  <pose>0 0 0 3.141592653589793 0 0</pose>
                 <always_on>1</always_on>
-                <update_rate>300.0</update_rate>
+                <update_rate>330.0</update_rate>
+                <topic>imu</topic>
             </sensor>
 
         </link>

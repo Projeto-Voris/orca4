@@ -40,7 +40,7 @@
   <depend>orca_msgs</depend>
   <depend>orca_shared</depend>
   <depend>rclcpp</depend>
-  <depend>ros2_shared</depend>
+  <!-- <depend>ros2_shared</depend> -->
   <depend>std_srvs</depend>
   <depend>tf2</depend>
   <depend>tf2_geometry_msgs</depend>

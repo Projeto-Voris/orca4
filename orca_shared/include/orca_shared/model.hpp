@@ -30,7 +30,7 @@
 #include "geometry_msgs/msg/wrench.hpp"
 #include "orca_msgs/msg/effort.hpp"
 #include "rclcpp/logger.hpp"
-#include "ros2_shared/context_macros.hpp"
+//#include "ros2_shared/context_macros.hpp"
 
 namespace orca
 {
@@ -42,24 +42,24 @@ namespace orca
 // _yaw yaw
 // roll and pitch are always 0
 
-#define MODEL_PARAMS \
-  CXT_MACRO_MEMBER(mdl_mass, double, 9.75) \
-  CXT_MACRO_MEMBER(mdl_volume, double, 0.01) \
-  CXT_MACRO_MEMBER(mdl_fluid_density, double, 997) \
-  /* kg/m^3, 997 for freshwater, 1029 for seawater  */ \
-  CXT_MACRO_MEMBER(mdl_thrust_scale, double, 0.7) \
-  /* Scale max thruster forces to give a better linear approximation  */ \
-  CXT_MACRO_MEMBER(mdl_drag_coef_x, double, 0.8) \
-  /* Forward drag, 1.0 is a box  */ \
-  CXT_MACRO_MEMBER(mdl_drag_coef_y, double, 0.95) \
-  /* Strafe drag  */ \
-  CXT_MACRO_MEMBER(mdl_drag_coef_z, double, 0.95) \
-  /* Vertical drag  */ \
-  CXT_MACRO_MEMBER(mdl_drag_partial_const_yaw, double, 0.004) \
-  /* Yaw drag, wild guess  */ \
-  CXT_MACRO_MEMBER(mdl_thrust_dz_pwm, uint16_t, 35) \
-  /* Thruster deadzone  */ \
-/* End of list */
+// #define MODEL_PARAMS \
+//   CXT_MACRO_MEMBER(mdl_mass, double, 9.75) \
+//   CXT_MACRO_MEMBER(mdl_volume, double, 0.01) \
+//   CXT_MACRO_MEMBER(mdl_fluid_density, double, 997) \
+//   /* kg/m^3, 997 for freshwater, 1029 for seawater  */ \
+//   CXT_MACRO_MEMBER(mdl_thrust_scale, double, 0.7) \
+//   /* Scale max thruster forces to give a better linear approximation  */ \
+//   CXT_MACRO_MEMBER(mdl_drag_coef_x, double, 0.8) \
+//   /* Forward drag, 1.0 is a box  */ \
+//   CXT_MACRO_MEMBER(mdl_drag_coef_y, double, 0.95) \
+//   /* Strafe drag  */ \
+//   CXT_MACRO_MEMBER(mdl_drag_coef_z, double, 0.95) \
+//   /* Vertical drag  */ \
+//   CXT_MACRO_MEMBER(mdl_drag_partial_const_yaw, double, 0.004) \
+//   /* Yaw drag, wild guess  */ \
+//   CXT_MACRO_MEMBER(mdl_thrust_dz_pwm, uint16_t, 35) \
+//   /* Thruster deadzone  */ \
+// /* End of list */
 
 #undef CXT_MACRO_MEMBER
 #define CXT_MACRO_MEMBER(n, t, d) CXT_MACRO_DEFINE_MEMBER(n, t, d)
@@ -113,22 +113,40 @@ struct Model
   // Parameters
   //=====================================================================================
 
-  MODEL_PARAMS
+  // MODEL_PARAMS
+  double mdl_mass_{9.75};
+  double mdl_volume_{0.01};
+  /* kg/m^3, 997 for freshwater, 1029 for seawater  */ \
+  double mdl_fluid_density_{997.0};
+  /* Scale max thruster forces to give a better linear approximation  */ \
+  double mdl_thrust_scale_{0.7};
+  /* Forward drag, 1.0 is a box  */ \
+  double mdl_drag_coef_x_{0.8};
+  /* Strafe drag  */ \
+  double mdl_drag_coef_y_{0.95};
+  /* Vertical drag  */ \
+  double mdl_drag_coef_z_{0.95};
+  /* Yaw drag, wild guess  */ \
+  double mdl_drag_partial_const_yaw_{0.004};
+  /* Thruster deadzone  */ \
+  uint16_t mdl_thrust_dz_pwm_{35};
 
-  //=====================================================================================
   // Force / torque <=> acceleration
   //=====================================================================================
 
   // Assume a uniform distribution of mass in the vehicle box
-  double moment_of_inertia_yaw_ = mdl_mass_ / 12.0 *
-    (ROV_DIM_X * ROV_DIM_X + ROV_DIM_Y * ROV_DIM_Y);
+  // double moment_of_inertia_yaw_ = mdl_mass_ / 12.0 *
+  //   (ROV_DIM_X * ROV_DIM_X + ROV_DIM_Y * ROV_DIM_Y);
 
+  [[nodiscard]] double moment_of_inertia_yaw() const {
+    return mdl_mass_ / 12.0 * (ROV_DIM_X * ROV_DIM_X + ROV_DIM_Y * ROV_DIM_Y);
+  }
   // Force / torque => acceleration
   [[nodiscard]] double force_to_accel(double force) const {return force / mdl_mass_;}
 
   [[nodiscard]] double torque_to_accel_yaw(double torque_yaw) const
   {
-    return torque_yaw / moment_of_inertia_yaw_;
+    return torque_yaw / moment_of_inertia_yaw_();
   }
 
   // Acceleration => force / torque
@@ -136,7 +154,7 @@ struct Model
 
   [[nodiscard]] double accel_to_torque_yaw(double accel_yaw) const
   {
-    return moment_of_inertia_yaw_ * accel_yaw;
+    return moment_of_inertia_yaw_() * accel_yaw;
   }
 
   //=====================================================================================

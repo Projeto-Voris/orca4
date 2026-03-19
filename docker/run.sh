@@ -1,4 +1,20 @@
 #!/usr/bin/env bash
+xhost +local:docker
+
+if [ -z "$1" ]; then
+  echo "Error: <graphics> argument required."
+  echo "Usage: ./run.sh <graphics>"
+  echo "where <graphics> can be nvidia or intel."
+  exit 1
+fi
+
+TAG="orca4"
+GRAPHICS=$1
+
+DOCKER_FLAGS="-it --rm \
+    -v /etc/localtime:/etc/localtime:ro \
+    -v ..:/home/orca4/ros2_ws/src/orca4 \
+    --privileged" 
 
 XAUTH=/tmp/.docker.xauth
 if [ ! -f $XAUTH ]
@@ -14,20 +30,39 @@ then
     chmod a+r $XAUTH
 fi
 
-# Specific for NVIDIA drivers, required for OpenGL >= 3.3
-docker run -it \
-    --rm \
-    --name orca4 \
-    -e DISPLAY \
-    -e QT_X11_NO_MITSHM=1 \
-    -e XAUTHORITY=$XAUTH \
+# Flags for GUI applications
+DOCKER_FLAGS+=" \
+  -e DISPLAY\
+  -e QT_X11_NO_MITSHM=1 \
+  -e XAUTHORITY=$XAUTH \
+  -v $XAUTH:$XAUTH \
+  -v /tmp/.X11-unix:/tmp/.X11-unix"
+
+
+if [ "$GRAPHICS" == "nvidia" ]; then
+  echo "Adding NVIDIA flags..."
+  # For NVIDIA graphics. Install the NVIDIA Container Toolkit on the host:
+  # https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
+  DOCKER_FLAGS+=" \
     -e NVIDIA_VISIBLE_DEVICES=all \
     -e NVIDIA_DRIVER_CAPABILITIES=all \
-    -v "$XAUTH:$XAUTH" \
-    -v "/tmp/.X11-unix:/tmp/.X11-unix" \
-    -v "/etc/localtime:/etc/localtime:ro" \
-    -v "/dev/input:/dev/input" \
-    --privileged \
+    -v /dev/input:/dev/input \
     --security-opt seccomp=unconfined \
-    --gpus all \
-    orca4:latest
+    --gpus all"
+elif [ "$GRAPHICS" == "intel" ]; then
+  echo "Adding Intel flags..."
+  # For Intel graphics
+  DOCKER_FLAGS+=" \
+    -v /dev/dri:/dev/dri \
+    --device /dev/dri \
+    --device /dev/dri/card1:/dev/dri/card1 \
+    --device /dev/dri/card2:/dev/dri/card2 \
+    --device /dev/dri/renderD128:/dev/dri/renderD128 \
+    --device /dev/dri/renderD129:/dev/dri/renderD129"
+else
+  echo "Error: unsupported graphics option '$GRAPHICS'. Use 'nvidia' or 'intel'."
+  exit 1
+fi
+
+echo "Starting container ${TAG}..."
+docker run $DOCKER_FLAGS $TAG
