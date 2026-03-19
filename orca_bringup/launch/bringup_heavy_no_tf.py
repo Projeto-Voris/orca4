@@ -47,7 +47,6 @@ def generate_launch_description():
     mavros_params_file = LaunchConfiguration('mavros_params_file')
     nav2_bt_file = os.path.join(orca_bringup_dir, 'behavior_trees', 'orca4_bt.xml')
     nav2_params_file = os.path.join(orca_bringup_dir, 'params', 'nav2_params.yaml')
-    orca_params_file = LaunchConfiguration('orca_params_file')
 
     # Rewrite to add the full path
     # The rewriter will only rewrite existing keys
@@ -60,12 +59,6 @@ def generate_launch_description():
 
     return LaunchDescription([
         SetEnvironmentVariable('RCUTILS_LOGGING_BUFFERED_STREAM', '1'),
-
-        DeclareLaunchArgument(
-            'base',
-            default_value='True',
-            description='Launch base controller?',
-        ),
 
         DeclareLaunchArgument(
             'mavros',
@@ -91,11 +84,6 @@ def generate_launch_description():
             description='Full path to the ROS2 parameters file to use for Orca nodes',
         ),
 
-        DeclareLaunchArgument(
-            'slam',
-            default_value='True',
-            description='Launch SLAM?',
-        ),
 
         # Translate messages MAV <-> ROS
         Node(
@@ -108,87 +96,18 @@ def generate_launch_description():
             condition=IfCondition(LaunchConfiguration('mavros')),
         ),
 
-        # Manage overall system (start, stop, etc.)
-        Node(
-            package='orca_base',
-            executable='manager',
-            output='screen',
-            name='manager',
-            parameters=[orca_params_file],
-            remappings=[
-                # Topic is hard coded in orb_slam2_ros to /orb_slam2_stereo_node/pose
-                ('/camera_pose', '/orb_slam2_stereo_node/pose'),
-            ],
-            condition=IfCondition(LaunchConfiguration('base')),
+        # Include the rest of Nav2
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(os.path.join(orca_bringup_dir, 'launch', 'navigation_launch.py')),
+            launch_arguments={
+                'namespace': '',
+                'use_sim_time': 'False',
+                'autostart': 'False',
+                'params_file': configured_nav2_params,
+                'use_composition': 'False',
+                'use_respawn': 'False',
+                'container_name': 'nav2_container',
+            }.items(),
+            condition=IfCondition(LaunchConfiguration('nav')),
         ),
-
-        # Base controller and localizer; manage external nav input, publish tf2 transforms, etc.
-        Node(
-            package='orca_base',
-            executable='base_controller',
-            output='screen',
-            name='base_controller',
-            parameters=[orca_params_file],
-            remappings=[
-                # Topic is hard coded in orb_slam2_ros to /orb_slam2_stereo_node/pose
-                ('/camera_pose', '/orb_slam2_stereo_node/pose'),
-            ],
-            condition=IfCondition(LaunchConfiguration('base')),
-        ),
-
-        # Replacement for base_controller: complete the tf tree
-        ExecuteProcess(
-            cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
-                 '--frame-id', 'map',
-                 '--child-frame-id', 'slam'],
-            output='screen',
-            condition=UnlessCondition(LaunchConfiguration('base')),
-        ),
-
-        ExecuteProcess(
-            cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
-                 '--frame-id', 'map',
-                 '--child-frame-id', 'odom'],
-            output='screen',
-            condition=UnlessCondition(LaunchConfiguration('base')),
-        ),
-
-        ExecuteProcess(
-            cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
-                 '--frame-id', 'odom',
-                 '--child-frame-id', 'base_link'],
-            output='screen',
-            condition=UnlessCondition(LaunchConfiguration('base')),
-        ),
-
-        # Replacement for an URDF file: base_link->left_camera_link is static
-        ExecuteProcess(
-            cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
-                 '--x', '0.19',
-                 '--y', '0.1',
-                 '--z', '0.201',
-                 '--frame-id', 'base_link',
-                 '--child-frame-id', 'left_camera_link'],
-            output='screen',
-        ),
-
-        # Replacement for an URDF file: base_link->left_camera_link is static
-        ExecuteProcess(
-            cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
-                 '--x', '0.19',
-                 '--y', '-0.1',
-                 '--z', '0.201',
-                 '--frame-id', 'base_link',
-                 '--child-frame-id', 'right_camera_link'],
-            output='screen',
-        ),
-
-        # Provide down frame to accommodate down-facing cameras
-        ExecuteProcess(
-            cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
-                 '--frame-id', 'map',
-                 '--child-frame-id', 'down'],
-            output='screen',
-        ),
-
     ])

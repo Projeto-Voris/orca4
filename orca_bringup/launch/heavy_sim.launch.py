@@ -43,12 +43,12 @@ def generate_launch_description():
     orca_bringup_dir = get_package_share_directory('orca_bringup')
     orca_description_dir = get_package_share_directory('orca_description')
 
-    ardusub_params_file = os.path.join(orca_bringup_dir, 'cfg', 'sub.parm')
+    ardusub_params_file = os.path.join(orca_bringup_dir, 'cfg', 'sub-6dof.param')
     mavros_params_file = os.path.join(orca_bringup_dir, 'params', 'sim_mavros_params.yaml')
-    orca_params_file = os.path.join(orca_bringup_dir, 'params', 'sim_orca_params.yaml')
+    orca_params_file = os.path.join(orca_bringup_dir, 'params', 'sim_heavy_params.yaml')
     rosbag2_record_qos_file = os.path.join(orca_bringup_dir, 'params', 'rosbag2_record_qos.yaml')
-    rviz_file = os.path.join(orca_bringup_dir, 'cfg', 'sim_launch.rviz')
-    world_file = os.path.join(orca_description_dir, 'worlds', 'sand.world')
+    rviz_file = os.path.join(orca_bringup_dir, 'cfg', 'heavy_sim_launch.rviz')
+    world_file = os.path.join(orca_description_dir, 'worlds', 'inpetu_heavy.world')
 
     sim_left_ini = os.path.join(orca_bringup_dir, 'cfg', 'camera_info', 'sim_left.ini')
     sim_right_ini = os.path.join(orca_bringup_dir, 'cfg', 'camera_info', 'sim_right.ini')
@@ -73,7 +73,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'gzclient',
-            default_value='True',
+            default_value='False',
             description='Launch Gazebo UI?'
         ),
 
@@ -207,22 +207,34 @@ def generate_launch_description():
             package='ros_gz_bridge',
             executable='parameter_bridge',
             arguments=[
-                '/model/orca4/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry',
+                '/model/bluerov2_heavy/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry',
             ],
             output='screen'
-        ),        # Publish ground truth pose from Ignition Gazebo
+        ),
         Node(
             package='ros_gz_bridge',
             executable='parameter_bridge',
             arguments=[
-                '/model/orca4/pose@geometry_msgs/msg/PoseArray[gz.msgs.Pose_V',
+                '/model/bluerov2_heavy/pose@geometry_msgs/msg/PoseArray[gz.msgs.Pose_V',
             ],
             output='screen'
+        ),
+        # Publish IMU with remapping
+        Node(
+            package='ros_gz_bridge',
+            executable='parameter_bridge',
+            arguments=[
+                '/world/inpetu/model/bluerov2_heavy/link/base_link/sensor/imu_sensor/imu@sensor_msgs/msg/Imu[gz.msgs.IMU',
+            ],
+            output='screen',
+            remappings=[
+                ('/world/inpetu/model/bluerov2_heavy/link/base_link/sensor/imu_sensor/imu', 'model/bluerov2_heavy/imu')
+            ]
         ),
 
         # Bring up Orca and Nav2 nodes
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(orca_bringup_dir, 'launch', 'bringup.py')),
+            PythonLaunchDescriptionSource(os.path.join(orca_bringup_dir, 'launch', 'bringup_heavy.py')),
             launch_arguments={
                 'base': LaunchConfiguration('base'),
                 'mavros': LaunchConfiguration('mavros'),
