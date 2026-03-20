@@ -1,9 +1,19 @@
 repositories:
 
+  ros_gz:
+    type: git
+    url: https://github.com/gazebosim/ros_gz
+    version: humble
+    
+  bluerov2_gz:
+    type: git
+    url: https://github.com/clydemcqueen/bluerov2_gz
+    version: main
+
   orbslam3_ros2:
     type: git
     url: https://github.com/Projeto-Voris/ORB_SLAM3_ROS2.git
-    version: 5c83e62
+    version: main
     
   ros2_shared:
     type: git
@@ -18,15 +28,15 @@ repositories:
   voris_description:
     type: git
     url: https://github.com/Projeto-Voris/voris_description.git
-    version: 364b693
+    version: master
 
   voris_log:
     type: git
     url: https://github.com/Projeto-Voris/voris_log.git
-    version: 33189cd
+    version: master
   
   voris_control:
     type: git
     url: https://github.com/Projeto-Voris/voris_control.git
-    version: ab82f77
+    version: master
 

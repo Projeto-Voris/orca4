@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <sdf version="1.6">
-    <model name="bluerov2_heavy">
+    <model name="bluerov2">
         <pose>0 0 0 0 0 0</pose>
 
         <!-- BlueROV2 thruster reference: http://www.ardusub.com/introduction/features.html -->
@@ -25,7 +25,7 @@
                 <pose>0 0 0 0 0 1.5707963268</pose>
                 <geometry>
                     <mesh>
-                        <uri>model://bluerov2_heavy/meshes/bluerov2_heavy_skid.dae</uri>
+                        <uri>model://bluerov2/meshes/bluerov2_skid.dae</uri>
                         <scale>1 1 1</scale>
                         <!--            <scale>1 1 1</scale>-->
                     </mesh>
@@ -49,7 +49,7 @@
                      to the ArduPilot body frame (x-forward, y-right, z-down) -->
                  <pose>0 0 0 3.141592653589793 0 0</pose>
                 <always_on>1</always_on>
-                <update_rate>330.0</update_rate>
+                <update_rate>100.0</update_rate>
                 <topic>imu</topic>
             </sensor>
 
@@ -90,7 +90,7 @@
                 <pose>0 0 0 1.5707963267948966 0 0</pose>
                 <geometry>
                     <mesh>
-                        <uri>model://bluerov2_heavy/meshes/t200-ccw-prop.dae</uri>
+                        <uri>model://bluerov2/meshes/t200-ccw-prop.dae</uri>
                     </mesh>
                 </geometry>
             </visual>
@@ -113,7 +113,7 @@
                 <pose>0 0 0 -1.5707963267948966 0 0</pose>
                 <geometry>
                     <mesh>
-                        <uri>model://bluerov2_heavy/meshes/t200-ccw-prop.dae</uri>
+                        <uri>model://bluerov2/meshes/t200-ccw-prop.dae</uri>
                     </mesh>
                 </geometry>
             </visual>
@@ -136,7 +136,7 @@
                 <pose>0 0 0 -1.5707963267948966 0 0</pose>
                 <geometry>
                     <mesh>
-                        <uri>model://bluerov2_heavy/meshes/t200-cw-prop.dae</uri>
+                        <uri>model://bluerov2/meshes/t200-cw-prop.dae</uri>
                     </mesh>
                 </geometry>
             </visual>
@@ -159,7 +159,7 @@
                 <pose>0 0 0 1.5707963267948966 0 0</pose>
                 <geometry>
                     <mesh>
-                        <uri>model://bluerov2_heavy/meshes/t200-cw-prop.dae</uri>
+                        <uri>model://bluerov2/meshes/t200-cw-prop.dae</uri>
                     </mesh>
                 </geometry>
             </visual>
@@ -182,7 +182,7 @@
                 <pose>0 0 0 -1.5707963267948966 0 1.5707963267948966</pose>
                 <geometry>
                     <mesh>
-                        <uri>model://bluerov2_heavy/meshes/t200-ccw-prop.dae</uri>
+                        <uri>model://bluerov2/meshes/t200-ccw-prop.dae</uri>
                     </mesh>
                 </geometry>
             </visual>
@@ -205,7 +205,7 @@
                 <pose>0 0 0 1.5707963267948966 0 1.5707963267948966</pose>
                 <geometry>
                     <mesh>
-                        <uri>model://bluerov2_heavy/meshes/t200-cw-prop.dae</uri>
+                        <uri>model://bluerov2/meshes/t200-cw-prop.dae</uri>
                     </mesh>
                 </geometry>
             </visual>
@@ -228,7 +228,7 @@
                 <pose>0 0 0 1.5707963267948966 0 1.5707963267948966</pose>
                 <geometry>
                     <mesh>
-                        <uri>model://bluerov2_heavy/meshes/t200-cw-prop.dae</uri>
+                        <uri>model://bluerov2/meshes/t200-cw-prop.dae</uri>
                     </mesh>
                 </geometry>
             </visual>
@@ -251,7 +251,7 @@
                 <pose>0 0 0 1.5707963267948966 0 1.5707963267948966</pose>
                 <geometry>
                     <mesh>
-                        <uri>model://bluerov2_heavy/meshes/t200-ccw-prop.dae</uri>
+                        <uri>model://bluerov2/meshes/t200-ccw-prop.dae</uri>
                     </mesh>
                 </geometry>
             </visual>
@@ -334,7 +334,7 @@
 
         <plugin filename="gz-sim-thruster-system"
                 name="gz::sim::systems::Thruster">
-            <namespace>bluerov2_heavy</namespace>
+            <namespace>bluerov2</namespace>
             <joint_name>thruster1_joint</joint_name>
             <thrust_coefficient>0.02</thrust_coefficient>
             <fluid_density>1000</fluid_density>
@@ -344,7 +344,7 @@
         </plugin>
         <plugin filename="gz-sim-thruster-system"
                 name="gz::sim::systems::Thruster">
-            <namespace>bluerov2_heavy</namespace>
+            <namespace>bluerov2</namespace>
             <joint_name>thruster2_joint</joint_name>
             <thrust_coefficient>0.02</thrust_coefficient>
             <fluid_density>1000</fluid_density>
@@ -354,7 +354,7 @@
         </plugin>
         <plugin filename="gz-sim-thruster-system"
                 name="gz::sim::systems::Thruster">
-            <namespace>bluerov2_heavy</namespace>
+            <namespace>bluerov2</namespace>
             <joint_name>thruster3_joint</joint_name>
             <!-- Reverse spin to balance torque -->
             <thrust_coefficient>-0.02</thrust_coefficient>
@@ -365,7 +365,7 @@
         </plugin>
         <plugin filename="gz-sim-thruster-system"
                 name="gz::sim::systems::Thruster">
-            <namespace>bluerov2_heavy</namespace>
+            <namespace>bluerov2</namespace>
             <joint_name>thruster4_joint</joint_name>
             <!-- Reverse spin to balance torque -->
             <thrust_coefficient>-0.02</thrust_coefficient>
@@ -376,7 +376,7 @@
         </plugin>
         <plugin filename="gz-sim-thruster-system"
                 name="gz::sim::systems::Thruster">
-            <namespace>bluerov2_heavy</namespace>
+            <namespace>bluerov2</namespace>
             <joint_name>thruster5_joint</joint_name>
             <thrust_coefficient>0.02</thrust_coefficient>
             <fluid_density>1000</fluid_density>
@@ -386,7 +386,7 @@
         </plugin>
         <plugin filename="gz-sim-thruster-system"
                 name="gz::sim::systems::Thruster">
-            <namespace>bluerov2_heavy</namespace>
+            <namespace>bluerov2</namespace>
             <joint_name>thruster6_joint</joint_name>
             <!-- Reverse spin to balance torque -->
             <thrust_coefficient>-0.02</thrust_coefficient>
@@ -397,7 +397,7 @@
         </plugin>
         <plugin filename="gz-sim-thruster-system"
                 name="gz::sim::systems::Thruster">
-            <namespace>bluerov2_heavy</namespace>
+            <namespace>bluerov2</namespace>
             <joint_name>thruster7_joint</joint_name>
             <!-- Reverse spin to balance torque -->
             <thrust_coefficient>-0.02</thrust_coefficient>
@@ -408,7 +408,7 @@
         </plugin>
         <plugin filename="gz-sim-thruster-system"
                 name="gz::sim::systems::Thruster">
-            <namespace>bluerov2_heavy</namespace>
+            <namespace>bluerov2</namespace>
             <joint_name>thruster8_joint</joint_name>
             <thrust_coefficient>0.02</thrust_coefficient>
             <fluid_density>1000</fluid_density>
@@ -421,8 +421,9 @@
             <!-- Port settings -->
             <fdm_addr>127.0.0.1</fdm_addr>
             <fdm_port_in>9002</fdm_port_in>
-            <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
-            <lock_step>1</lock_step>
+            <!-- <fdm_port_out>9003</fdm_port_out> -->
+            <connectionTimeoutMaxCount>30</connectionTimeoutMaxCount>
+            <lockstep>1</lockstep>
 
             <!-- Transform from the Gazebo body frame (x-forward, y-left, z-up)
                  to the ArduPilot body frame (x-forward, y-right, z-down) -->
@@ -441,7 +442,7 @@
                 <servo_min>1100</servo_min>
                 <servo_max>1900</servo_max>
                 <type>COMMAND</type>
-                <cmd_topic>/model/bluerov2_heavy/joint/thruster1_joint/cmd_thrust</cmd_topic>
+                <cmd_topic>/model/bluerov2/joint/thruster1_joint/cmd_thrust</cmd_topic>
                 <offset>-0.5</offset>
                 <multiplier>100</multiplier>
             </control>
@@ -450,7 +451,7 @@
                 <servo_min>1100</servo_min>
                 <servo_max>1900</servo_max>
                 <type>COMMAND</type>
-                <cmd_topic>/model/bluerov2_heavy/joint/thruster2_joint/cmd_thrust</cmd_topic>
+                <cmd_topic>/model/bluerov2/joint/thruster2_joint/cmd_thrust</cmd_topic>
                 <offset>-0.5</offset>
                 <multiplier>100</multiplier>
             </control>
@@ -459,7 +460,7 @@
                 <servo_min>1100</servo_min>
                 <servo_max>1900</servo_max>
                 <type>COMMAND</type>
-                <cmd_topic>/model/bluerov2_heavy/joint/thruster3_joint/cmd_thrust</cmd_topic>
+                <cmd_topic>/model/bluerov2/joint/thruster3_joint/cmd_thrust</cmd_topic>
                 <offset>-0.5</offset>
                 <multiplier>100</multiplier>
             </control>
@@ -468,7 +469,7 @@
                 <servo_min>1100</servo_min>
                 <servo_max>1900</servo_max>
                 <type>COMMAND</type>
-                <cmd_topic>/model/bluerov2_heavy/joint/thruster4_joint/cmd_thrust</cmd_topic>
+                <cmd_topic>/model/bluerov2/joint/thruster4_joint/cmd_thrust</cmd_topic>
                 <offset>-0.5</offset>
                 <multiplier>100</multiplier>
             </control>
@@ -477,7 +478,7 @@
                 <servo_min>1100</servo_min>
                 <servo_max>1900</servo_max>
                 <type>COMMAND</type>
-                <cmd_topic>/model/bluerov2_heavy/joint/thruster5_joint/cmd_thrust</cmd_topic>
+                <cmd_topic>/model/bluerov2/joint/thruster5_joint/cmd_thrust</cmd_topic>
                 <offset>-0.5</offset>
                 <multiplier>100</multiplier>
             </control>
@@ -486,7 +487,7 @@
                 <servo_min>1100</servo_min>
                 <servo_max>1900</servo_max>
                 <type>COMMAND</type>
-                <cmd_topic>/model/bluerov2_heavy/joint/thruster6_joint/cmd_thrust</cmd_topic>
+                <cmd_topic>/model/bluerov2/joint/thruster6_joint/cmd_thrust</cmd_topic>
                 <offset>-0.5</offset>
                 <multiplier>100</multiplier>
             </control>
@@ -495,7 +496,7 @@
                 <servo_min>1100</servo_min>
                 <servo_max>1900</servo_max>
                 <type>COMMAND</type>
-                <cmd_topic>/model/bluerov2_heavy/joint/thruster7_joint/cmd_thrust</cmd_topic>
+                <cmd_topic>/model/bluerov2/joint/thruster7_joint/cmd_thrust</cmd_topic>
                 <offset>-0.5</offset>
                 <multiplier>100</multiplier>
             </control>
@@ -504,7 +505,7 @@
                 <servo_min>1100</servo_min>
                 <servo_max>1900</servo_max>
                 <type>COMMAND</type>
-                <cmd_topic>/model/bluerov2_heavy/joint/thruster8_joint/cmd_thrust</cmd_topic>
+                <cmd_topic>/model/bluerov2/joint/thruster8_joint/cmd_thrust</cmd_topic>
                 <offset>-0.5</offset>
                 <multiplier>100</multiplier>
             </control>
@@ -514,10 +515,9 @@
         <!-- Left camera link -->
         <link name="left_camera_link">
             <!--      <pose>0.19 0.075 0.126 0 1.57 0</pose>-->
-            <pose>0.19 0.075 0.201 0 0 0</pose>
+            <pose>0.19 0.075 0.201 -1.57 0 -1.57</pose>
             <sensor name="left_camera" type="camera">
-                <!--        <pose>0 0 -0.08750000000000001 0 1.5707963267948966 0</pose>-->
-                <pose>0 0 0 0 0 0</pose>
+                <pose>0 0 0 0 -1.57 1.57</pose>
                 <camera>
                     <horizontal_fov>1.6</horizontal_fov>
                     <image>
@@ -557,10 +557,9 @@
 
         <!-- Right camera link -->
         <link name="right_camera_link">
-            <pose>0.19 -0.075 0.201 0 0 0</pose>
+            <pose>0.19 -0.075 0.201 -1.57 0 -1.57</pose>
             <sensor name="right_camera" type="camera">
-                <!--        <pose>0 0 -0.08750000000000001 0 1.5707963267948966 0</pose>-->
-                <pose>0 0 0 0 0 0</pose>
+                <pose>0 0 0 0 -1.57 1.57</pose>
                 <camera>
                     <horizontal_fov>1.6</horizontal_fov>
                     <image>
@@ -603,7 +602,7 @@
                 filename="gz-sim-odometry-publisher-system"
                 name="gz::sim::systems::OdometryPublisher">
             <odom_frame>map</odom_frame>
-            <robot_base_frame>bluerov2_heavy</robot_base_frame>
+            <robot_base_frame>bluerov2</robot_base_frame>
             <dimensions>3</dimensions>
         </plugin>
 

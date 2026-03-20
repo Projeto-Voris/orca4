@@ -40,10 +40,10 @@ RUN apt-get update \
     libeigen3-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Gazebo Garden
-RUN apt-get update \
-  && apt-get -y --quiet --no-install-recommends install ros-humble-ros-gz \
-  && rm -rf /var/lib/apt/lists/*
+# # Install Gazebo
+# RUN apt-get update \
+#   && apt-get -y --quiet --no-install-recommends install ros-humble-ros-gz \
+#   && rm -rf /var/lib/apt/lists/*
 
 # Add packages.osrfoundation.org, required by ardupilot_gazebo
 RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
@@ -155,13 +155,12 @@ COPY --chown=$USER_UID:$USER_GID orca_shared/package.xml src/orca4/orca_shared/
 # Run rosdep over orca4 package.xml files
 WORKDIR /home/$USERNAME/ros2_ws
 RUN rosdep update \
-  && rosdep install -y --from-paths . --ignore-src 
-  # --skip-keys="gz-transport12 gz-sim7 gz-math7 gz-msgs9"
+  && rosdep install -y --from-paths . --ignore-src --skip-keys="ros2_shared"
 
 
 
 # Build for Gazebo Harmonic, define this before building ardupilot_gazebo and ros_gz
-ENV GZ_VERSION=garden
+ENV GZ_VERSION=harmonic
 #Get repos
 WORKDIR /home/$USERNAME/ros2_ws/src
 COPY --chown=$USER_UID:$USER_GID workspace.repos orca4
@@ -175,7 +174,7 @@ USER $USERNAME
 WORKDIR /home/$USERNAME/ros2_ws
 RUN sudo apt-get update \
   && rosdep update \
-  && rosdep install -y --from-paths . --ignore-src
+  && rosdep install -y --from-paths . --ignore-src --skip-keys="ros2_shared"
 
 COPY cv_bridge.hpp /opt/ros/humble/include/cv_bridge/cv_bridge
 
@@ -200,17 +199,12 @@ RUN [ "/bin/bash" , "-c" , "\
 
 
 #MAVROS depends on GeographicLib, and GeographicLib needs some datasets
+WORKDIR /home/$USERNAME
 RUN [ "/bin/bash" , "-c" , "\
   wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh \
   && chmod +x install_geographiclib_datasets.sh \
   && sudo ./install_geographiclib_datasets.sh" ]
 
-# Copy everything
-
-# Build everything
-RUN [ "/bin/bash" , "-c" , "\
-  source /opt/ros/humble/setup.bash \
-  && colcon build" ]
 
 VOLUME /home/$USERNAME/ros2_ws/src/orca4
 # Set up the environment

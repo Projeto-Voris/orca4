@@ -67,13 +67,13 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'base',
-            default_value='True',
+            default_value='False',
             description='Launch base controller?',
         ),
 
         DeclareLaunchArgument(
             'gzclient',
-            default_value='True',
+            default_value='False',
             description='Launch Gazebo UI?'
         ),
 
@@ -85,19 +85,19 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'nav',
-            default_value='True',
+            default_value='False',
             description='Launch navigation?',
         ),
 
         DeclareLaunchArgument(
             'rviz',
-            default_value='False',
+            default_value='True',
             description='Launch rviz?',
         ),
 
         DeclareLaunchArgument(
             'slam',
-            default_value='False',
+            default_value='True',
             description='Launch SLAM?',
         ),
 

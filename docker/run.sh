@@ -12,6 +12,7 @@ TAG="orca4"
 GRAPHICS=$1
 
 DOCKER_FLAGS="-it --rm \
+    --name orca4 \
     -v /etc/localtime:/etc/localtime:ro \
     -v ..:/home/orca4/ros2_ws/src/orca4 \
     --privileged" 

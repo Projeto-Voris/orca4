@@ -65,9 +65,14 @@ def generate_launch_description():
     return LaunchDescription([
         SetEnvironmentVariable('RCUTILS_LOGGING_BUFFERED_STREAM', '1'),
 
+        DeclareLaunchArgument('voc_file', default_value='/home/orca4/ros2_ws/src/orbslam3_ros2/orbslam3_ros2/vocabulary/ORBvoc.txt', 
+                    description='Caminho para o vocabulário ORB'),
+        DeclareLaunchArgument('settings_file', default_value='/home/orca4/ros2_ws/src/orca4/orca_bringup/cfg/sim.yaml', 
+                    description='Caminho para o settings .yaml'),
+
         DeclareLaunchArgument(
             'base',
-            default_value='True',
+            default_value='False',
             description='Launch base controller?',
         ),
 
@@ -169,18 +174,23 @@ def generate_launch_description():
         ExecuteProcess(
             cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
                  '--x', '0.19',
-                 '--y', '0.075',
+                 '--y', '0.1',
                  '--z', '0.201',
+                 '--roll', str(-math.pi /2),
+                 '--yaw', str(-math.pi /2),
                  '--frame-id', 'base_link',
                  '--child-frame-id', 'left_camera_link'],
             output='screen',
         ),
+
         # Replacement for an URDF file: base_link->left_camera_link is static
         ExecuteProcess(
             cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
                  '--x', '0.19',
-                 '--y', '-0.075',
+                 '--y', '-0.1',
                  '--z', '0.201',
+                 '--roll', str(-math.pi /2),
+                 '--yaw', str(-math.pi /2),
                  '--frame-id', 'base_link',
                  '--child-frame-id', 'right_camera_link'],
             output='screen',
@@ -195,19 +205,28 @@ def generate_launch_description():
             output='screen',
         ),
 
-        # orb_slam2: build a map of 3d points, localize against the map, and publish the camera pose
         Node(
-            package='orb_slam2_ros',
-            executable='orb_slam2_ros_stereo',
+            package='orbslam3_ros2',
+            executable='stereo',
+            name='stereo_orbslam3',
+            namespace='orbslam3',
             output='screen',
-            name='orb_slam2_stereo',
-            parameters=[orca_params_file, {
-                'voc_file': orb_voc_file,
+            parameters=[{
+                'voc_file': LaunchConfiguration('voc_file'),
+                'settings_file': LaunchConfiguration('settings_file'),
+                'rescale': True,
+                'do_rectify': False,
+                'ENU_publish': True,
+                'tracked_points': True, 
+                'parent_frame_id': 'base_link',
+                'child_frame_id': 'left_camera_link',
+                'frame_id': 'map',
+                'use_sim_time': True,
             }],
             remappings=[
-                ('/image_left/image_color_rect', '/stereo_left'),
-                ('/image_right/image_color_rect', '/stereo_right'),
-                ('/camera/camera_info', '/stereo_right/camera_info'),
+                ('camera/left','/stereo_left'),
+                ('camera/right','/stereo_right'),
+                ('pose', '/mavros/vision_pose/pose')
             ],
             condition=IfCondition(LaunchConfiguration('slam')),
         ),
