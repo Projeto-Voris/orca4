@@ -149,14 +149,14 @@ def generate_launch_description():
         # gz must be on the $PATH
         # libArduPilotPlugin.so must be on the GZ_SIM_SYSTEM_PLUGIN_PATH
         ExecuteProcess(
-            cmd=['gz', 'sim', '-v', '3', '-r', world_file],
+            cmd=['gz', 'sim', '-v4', '3', '-r', world_file],
             output='screen',
             condition=IfCondition(LaunchConfiguration('gzclient')),
         ),
 
         # Launch Gazebo Sim server-only
         ExecuteProcess(
-            cmd=['gz', 'sim', '-v', '3', '-r', '-s', world_file],
+            cmd=['gz', 'sim', '-v4', '3', '-r', '-s', world_file],
             output='screen',
             condition=UnlessCondition(LaunchConfiguration('gzclient')),
         ),

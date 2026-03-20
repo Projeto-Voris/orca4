@@ -101,18 +101,14 @@ def generate_launch_description():
         ),
 
         # Translate messages MAV <-> ROS
-        TimerAction(
-            period=10.0,  # seconds
-            actions=[
-                Node(
-                    package='mavros',
-                    executable='mavros_node',
-                    output='screen',
-                    # mavros_node is actually many nodes, so we can't override the name
-                    # name='mavros_node',
-                    parameters=[mavros_params_file],
-                    condition=IfCondition(LaunchConfiguration('mavros')),
-                )]
+        Node(
+            package='mavros',
+            executable='mavros_node',
+            output='screen',
+            # mavros_node is actually many nodes, so we can't override the name
+            # name='mavros_node',
+            parameters=[mavros_params_file],
+            condition=IfCondition(LaunchConfiguration('mavros')),
         ),
 
         Node(
