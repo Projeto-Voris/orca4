@@ -85,14 +85,14 @@ SERVO8_MIN 1100
 BARO_EXT_BUS 1
 
 FRAME_CONFIG 2
-# SERVO1_FUNCTION 33    # Motor 1
-# SERVO2_FUNCTION 34    # Motor 2
-# SERVO3_FUNCTION 35    # Motor 3
-# SERVO4_FUNCTION 36    # Motor 4
-# SERVO5_FUNCTION 37    # Motor 5
-# SERVO6_FUNCTION 38    # Motor 6
-# SERVO7_FUNCTION 39    # Motor 7
-# SERVO8_FUNCTION 40    # Motor 8
+SERVO1_FUNCTION 33    # Motor 1
+SERVO2_FUNCTION 34    # Motor 2
+SERVO3_FUNCTION 35    # Motor 3
+SERVO4_FUNCTION 36    # Motor 4
+SERVO5_FUNCTION 37    # Motor 5
+SERVO6_FUNCTION 38    # Motor 6
+SERVO7_FUNCTION 39    # Motor 7
+SERVO8_FUNCTION 40    # Motor 8
 
 # Enable external nav
 # From https://ardupilot.org/copter/docs/common-vio-tracking-camera.html

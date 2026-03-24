@@ -207,7 +207,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /stereo_right
+        Value: /Passive/right/image_raw
       Value: true
     - Class: rviz_default_plugins/Image
       Enabled: true
@@ -221,7 +221,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /stereo_left
+        Value: /Passive/left/image_raw
       Value: true
     - Alpha: 1
       Axes Length: 0.10000000149011612
@@ -280,7 +280,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /model/bluerov2_heavy/odometry
+        Value: /model/bluerov2/odometry
       Value: true
     - Alpha: 1
       Axes Length: 1
@@ -363,10 +363,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.28000006079673767
+      Pitch: 0.429999977350235
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz_default_plugins)
-      Yaw: 2.8599956035614014
+      Yaw: 3.1249947547912598
     Saved: ~
 Window Geometry:
   Displays:

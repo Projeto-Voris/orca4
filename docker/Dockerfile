@@ -165,7 +165,7 @@ ENV GZ_VERSION=harmonic
 WORKDIR /home/$USERNAME/ros2_ws/src
 COPY --chown=$USER_UID:$USER_GID workspace.repos orca4
 RUN vcs import --recursive < orca4/workspace.repos
-#RUN tar -xf orbslam3_ros2/orbslam3_ros2/vocabulary/ORBvoc.txt.tar.gz -C src/orbslam3_ros2/orbslam3_ros2/vocabulary
+RUN tar -xf orbslam3_ros2/orbslam3_ros2/vocabulary/ORBvoc.txt.tar.gz -C orbslam3_ros2/orbslam3_ros2/vocabulary
 
 
 # Build ardupilot_gazebo

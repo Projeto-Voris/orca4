@@ -4,28 +4,28 @@
     <pose>0 0 0 0 0 0</pose>
 
     <!-- BlueROV2 thruster reference: http://www.ardusub.com/introduction/features.html -->
-    <!-- fluid_density: 1000 -->
-    <!-- total_mass: 17.348999999999997 -->
-    <!-- displaced_mass: 17.398999999999997 -->
+    <!-- fluid_density: @fluid_density -->
+    <!-- total_mass: @total_mass -->
+    <!-- displaced_mass: @displaced_mass -->
 
     <!-- incluir camera da direita  -->
 
     <link name="base_link">
       <inertial>
-        <pose>0 0 0.0113 0 0 0</pose>
-        <mass>17</mass>
+        <pose>0 0 @mass_z 0 0 0</pose>
+        <mass>@base_mass</mass>
         <inertia>
-          <ixx>0.1835114999660365</ixx>
+          <ixx>@ixx</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.32028667871603644</iyy>
+          <iyy>@iyy</iyy>
           <iyz>0</iyz>
-          <izz>0.4671117047499999</izz>
+          <izz>@izz</izz>
         </inertia>
       </inertial>
 
       <visual name="base_link_visual">
-        <pose>0 0 0 0 0 1.5707963267948966</pose>
+        <pose>0 0 0 0 0 @d90</pose>
         <geometry>
           <mesh>
             <uri>model://bluerov2/meshes/bluerov2_skid.dae</uri>
@@ -36,10 +36,10 @@
 
       <!-- Collision volume * fluid_density == displaced mass, used by BuoyancyPlugin -->
       <collision name="base_link_collision">
-        <pose>0 0 0.06 0 0 0</pose>
+        <pose>0 0 @volume_z 0 0 0</pose>
         <geometry>
           <box>
-            <size>0.457 0.338 0.11263967475043049</size>
+            <size>@collision_x @collision_y @collision_z</size>
           </box>
         </geometry>
       </collision>
@@ -48,7 +48,7 @@
       <sensor name="imu_sensor" type="imu">
         <!-- Transform from the Gazebo body frame (x-forward, y-left, z-up)
              to the ArduPilot body frame (x-forward, y-right, z-down) -->
-        <pose>0 0 -0.1 3.141592653589793 0 0</pose>
+        <pose>@imu_x @imu_y @imu_z @d180 0 0</pose>
         <always_on>1</always_on>
         <update_rate>1000.0</update_rate>
       </sensor>
@@ -60,7 +60,7 @@
         filename="gz-sim-hydrodynamics-system"
         name="gz::sim::systems::Hydrodynamics">
       <link_name>base_link</link_name>
-      <water_density>1000</water_density>
+      <water_density>@fluid_density</water_density>
       <!-- Added mass: -->
       <xDotU>0</xDotU>
       <yDotV>0</yDotV>
@@ -76,18 +76,18 @@
       <mQ>0</mQ>
       <nR>0</nR>
       <!-- Second order stability derivative: -->
-      <xUabsU>-77.74000000000001</xUabsU>
-      <yVabsV>-124.818125</yVabsV>
-      <zWabsW>-73.37135</zWabsW>
-      <kPabsP>-4.0</kPabsP>
-      <mQabsQ>-4.0</mQabsQ>
-      <nRabsR>-4.0</nRabsR>
+      <xUabsU>@xUabsU</xUabsU>
+      <yVabsV>@yVabsV</yVabsV>
+      <zWabsW>@zWabsW</zWabsW>
+      <kPabsP>@kPabsP</kPabsP>
+      <mQabsQ>@mQabsQ</mQabsQ>
+      <nRabsR>@nRabsR</nRabsR>
     </plugin>
 
     <link name="thruster1">
-      <pose>0.138 -0.098 -0.0137 -1.5707963267948966 1.5707963267948966 -0.7853981633974483</pose>
+      <pose>@thruster_h_x -@thruster_h_y -@thruster_h_z -@d90 @d90 -@d45</pose>
       <visual name="thruster_prop_visual">
-        <pose>0 0 0 1.5707963267948966 0 0</pose>
+        <pose>0 0 0 @d90 0 0</pose>
         <geometry>
           <mesh>
             <uri>model://bluerov2/meshes/t200-ccw-prop.dae</uri>
@@ -95,22 +95,22 @@
         </geometry>
       </visual>
       <inertial>
-        <mass>0.002</mass>
+        <mass>@propeller_mass</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>@propeller_ixx</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>@propeller_iyy</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>@propeller_izz</izz>
         </inertia>
       </inertial>
     </link>
 
     <link name="thruster2">
-      <pose>0.138 0.098 -0.0137 -1.5707963267948966 1.5707963267948966 -2.356194490192345</pose>
+      <pose>@thruster_h_x @thruster_h_y -@thruster_h_z -@d90 @d90 -@d135</pose>
       <visual name="thruster_prop_visual">
-        <pose>0 0 0 -1.5707963267948966 0 0</pose>
+        <pose>0 0 0 -@d90 0 0</pose>
         <geometry>
           <mesh>
             <uri>model://bluerov2/meshes/t200-ccw-prop.dae</uri>
@@ -118,22 +118,22 @@
         </geometry>
       </visual>
       <inertial>
-        <mass>0.002</mass>
+        <mass>@propeller_mass</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>@propeller_ixx</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>@propeller_iyy</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>@propeller_izz</izz>
         </inertia>
       </inertial>
     </link>
 
     <link name="thruster3">
-      <pose>-0.138 -0.098 -0.0137 -1.5707963267948966 1.5707963267948966 0.7853981633974483</pose>
+      <pose>-@thruster_h_x -@thruster_h_y -@thruster_h_z -@d90 @d90 @d45</pose>
       <visual name="thruster_prop_visual">
-        <pose>0 0 0 -1.5707963267948966 0 0</pose>
+        <pose>0 0 0 -@d90 0 0</pose>
         <geometry>
           <mesh>
             <uri>model://bluerov2/meshes/t200-cw-prop.dae</uri>
@@ -141,22 +141,22 @@
         </geometry>
       </visual>
       <inertial>
-        <mass>0.002</mass>
+        <mass>@propeller_mass</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>@propeller_ixx</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>@propeller_iyy</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>@propeller_izz</izz>
         </inertia>
       </inertial>
     </link>
 
     <link name="thruster4">
-      <pose>-0.138 0.098 -0.0137 -1.5707963267948966 1.5707963267948966 2.356194490192345</pose>
+      <pose>-@thruster_h_x @thruster_h_y -@thruster_h_z -@d90 @d90 @d135</pose>
       <visual name="thruster_prop_visual">
-        <pose>0 0 0 1.5707963267948966 0 0</pose>
+        <pose>0 0 0 @d90 0 0</pose>
         <geometry>
           <mesh>
             <uri>model://bluerov2/meshes/t200-cw-prop.dae</uri>
@@ -164,22 +164,22 @@
         </geometry>
       </visual>
       <inertial>
-        <mass>0.002</mass>
+        <mass>@propeller_mass</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>@propeller_ixx</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>@propeller_iyy</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>@propeller_izz</izz>
         </inertia>
       </inertial>
     </link>
 
     <link name="thruster5">
-      <pose>0.12 -0.218 0.048 0 0 0</pose>
+      <pose>@thruster_v_x -@thruster_v_y @thruster_v_z 0 0 0</pose>
       <visual name="thruster_prop_visual">
-        <pose>0 0 0 -1.5707963267948966 0 1.5707963267948966</pose>
+        <pose>0 0 0 -@d90 0 @d90</pose>
         <geometry>
           <mesh>
             <uri>model://bluerov2/meshes/t200-ccw-prop.dae</uri>
@@ -187,22 +187,22 @@
         </geometry>
       </visual>
       <inertial>
-        <mass>0.002</mass>
+        <mass>@propeller_mass</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>@propeller_ixx</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>@propeller_iyy</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>@propeller_izz</izz>
         </inertia>
       </inertial>
     </link>
 
     <link name="thruster6">
-      <pose>0.12 0.218 0.048 0 0 0</pose>
+      <pose>@thruster_v_x @thruster_v_y @thruster_v_z 0 0 0</pose>
       <visual name="thruster_prop_visual">
-        <pose>0 0 0 1.5707963267948966 0 1.5707963267948966</pose>
+        <pose>0 0 0 @d90 0 @d90</pose>
         <geometry>
           <mesh>
             <uri>model://bluerov2/meshes/t200-cw-prop.dae</uri>
@@ -210,22 +210,22 @@
         </geometry>
       </visual>
       <inertial>
-        <mass>0.002</mass>
+        <mass>@propeller_mass</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>@propeller_ixx</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>@propeller_iyy</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>@propeller_izz</izz>
         </inertia>
       </inertial>
     </link>
 
      <link name="thruster7">
-      <pose>-0.12 -0.218 0.048 0 0 0</pose>
+      <pose>-@thruster_v_x -@thruster_v_y @thruster_v_z 0 0 0</pose>
       <visual name="thruster_prop_visual">
-        <pose>0 0 0 1.5707963267948966 0 1.5707963267948966</pose>
+        <pose>0 0 0 @d90 0 @d90</pose>
         <geometry>
           <mesh>
             <uri>model://bluerov2/meshes/t200-cw-prop.dae</uri>
@@ -233,22 +233,22 @@
         </geometry>
       </visual>
       <inertial>
-        <mass>0.002</mass>
+        <mass>@propeller_mass</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>@propeller_ixx</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>@propeller_iyy</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>@propeller_izz</izz>
         </inertia>
       </inertial>
     </link>
 
      <link name="thruster8">
-      <pose>-0.12 0.218 0.048 0 0 0</pose>
+      <pose>-@thruster_v_x @thruster_v_y @thruster_v_z 0 0 0</pose>
       <visual name="thruster_prop_visual">
-        <pose>0 0 0 1.5707963267948966 0 1.5707963267948966</pose>
+        <pose>0 0 0 @d90 0 @d90</pose>
         <geometry>
           <mesh>
             <uri>model://bluerov2/meshes/t200-ccw-prop.dae</uri>
@@ -256,14 +256,14 @@
         </geometry>
       </visual>
       <inertial>
-        <mass>0.002</mass>
+        <mass>@propeller_mass</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>@propeller_ixx</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>@propeller_iyy</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>@propeller_izz</izz>
         </inertia>
       </inertial>
     </link>
@@ -338,11 +338,11 @@
         name="gz::sim::systems::Thruster">
       <namespace>bluerov2</namespace>
       <joint_name>thruster1_joint</joint_name>
-      <thrust_coefficient>0.02</thrust_coefficient>
-      <fluid_density>1000</fluid_density>
-      <propeller_diameter>0.1</propeller_diameter>
+      <thrust_coefficient>@thrust_coefficient</thrust_coefficient>
+      <fluid_density>@fluid_density</fluid_density>
+      <propeller_diameter>@propeller_diameter</propeller_diameter>
       <velocity_control>true</velocity_control>
-      <use_angvel_cmd>False</use_angvel_cmd>
+      <use_angvel_cmd>@use_angvel_cmd</use_angvel_cmd>
     </plugin>
     
     <plugin
@@ -350,11 +350,11 @@
         name="gz::sim::systems::Thruster">
       <namespace>bluerov2</namespace>
       <joint_name>thruster2_joint</joint_name>
-      <thrust_coefficient>0.02</thrust_coefficient>
-      <fluid_density>1000</fluid_density>
-      <propeller_diameter>0.1</propeller_diameter>
+      <thrust_coefficient>@thrust_coefficient</thrust_coefficient>
+      <fluid_density>@fluid_density</fluid_density>
+      <propeller_diameter>@propeller_diameter</propeller_diameter>
       <velocity_control>true</velocity_control>
-      <use_angvel_cmd>False</use_angvel_cmd>
+      <use_angvel_cmd>@use_angvel_cmd</use_angvel_cmd>
     </plugin>
 
     <plugin
@@ -363,11 +363,11 @@
       <namespace>bluerov2</namespace>
       <joint_name>thruster3_joint</joint_name>
       <!-- Reverse spin to balance torque -->
-      <thrust_coefficient>-0.02</thrust_coefficient>
-      <fluid_density>1000</fluid_density>
-      <propeller_diameter>0.1</propeller_diameter>
+      <thrust_coefficient>-@thrust_coefficient</thrust_coefficient>
+      <fluid_density>@fluid_density</fluid_density>
+      <propeller_diameter>@propeller_diameter</propeller_diameter>
       <velocity_control>true</velocity_control>
-      <use_angvel_cmd>False</use_angvel_cmd>
+      <use_angvel_cmd>@use_angvel_cmd</use_angvel_cmd>
     </plugin>
 
     <plugin
@@ -376,11 +376,11 @@
       <namespace>bluerov2</namespace>
       <joint_name>thruster4_joint</joint_name>
       <!-- Reverse spin to balance torque -->
-      <thrust_coefficient>-0.02</thrust_coefficient>
-      <fluid_density>1000</fluid_density>
-      <propeller_diameter>0.1</propeller_diameter>
+      <thrust_coefficient>-@thrust_coefficient</thrust_coefficient>
+      <fluid_density>@fluid_density</fluid_density>
+      <propeller_diameter>@propeller_diameter</propeller_diameter>
       <velocity_control>true</velocity_control>
-      <use_angvel_cmd>False</use_angvel_cmd>
+      <use_angvel_cmd>@use_angvel_cmd</use_angvel_cmd>
     </plugin>
 
     <plugin
@@ -388,11 +388,11 @@
         name="gz::sim::systems::Thruster">
       <namespace>bluerov2</namespace>
       <joint_name>thruster5_joint</joint_name>
-      <thrust_coefficient>0.02</thrust_coefficient>
-      <fluid_density>1000</fluid_density>
-      <propeller_diameter>0.1</propeller_diameter>
+      <thrust_coefficient>@thrust_coefficient</thrust_coefficient>
+      <fluid_density>@fluid_density</fluid_density>
+      <propeller_diameter>@propeller_diameter</propeller_diameter>
       <velocity_control>true</velocity_control>
-      <use_angvel_cmd>False</use_angvel_cmd>
+      <use_angvel_cmd>@use_angvel_cmd</use_angvel_cmd>
     </plugin>
 
     <plugin
@@ -401,11 +401,11 @@
       <namespace>bluerov2</namespace>
       <joint_name>thruster6_joint</joint_name>
       <!-- Reverse spin to balance torque -->
-      <thrust_coefficient>-0.02</thrust_coefficient>
-      <fluid_density>1000</fluid_density>
-      <propeller_diameter>0.1</propeller_diameter>
+      <thrust_coefficient>-@thrust_coefficient</thrust_coefficient>
+      <fluid_density>@fluid_density</fluid_density>
+      <propeller_diameter>@propeller_diameter</propeller_diameter>
       <velocity_control>true</velocity_control>
-      <use_angvel_cmd>False</use_angvel_cmd>
+      <use_angvel_cmd>@use_angvel_cmd</use_angvel_cmd>
     </plugin>
     <plugin
         filename="gz-sim-thruster-system"
@@ -413,22 +413,22 @@
       <namespace>bluerov2</namespace>
       <joint_name>thruster7_joint</joint_name>
       <!-- Reverse spin to balance torque -->
-      <thrust_coefficient>-0.02</thrust_coefficient>
-      <fluid_density>1000</fluid_density>
-      <propeller_diameter>0.1</propeller_diameter>
+      <thrust_coefficient>-@thrust_coefficient</thrust_coefficient>
+      <fluid_density>@fluid_density</fluid_density>
+      <propeller_diameter>@propeller_diameter</propeller_diameter>
       <velocity_control>true</velocity_control>
-      <use_angvel_cmd>False</use_angvel_cmd>
+      <use_angvel_cmd>@use_angvel_cmd</use_angvel_cmd>
     </plugin>
     <plugin
         filename="gz-sim-thruster-system"
         name="gz::sim::systems::Thruster">
       <namespace>bluerov2</namespace>
       <joint_name>thruster8_joint</joint_name>
-      <thrust_coefficient>0.02</thrust_coefficient>
-      <fluid_density>1000</fluid_density>
-      <propeller_diameter>0.1</propeller_diameter>
+      <thrust_coefficient>@thrust_coefficient</thrust_coefficient>
+      <fluid_density>@fluid_density</fluid_density>
+      <propeller_diameter>@propeller_diameter</propeller_diameter>
       <velocity_control>true</velocity_control>
-      <use_angvel_cmd>False</use_angvel_cmd>
+      <use_angvel_cmd>@use_angvel_cmd</use_angvel_cmd>
     </plugin>
 
     <plugin name="ArduPilotPlugin" filename="libArduPilotPlugin.so">
@@ -440,11 +440,11 @@
 
       <!-- Transform from the Gazebo body frame (x-forward, y-left, z-up)
            to the ArduPilot body frame (x-forward, y-right, z-down) -->
-      <modelXYZToAirplaneXForwardZDown>0 0 0 3.141592653589793 0 0</modelXYZToAirplaneXForwardZDown>
+      <modelXYZToAirplaneXForwardZDown>0 0 0 @d180 0 0</modelXYZToAirplaneXForwardZDown>
 
       <!-- Transform from the Gazebo world frame (ENU)
            to the ArduPilot world frame (NED) -->
-      <gazeboXYZToNED>0 0 0 3.141592653589793 0 1.5707963267948966</gazeboXYZToNED>
+      <gazeboXYZToNED>0 0 0 @d180 0 @d90</gazeboXYZToNED>
 
       <!-- Sensors -->
       <imuName>imu_sensor</imuName>
@@ -452,75 +452,75 @@
       <!-- Thrusters -->
       <control channel="0">
         <jointName>thruster1_joint</jointName>
-        <servo_min>1100</servo_min>
-        <servo_max>1900</servo_max>
+        <servo_min>@servo_min</servo_min>
+        <servo_max>@servo_max</servo_max>
         <type>COMMAND</type>
-        <cmd_topic>/model/bluerov2/joint/thruster1_joint/cmd_thrust</cmd_topic>
-        <offset>-0.5</offset>
-        <multiplier>100</multiplier>
+        <cmd_topic>@thruster1_topic</cmd_topic>
+        <offset>@control_offset</offset>
+        <multiplier>@ccw_control_multiplier</multiplier>
       </control>
       <control channel="1">
         <jointName>thruster2_joint</jointName>
-        <servo_min>1100</servo_min>
-        <servo_max>1900</servo_max>
+        <servo_min>@servo_min</servo_min>
+        <servo_max>@servo_max</servo_max>
         <type>COMMAND</type>
-        <cmd_topic>/model/bluerov2/joint/thruster2_joint/cmd_thrust</cmd_topic>
-        <offset>-0.5</offset>
-        <multiplier>100</multiplier>
+        <cmd_topic>@thruster2_topic</cmd_topic>
+        <offset>@control_offset</offset>
+        <multiplier>@ccw_control_multiplier</multiplier>
       </control>
       <control channel="2">
         <jointName>thruster3_joint</jointName>
-        <servo_min>1100</servo_min>
-        <servo_max>1900</servo_max>
+        <servo_min>@servo_min</servo_min>
+        <servo_max>@servo_max</servo_max>
         <type>COMMAND</type>
-        <cmd_topic>/model/bluerov2/joint/thruster3_joint/cmd_thrust</cmd_topic>
-        <offset>-0.5</offset>
-        <multiplier>100</multiplier>
+        <cmd_topic>@thruster3_topic</cmd_topic>
+        <offset>@control_offset</offset>
+        <multiplier>@cw_control_multiplier</multiplier>
       </control>
       <control channel="3">
         <jointName>thruster4_joint</jointName>
-        <servo_min>1100</servo_min>
-        <servo_max>1900</servo_max>
+        <servo_min>@servo_min</servo_min>
+        <servo_max>@servo_max</servo_max>
         <type>COMMAND</type>
-        <cmd_topic>/model/bluerov2/joint/thruster4_joint/cmd_thrust</cmd_topic>
-        <offset>-0.5</offset>
-        <multiplier>100</multiplier>
+        <cmd_topic>@thruster4_topic</cmd_topic>
+        <offset>@control_offset</offset>
+        <multiplier>@cw_control_multiplier</multiplier>
       </control>
       <control channel="4">
         <jointName>thruster5_joint</jointName>
-        <servo_min>1100</servo_min>
-        <servo_max>1900</servo_max>
+        <servo_min>@servo_min</servo_min>
+        <servo_max>@servo_max</servo_max>
         <type>COMMAND</type>
-        <cmd_topic>/model/bluerov2/joint/thruster5_joint/cmd_thrust</cmd_topic>
-        <offset>-0.5</offset>
-        <multiplier>100</multiplier>
+        <cmd_topic>@thruster5_topic</cmd_topic>
+        <offset>@control_offset</offset>
+        <multiplier>@ccw_control_multiplier</multiplier>
       </control>
       <control channel="5">
         <jointName>thruster6_joint</jointName>
-        <servo_min>1100</servo_min>
-        <servo_max>1900</servo_max>
+        <servo_min>@servo_min</servo_min>
+        <servo_max>@servo_max</servo_max>
         <type>COMMAND</type>
-        <cmd_topic>/model/bluerov2/joint/thruster6_joint/cmd_thrust</cmd_topic>
-        <offset>-0.5</offset>
-        <multiplier>100</multiplier>
+        <cmd_topic>@thruster6_topic</cmd_topic>
+        <offset>@control_offset</offset>
+        <multiplier>@cw_control_multiplier</multiplier>
       </control>
       <control channel="6">
         <jointName>thruster7_joint</jointName>
-        <servo_min>1100</servo_min>
-        <servo_max>1900</servo_max>
+        <servo_min>@servo_min</servo_min>
+        <servo_max>@servo_max</servo_max>
         <type>COMMAND</type>
-        <cmd_topic>/model/bluerov2/joint/thruster7_joint/cmd_thrust</cmd_topic>
-        <offset>-0.5</offset>
-        <multiplier>100</multiplier>
+        <cmd_topic>@thruster7_topic</cmd_topic>
+        <offset>@control_offset</offset>
+        <multiplier>@cw_control_multiplier</multiplier>
       </control>
       <control channel="7">
         <jointName>thruster8_joint</jointName>
-        <servo_min>1100</servo_min>
-        <servo_max>1900</servo_max>
+        <servo_min>@servo_min</servo_min>
+        <servo_max>@servo_max</servo_max>
         <type>COMMAND</type>
-        <cmd_topic>/model/bluerov2/joint/thruster8_joint/cmd_thrust</cmd_topic>
-        <offset>-0.5</offset>
-        <multiplier>100</multiplier>
+        <cmd_topic>@thruster8_topic</cmd_topic>
+        <offset>@control_offset</offset>
+        <multiplier>@ccw_control_multiplier</multiplier>
       </control>
 
      <!--
@@ -530,9 +530,9 @@
         param set RNGFND1_MIN_CM 20       # Min distance is 0.5m
         param set RNGFND1_MAX_CM 5000     # Max distance is 50m
         param set RNGFND1_ORIENT 25       # Down
-        param set RNGFND1_POS_X -0.15
-        param set RNGFND1_POS_Y 0
-        param set RNGFND1_POS_Z -0.095
+        param set RNGFND1_POS_X @ping_x
+        param set RNGFND1_POS_Y @ping_y
+        param set RNGFND1_POS_Z @ping_z
       -->
       <sensor>
         <type>sonar</type>
@@ -544,19 +544,19 @@
 
     <!-- Left Camera link -->
     <link name="left_camera_link">
-      <!-- <pose>0.19 0.1 -0.201 0 1.5707963267948966 0</pose> -->
-      <pose>0.19 0.1 -0.201 -1.5707963267948966 0 -1.5707963267948966</pose>
+      <!-- <pose>@camera_x @camera_y @camera_z 0 @d90 0</pose> -->
+      <pose>@camera_x @camera_y @camera_z -@d90 0 -@d90</pose>
        <sensor name="left_camera" type="camera">
-        <pose>0 0 0 0 -1.5707963267948966 1.5707963267948966</pose>
+        <pose>0 0 0 0 -@d90 @d90</pose>
         <camera>
-          <horizontal_fov>1.6</horizontal_fov>
+          <horizontal_fov>@camera_fov</horizontal_fov>
           <image>
-            <width>1600</width>
-            <height>1200</height>
+            <width>@image_width</width>
+            <height>@image_height</height>
           </image>
           <clip>
             <near>0.2</near>
-            <far>10</far>
+            <far>@camera_far_clip</far>
           </clip>
         </camera>
         <always_on>1</always_on>
@@ -568,14 +568,14 @@
         <gz_frame_id>left_camera_link</gz_frame_id>
       </sensor>
       <inertial>
-        <mass>0.1</mass>
+        <mass>@camera_mass</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>@camera_ixx</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>@camera_iyy</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>@camera_izz</izz>
         </inertia>
       </inertial>
     </link>
@@ -588,19 +588,19 @@
 
     <!-- Right Camera link -->
     <link name="right_camera_link">
-      <!-- <pose>0.19 0.1 -0.201 0 1.5707963267948966 0</pose> -->
-      <pose>0.19 -0.1 -0.201 -1.5707963267948966 0 -1.5707963267948966</pose>
+      <!-- <pose>@camera_x @camera_y @camera_z 0 @d90 0</pose> -->
+      <pose>@camera_x -@camera_y @camera_z -@d90 0 -@d90</pose>
       <sensor name="right_sim_camera" type="camera">
-        <pose>0 0 0 0 -1.5707963267948966 1.5707963267948966</pose>
+        <pose>0 0 0 0 -@d90 @d90</pose>
         <camera>
-          <horizontal_fov>1.6</horizontal_fov>
+          <horizontal_fov>@camera_fov</horizontal_fov>
           <image>
-            <width>1600</width>
-            <height>1200</height>
+            <width>@image_width</width>
+            <height>@image_height</height>
           </image>
           <clip>
             <near>0.2</near>
-            <far>10</far>
+            <far>@camera_far_clip</far>
           </clip>
         </camera>
         <always_on>1</always_on>
@@ -612,14 +612,14 @@
         <gz_frame_id>right_camera_link</gz_frame_id>
       </sensor>
       <inertial>
-        <mass>0.1</mass>
+        <mass>@camera_mass</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>@camera_ixx</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>@camera_iyy</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>@camera_izz</izz>
         </inertia>
       </inertial>
     </link>
@@ -631,9 +631,9 @@
     </joint>
 
     <link name='sonar_link'>
-      <pose>-0.15 0 -0.095 0 0 0</pose>
+      <pose>@ping_x @ping_y @ping_z 0 0 0</pose>
       <inertial>
-        <mass>0.133</mass>
+        <mass>@ping_mass</mass>
         <inertia>
           <ixx>0.001</ixx>
           <ixy>0</ixy>
@@ -647,8 +647,8 @@
       <visual name="ping_visual">
         <geometry>
           <cylinder>
-            <length>0.035</length>
-            <radius>0.024</radius>
+            <length>@ping_height</length>
+            <radius>@ping_radius</radius>
           </cylinder>
         </geometry>
         <material>
@@ -665,7 +665,7 @@
         <update_rate>10</update_rate>
         <visualize>1</visualize>
         <topic>sonar_link/sensor/sonar</topic>
-        <pose>0 0 0 0 1.5707963267948966 0</pose>
+        <pose>0 0 0 0 @d90 0</pose>
         <ray>
           <scan>
             <horizontal>

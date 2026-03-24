@@ -124,14 +124,14 @@ def generate_launch_description():
         # gz must be on the $PATH
         # libArduPilotPlugin.so must be on the GZ_SIM_SYSTEM_PLUGIN_PATH
         ExecuteProcess(
-            cmd=['gz', 'sim', '3', '-v', '-r', world_file],
+            cmd=['gz', 'sim', '3', '-r', world_file],
             output='screen',
             condition=IfCondition(LaunchConfiguration('gzclient')),
         ),
 
         # Launch Gazebo Sim server-only
         ExecuteProcess(
-            cmd=['gz', 'sim', '3','-v',  '-r', '-s', world_file],
+            cmd=['gz', 'sim', '3',  '-r', '-s', world_file],
             output='screen',
             condition=UnlessCondition(LaunchConfiguration('gzclient')),
         ),
@@ -140,7 +140,7 @@ def generate_launch_description():
         Node(
             package='ros_gz_image',
             executable='image_bridge',
-            arguments=['stereo_left', 'stereo_right'],
+            arguments=['Passive/left/image_raw', 'Passive/right/image_raw'],
             output='screen',
         ),
 
@@ -152,12 +152,12 @@ def generate_launch_description():
             output='screen',
             parameters=[{
                 'camera_info_url': 'file://' + sim_left_ini,
-                'camera_name': 'stereo_left',
-                'frame_id': 'stereo_left_frame',
+                'camera_name': 'left_sim_camera',
+                'frame_id': 'left_camera_link',
                 'timer_period_ms': 50,
             }],
             remappings=[
-                ('/camera_info', '/stereo_left/camera_info'),
+                ('/camera_info', '/Passive/left/camera_info'),
             ],
         ),
 
@@ -168,8 +168,8 @@ def generate_launch_description():
             output='screen',
             parameters=[{
                 'camera_info_url': 'file://' + sim_right_ini,
-                'camera_name': 'stereo_right',
-                'frame_id': 'stereo_right_frame',
+                'camera_name': 'right_sim_camera',
+                'frame_id': 'right_camera_link',
                 'timer_period_ms': 50,
             }],
             remappings=[
@@ -182,7 +182,7 @@ def generate_launch_description():
             package='ros_gz_bridge',
             executable='parameter_bridge',
             arguments=[
-                '/model/bluerov2_heavy/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry',
+                '/model/bluerov2/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry',
             ],
             output='screen'
         ),
@@ -190,7 +190,7 @@ def generate_launch_description():
             package='ros_gz_bridge',
             executable='parameter_bridge',
             arguments=[
-                '/model/bluerov2_heavy/pose@geometry_msgs/msg/PoseArray[gz.msgs.Pose_V',
+                '/model/bluerov2/pose@geometry_msgs/msg/PoseArray[gz.msgs.Pose_V',
             ],
             output='screen'
         ),
@@ -199,11 +199,11 @@ def generate_launch_description():
             package='ros_gz_bridge',
             executable='parameter_bridge',
             arguments=[
-                '/world/inpetu/model/bluerov2_heavy/link/base_link/sensor/imu_sensor/imu@sensor_msgs/msg/Imu[gz.msgs.IMU',
+                '/world/inpetu/model/bluerov2/link/base_link/sensor/imu_sensor/imu@sensor_msgs/msg/Imu[gz.msgs.IMU',
             ],
             output='screen',
             remappings=[
-                ('/world/inpetu/model/bluerov2_heavy/link/base_link/sensor/imu_sensor/imu', 'model/bluerov2_heavy/imu')
+                ('/world/inpetu/model/bluerov2/link/base_link/sensor/imu_sensor/imu', 'model/bluerov2/imu')
             ]
         ),
 

@@ -130,9 +130,9 @@ def generate_launch_description():
                 'use_sim_time': True,
             }],
             remappings=[
-                ('camera/left','/stereo_left'),
-                ('camera/right','/stereo_right'),
-                # ('pose', '/mavros/vision_pose/pose')
+                ('camera/left','/Passive/left/image_raw'),
+                ('camera/right','/Passive/right/image_raw'),
+                ('pose', '/mavros/vision_pose/pose')
             ],
             condition=IfCondition(LaunchConfiguration('slam')),
         ),
@@ -165,7 +165,7 @@ def generate_launch_description():
 
         ExecuteProcess(
             cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
-                 '--z', '0.2',
+                 '--z', '-0.2',
                  '--frame-id', 'map',
                  '--child-frame-id', 'base_link'],
             output='screen',
@@ -176,7 +176,7 @@ def generate_launch_description():
             cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
                  '--x', '0.19',
                  '--y', '0.1',
-                 '--z', '0.201',
+                 '--z', '-0.201',
                  '--roll', str(-math.pi /2),
                  '--yaw', str(-math.pi /2),
                  '--frame-id', 'base_link',
@@ -189,7 +189,7 @@ def generate_launch_description():
             cmd=['/opt/ros/humble/lib/tf2_ros/static_transform_publisher',
                  '--x', '0.19',
                  '--y', '-0.1',
-                 '--z', '0.201',
+                 '--z', '-0.201',
                  '--roll', str(-math.pi /2),
                  '--yaw', str(-math.pi /2),
                  '--frame-id', 'base_link',

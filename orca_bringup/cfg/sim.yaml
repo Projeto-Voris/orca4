@@ -46,7 +46,7 @@ Camera.width: 800
 Camera.height: 600
 
 # Camera frames per second
-Camera.fps: 60
+Camera.fps: 20
 
 # Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale)
 Camera.RGB: 1
@@ -56,7 +56,7 @@ Stereo.T_c1_c2: !!opencv-matrix
   rows: 4
   cols: 4
   dt: f
-  data: [1.0, 0.0, 0.0, -0.149994179,
+  data: [1.0, 0.0, 0.0, -0.199,
           0.0, 1.0, 0.0, 0.0,
           0.0, 0.0, 1.0, 0.0,
           0.0, 0.0, 0.0, 1.0]
