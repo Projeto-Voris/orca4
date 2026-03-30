@@ -40,8 +40,8 @@
                 </density_change>
             </graded_buoyancy>
             <!-- Enable by model name -->
+            <enable>bluerov2</enable>
             <enable>orca4</enable>
-            <enable>bluerov2_heavy</enable>
         </plugin>
 
         <include>
@@ -54,8 +54,8 @@
         </include>
 
         <include>
-            <uri>model://bluerov2_heavy</uri>
-            <pose>0 0 -0.2 0 0 0</pose>
+            <uri>model://bluerov2</uri>
+            <pose>0 0 -1 0 0 0</pose>
         </include>
 
         <include>

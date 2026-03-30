@@ -1,32 +1,35 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <sdf version="1.6">
-  <model name="orca4">
+  <model name="bluerov2">
     <pose>0 0 0 0 0 0</pose>
 
     <!-- BlueROV2 thruster reference: http://www.ardusub.com/introduction/features.html -->
     <!-- fluid_density: 1000 -->
-    <!-- displaced_mass: 10.05 -->
+    <!-- total_mass: 17.348999999999997 -->
+    <!-- displaced_mass: 17.398999999999997 -->
+
+    <!-- incluir camera da direita  -->
 
     <link name="base_link">
       <inertial>
-        <pose>0 0 0.011 0 0 0</pose>
+        <pose>0 0 0.0113 0 0 0</pose>
         <mass>17</mass>
         <inertia>
-          <ixx>0.09873097998042396</ixx>
+          <ixx>0.1835114999660365</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.17756847998042397</iyy>
+          <iyy>0.32028667871603644</iyy>
           <iyz>0</iyz>
-          <izz>0.2692441666666667</izz>
+          <izz>0.4671117047499999</izz>
         </inertia>
       </inertial>
 
       <visual name="base_link_visual">
+        <pose>0 0 0 0 0 1.5707963267948966</pose>
         <geometry>
           <mesh>
-            <uri>model://orca4/meshes/orca4.dae</uri>
-            <scale>0.025 0.025 0.025</scale>
-<!--            <scale>1 1 1</scale>-->
+            <uri>model://bluerov2/meshes/bluerov2_skid.dae</uri>
+            <scale>1 1 1</scale>
           </mesh>
         </geometry>
       </visual>
@@ -36,7 +39,7 @@
         <pose>0 0 0.06 0 0 0</pose>
         <geometry>
           <box>
-            <size>0.457 0.338 0.06506286173008947</size>
+            <size>0.457 0.338 0.11263967475043049</size>
           </box>
         </geometry>
       </collision>
@@ -45,7 +48,7 @@
       <sensor name="imu_sensor" type="imu">
         <!-- Transform from the Gazebo body frame (x-forward, y-left, z-up)
              to the ArduPilot body frame (x-forward, y-right, z-down) -->
-        <pose>0 0 0 3.141592653589793 0 0</pose>
+        <pose>0 0 -0.1 3.141592653589793 0 0</pose>
         <always_on>1</always_on>
         <update_rate>1000.0</update_rate>
       </sensor>
@@ -73,8 +76,8 @@
       <mQ>0</mQ>
       <nR>0</nR>
       <!-- Second order stability derivative: -->
-      <xUabsU>-33.800000000000004</xUabsU>
-      <yVabsV>-54.26875</yVabsV>
+      <xUabsU>-77.74000000000001</xUabsU>
+      <yVabsV>-124.818125</yVabsV>
       <zWabsW>-73.37135</zWabsW>
       <kPabsP>-4.0</kPabsP>
       <mQabsQ>-4.0</mQabsQ>
@@ -82,12 +85,12 @@
     </plugin>
 
     <link name="thruster1">
-      <pose>0.14 -0.092 0 -1.5707963267948966 1.5707963267948966 -0.7853981633974483</pose>
+      <pose>0.138 -0.098 -0.0137 -1.5707963267948966 1.5707963267948966 -0.7853981633974483</pose>
       <visual name="thruster_prop_visual">
         <pose>0 0 0 1.5707963267948966 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://orca4/meshes/t200-cw-prop.dae</uri>
+            <uri>model://bluerov2/meshes/t200-ccw-prop.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -105,12 +108,12 @@
     </link>
 
     <link name="thruster2">
-      <pose>0.14 0.092 0 -1.5707963267948966 1.5707963267948966 -2.356194490192345</pose>
+      <pose>0.138 0.098 -0.0137 -1.5707963267948966 1.5707963267948966 -2.356194490192345</pose>
       <visual name="thruster_prop_visual">
         <pose>0 0 0 -1.5707963267948966 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://orca4/meshes/t200-ccw-prop.dae</uri>
+            <uri>model://bluerov2/meshes/t200-ccw-prop.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -128,12 +131,12 @@
     </link>
 
     <link name="thruster3">
-      <pose>-0.14 -0.092 0 -1.5707963267948966 1.5707963267948966 0.7853981633974483</pose>
+      <pose>-0.138 -0.098 -0.0137 -1.5707963267948966 1.5707963267948966 0.7853981633974483</pose>
       <visual name="thruster_prop_visual">
         <pose>0 0 0 -1.5707963267948966 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://orca4/meshes/t200-ccw-prop.dae</uri>
+            <uri>model://bluerov2/meshes/t200-cw-prop.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -151,12 +154,12 @@
     </link>
 
     <link name="thruster4">
-      <pose>-0.14 0.092 0 -1.5707963267948966 1.5707963267948966 2.356194490192345</pose>
+      <pose>-0.138 0.098 -0.0137 -1.5707963267948966 1.5707963267948966 2.356194490192345</pose>
       <visual name="thruster_prop_visual">
         <pose>0 0 0 1.5707963267948966 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://orca4/meshes/t200-cw-prop.dae</uri>
+            <uri>model://bluerov2/meshes/t200-cw-prop.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -174,12 +177,12 @@
     </link>
 
     <link name="thruster5">
-      <pose>0 -0.109 0.077 0 0 0</pose>
+      <pose>0.12 -0.218 0.048 0 0 0</pose>
       <visual name="thruster_prop_visual">
         <pose>0 0 0 -1.5707963267948966 0 1.5707963267948966</pose>
         <geometry>
           <mesh>
-            <uri>model://orca4/meshes/t200-ccw-prop.dae</uri>
+            <uri>model://bluerov2/meshes/t200-ccw-prop.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -197,12 +200,58 @@
     </link>
 
     <link name="thruster6">
-      <pose>0 0.109 0.077 0 0 0</pose>
+      <pose>0.12 0.218 0.048 0 0 0</pose>
       <visual name="thruster_prop_visual">
         <pose>0 0 0 1.5707963267948966 0 1.5707963267948966</pose>
         <geometry>
           <mesh>
-            <uri>model://orca4/meshes/t200-cw-prop.dae</uri>
+            <uri>model://bluerov2/meshes/t200-cw-prop.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <inertial>
+        <mass>0.002</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.001</iyy>
+          <iyz>0</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+    </link>
+
+     <link name="thruster7">
+      <pose>-0.12 -0.218 0.048 0 0 0</pose>
+      <visual name="thruster_prop_visual">
+        <pose>0 0 0 1.5707963267948966 0 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>model://bluerov2/meshes/t200-cw-prop.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <inertial>
+        <mass>0.002</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.001</iyy>
+          <iyz>0</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+    </link>
+
+     <link name="thruster8">
+      <pose>-0.12 0.218 0.048 0 0 0</pose>
+      <visual name="thruster_prop_visual">
+        <pose>0 0 0 1.5707963267948966 0 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>model://bluerov2/meshes/t200-ccw-prop.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -265,11 +314,29 @@
       <axis>
         <xyz>0 0 -1</xyz>
       </axis>
+
+    </joint>
+    <joint name="thruster7_joint" type="revolute">
+      <parent>base_link</parent>
+      <child>thruster7</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+      </axis>
     </joint>
 
-    <plugin        filename="gz-sim-thruster-system"
+    <joint name="thruster8_joint" type="revolute">
+      <parent>base_link</parent>
+      <child>thruster8</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+      </axis>
+    </joint>
+
+    <!-- ARDUPILOT PLUGIN -->
+    <plugin
+        filename="gz-sim-thruster-system"
         name="gz::sim::systems::Thruster">
-      <namespace>orca4</namespace>
+      <namespace>bluerov2</namespace>
       <joint_name>thruster1_joint</joint_name>
       <thrust_coefficient>0.02</thrust_coefficient>
       <fluid_density>1000</fluid_density>
@@ -277,10 +344,11 @@
       <velocity_control>true</velocity_control>
       <use_angvel_cmd>False</use_angvel_cmd>
     </plugin>
-
-    <plugin        filename="gz-sim-thruster-system"
+    
+    <plugin
+        filename="gz-sim-thruster-system"
         name="gz::sim::systems::Thruster">
-      <namespace>orca4</namespace>
+      <namespace>bluerov2</namespace>
       <joint_name>thruster2_joint</joint_name>
       <thrust_coefficient>0.02</thrust_coefficient>
       <fluid_density>1000</fluid_density>
@@ -289,9 +357,10 @@
       <use_angvel_cmd>False</use_angvel_cmd>
     </plugin>
 
-    <plugin        filename="gz-sim-thruster-system"
+    <plugin
+        filename="gz-sim-thruster-system"
         name="gz::sim::systems::Thruster">
-      <namespace>orca4</namespace>
+      <namespace>bluerov2</namespace>
       <joint_name>thruster3_joint</joint_name>
       <!-- Reverse spin to balance torque -->
       <thrust_coefficient>-0.02</thrust_coefficient>
@@ -301,9 +370,10 @@
       <use_angvel_cmd>False</use_angvel_cmd>
     </plugin>
 
-    <plugin        filename="gz-sim-thruster-system"
+    <plugin
+        filename="gz-sim-thruster-system"
         name="gz::sim::systems::Thruster">
-      <namespace>orca4</namespace>
+      <namespace>bluerov2</namespace>
       <joint_name>thruster4_joint</joint_name>
       <!-- Reverse spin to balance torque -->
       <thrust_coefficient>-0.02</thrust_coefficient>
@@ -313,9 +383,10 @@
       <use_angvel_cmd>False</use_angvel_cmd>
     </plugin>
 
-    <plugin        filename="gz-sim-thruster-system"
+    <plugin
+        filename="gz-sim-thruster-system"
         name="gz::sim::systems::Thruster">
-      <namespace>orca4</namespace>
+      <namespace>bluerov2</namespace>
       <joint_name>thruster5_joint</joint_name>
       <thrust_coefficient>0.02</thrust_coefficient>
       <fluid_density>1000</fluid_density>
@@ -324,12 +395,36 @@
       <use_angvel_cmd>False</use_angvel_cmd>
     </plugin>
 
-    <plugin        filename="gz-sim-thruster-system"
+    <plugin
+        filename="gz-sim-thruster-system"
         name="gz::sim::systems::Thruster">
-      <namespace>orca4</namespace>
+      <namespace>bluerov2</namespace>
       <joint_name>thruster6_joint</joint_name>
       <!-- Reverse spin to balance torque -->
       <thrust_coefficient>-0.02</thrust_coefficient>
+      <fluid_density>1000</fluid_density>
+      <propeller_diameter>0.1</propeller_diameter>
+      <velocity_control>true</velocity_control>
+      <use_angvel_cmd>False</use_angvel_cmd>
+    </plugin>
+    <plugin
+        filename="gz-sim-thruster-system"
+        name="gz::sim::systems::Thruster">
+      <namespace>bluerov2</namespace>
+      <joint_name>thruster7_joint</joint_name>
+      <!-- Reverse spin to balance torque -->
+      <thrust_coefficient>-0.02</thrust_coefficient>
+      <fluid_density>1000</fluid_density>
+      <propeller_diameter>0.1</propeller_diameter>
+      <velocity_control>true</velocity_control>
+      <use_angvel_cmd>False</use_angvel_cmd>
+    </plugin>
+    <plugin
+        filename="gz-sim-thruster-system"
+        name="gz::sim::systems::Thruster">
+      <namespace>bluerov2</namespace>
+      <joint_name>thruster8_joint</joint_name>
+      <thrust_coefficient>0.02</thrust_coefficient>
       <fluid_density>1000</fluid_density>
       <propeller_diameter>0.1</propeller_diameter>
       <velocity_control>true</velocity_control>
@@ -360,7 +455,7 @@
         <servo_min>1100</servo_min>
         <servo_max>1900</servo_max>
         <type>COMMAND</type>
-        <cmd_topic>/model/orca4/joint/thruster1_joint/cmd_thrust</cmd_topic>
+        <cmd_topic>/model/bluerov2/joint/thruster1_joint/cmd_thrust</cmd_topic>
         <offset>-0.5</offset>
         <multiplier>100</multiplier>
       </control>
@@ -369,7 +464,7 @@
         <servo_min>1100</servo_min>
         <servo_max>1900</servo_max>
         <type>COMMAND</type>
-        <cmd_topic>/model/orca4/joint/thruster2_joint/cmd_thrust</cmd_topic>
+        <cmd_topic>/model/bluerov2/joint/thruster2_joint/cmd_thrust</cmd_topic>
         <offset>-0.5</offset>
         <multiplier>100</multiplier>
       </control>
@@ -378,7 +473,7 @@
         <servo_min>1100</servo_min>
         <servo_max>1900</servo_max>
         <type>COMMAND</type>
-        <cmd_topic>/model/orca4/joint/thruster3_joint/cmd_thrust</cmd_topic>
+        <cmd_topic>/model/bluerov2/joint/thruster3_joint/cmd_thrust</cmd_topic>
         <offset>-0.5</offset>
         <multiplier>100</multiplier>
       </control>
@@ -387,7 +482,7 @@
         <servo_min>1100</servo_min>
         <servo_max>1900</servo_max>
         <type>COMMAND</type>
-        <cmd_topic>/model/orca4/joint/thruster4_joint/cmd_thrust</cmd_topic>
+        <cmd_topic>/model/bluerov2/joint/thruster4_joint/cmd_thrust</cmd_topic>
         <offset>-0.5</offset>
         <multiplier>100</multiplier>
       </control>
@@ -396,7 +491,7 @@
         <servo_min>1100</servo_min>
         <servo_max>1900</servo_max>
         <type>COMMAND</type>
-        <cmd_topic>/model/orca4/joint/thruster5_joint/cmd_thrust</cmd_topic>
+        <cmd_topic>/model/bluerov2/joint/thruster5_joint/cmd_thrust</cmd_topic>
         <offset>-0.5</offset>
         <multiplier>100</multiplier>
       </control>
@@ -405,20 +500,54 @@
         <servo_min>1100</servo_min>
         <servo_max>1900</servo_max>
         <type>COMMAND</type>
-        <cmd_topic>/model/orca4/joint/thruster6_joint/cmd_thrust</cmd_topic>
+        <cmd_topic>/model/bluerov2/joint/thruster6_joint/cmd_thrust</cmd_topic>
+        <offset>-0.5</offset>
+        <multiplier>100</multiplier>
+      </control>
+      <control channel="6">
+        <jointName>thruster7_joint</jointName>
+        <servo_min>1100</servo_min>
+        <servo_max>1900</servo_max>
+        <type>COMMAND</type>
+        <cmd_topic>/model/bluerov2/joint/thruster7_joint/cmd_thrust</cmd_topic>
+        <offset>-0.5</offset>
+        <multiplier>100</multiplier>
+      </control>
+      <control channel="7">
+        <jointName>thruster8_joint</jointName>
+        <servo_min>1100</servo_min>
+        <servo_max>1900</servo_max>
+        <type>COMMAND</type>
+        <cmd_topic>/model/bluerov2/joint/thruster8_joint/cmd_thrust</cmd_topic>
         <offset>-0.5</offset>
         <multiplier>100</multiplier>
       </control>
 
+     <!--
+        Configure ArduSub to use a SITL rangefinder backend:
+        param set RNGFND1_TYPE 100        # Type = SITL
+        param set RNGFND1_FUNCTION 0      # Function = LINEAR
+        param set RNGFND1_MIN_CM 20       # Min distance is 0.5m
+        param set RNGFND1_MAX_CM 5000     # Max distance is 50m
+        param set RNGFND1_ORIENT 25       # Down
+        param set RNGFND1_POS_X -0.15
+        param set RNGFND1_POS_Y 0
+        param set RNGFND1_POS_Z -0.095
+      -->
+      <sensor>
+        <type>sonar</type>
+        <index>1</index>
+        <topic>sonar_link/sensor/sonar</topic>
+      </sensor>
+
     </plugin>
 
-    <!-- Left camera link -->
+    <!-- Left Camera link -->
     <link name="left_camera_link">
-<!--      <pose>0.19 0.075 0.126 0 1.57 0</pose>-->
-       <pose>0.19 -0.075 0.201 -1.57 0 -1.57</pose>
-      <sensor name="left_camera" type="camera">
-<!--        <pose>0 0 -0.08750000000000001 0 1.5707963267948966 0</pose>-->
-        <pose>0 0 0 0 -1.57 1.57</pose>
+      <!-- <pose>0.19 0.1 -0.201 0 1.5707963267948966 0</pose> -->
+      <pose>0.19 0.1 -0.201 -1.5707963267948966 0 -1.5707963267948966</pose>
+       <sensor name="left_camera" type="camera">
+        <pose>0 0 0 0 -1.5707963267948966 1.5707963267948966</pose>
         <camera>
           <horizontal_fov>1.6</horizontal_fov>
           <image>
@@ -431,12 +560,15 @@
           </clip>
         </camera>
         <always_on>1</always_on>
-        <update_rate>10</update_rate>
+        <update_rate>25</update_rate>
         <visualize>true</visualize>
-        <topic>stereo_left</topic>
+        <topic>Passive/left/image_raw</topic>
+        <!-- Tell the ros_gz_image::image_bridge node to set the ROS2 frame_id to "camera_sensor".
+             This tag doesn't appear in the SDF spec, so `gz sdf -c` will generate a warning which you can ignore. -->
+        <gz_frame_id>left_camera_link</gz_frame_id>
       </sensor>
       <inertial>
-        <mass>0.001</mass>
+        <mass>0.1</mass>
         <inertia>
           <ixx>0.001</ixx>
           <ixy>0</ixy>
@@ -448,19 +580,18 @@
       </inertial>
     </link>
 
-    <!-- Attach left_camera_link to base_link -->
+    <!-- Attach camera_link to base_link -->
     <joint name="left_camera_joint" type="fixed">
-      <!-- <pose>-0.15 0.18 -0.0675 0 1.5707963267948966 0</pose> -->
       <parent>base_link</parent>
       <child>left_camera_link</child>
     </joint>
 
-    <!-- Right camera link -->
+    <!-- Right Camera link -->
     <link name="right_camera_link">
-      <pose>0.19 -0.075 0.201 0 1.57 0</pose>
-      <sensor name="right_camera" type="camera">
-<!--        <pose>0 0 -0.08750000000000001 0 1.5707963267948966 0</pose>-->
-        <pose>0 0 0 0 -1.57 1.57</pose>
+      <!-- <pose>0.19 0.1 -0.201 0 1.5707963267948966 0</pose> -->
+      <pose>0.19 -0.1 -0.201 -1.5707963267948966 0 -1.5707963267948966</pose>
+      <sensor name="right_sim_camera" type="camera">
+        <pose>0 0 0 0 -1.5707963267948966 1.5707963267948966</pose>
         <camera>
           <horizontal_fov>1.6</horizontal_fov>
           <image>
@@ -473,12 +604,15 @@
           </clip>
         </camera>
         <always_on>1</always_on>
-        <update_rate>10</update_rate>
+        <update_rate>25</update_rate>
         <visualize>true</visualize>
-        <topic>stereo_right</topic>
+        <topic>Passive/right/image_raw</topic>
+        <!-- Tell the ros_gz_image::image_bridge node to set the ROS2 frame_id to "camera_sensor".
+             This tag doesn't appear in the SDF spec, so `gz sdf -c` will generate a warning which you can ignore. -->
+        <gz_frame_id>right_camera_link</gz_frame_id>
       </sensor>
       <inertial>
-        <mass>0.001</mass>
+        <mass>0.1</mass>
         <inertia>
           <ixx>0.001</ixx>
           <ixy>0</ixy>
@@ -490,11 +624,83 @@
       </inertial>
     </link>
 
-    <!-- Attach right_camera_link to base_link -->
+    <!-- Attach camera_link to base_link -->
     <joint name="right_camera_joint" type="fixed">
-      <!-- <pose>-0.15 -0.18 -0.0675 0 1.5707963267948966 0</pose> -->
       <parent>base_link</parent>
       <child>right_camera_link</child>
+    </joint>
+
+    <link name='sonar_link'>
+      <pose>-0.15 0 -0.095 0 0 0</pose>
+      <inertial>
+        <mass>0.133</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.001</iyy>
+          <iyz>0</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="ping_visual">
+        <geometry>
+          <cylinder>
+            <length>0.035</length>
+            <radius>0.024</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.0 0.2 0.0 1.0</ambient>
+          <diffuse>0.0 0.2 0.0 1.0</diffuse>
+        </material>
+      </visual>
+
+      <!-- Use a gpu_lidar sensor to emulate a Ping sonar sensor. The sensor is configured to generate 5x5=25 range
+           values in a pretty tight square. (The beam angle is 17 degrees in x or y, or 24 degrees diagonally.)
+           ardupilot_gazebo will pick the minimum value and send it as a rangefinder reading. -->
+      <sensor name='ping_sonar' type='gpu_lidar'>
+        <always_on>1</always_on>
+        <update_rate>10</update_rate>
+        <visualize>1</visualize>
+        <topic>sonar_link/sensor/sonar</topic>
+        <pose>0 0 0 0 1.5707963267948966 0</pose>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>5</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.14835</min_angle>
+              <max_angle>0.14835</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>5</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.14835</min_angle>
+              <max_angle>0.14835</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.2</min>
+            <max>50</max>
+            <resolution>0.02</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.1</mean>
+            <stddev>0.005</stddev>
+          </noise>
+        </ray>
+      </sensor>
+    </link>
+
+    <joint name='sonar_joint' type='revolute'>
+      <parent>base_link</parent>
+      <child>sonar_link</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+      </axis>
     </joint>
 
     <!-- Publish the ground-truth pose for rviz -->
@@ -502,7 +708,7 @@
         filename="gz-sim-odometry-publisher-system"
         name="gz::sim::systems::OdometryPublisher">
       <odom_frame>map</odom_frame>
-      <robot_base_frame>orca4</robot_base_frame>
+      <robot_base_frame>bluerov2</robot_base_frame>
       <dimensions>3</dimensions>
     </plugin>
 

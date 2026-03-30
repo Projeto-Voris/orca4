@@ -43,15 +43,14 @@ def generate_launch_description():
     orca_bringup_dir = get_package_share_directory('orca_bringup')
     orca_description_dir = get_package_share_directory('orca_description')
 
-    ardusub_params_file = os.path.join(orca_bringup_dir, 'cfg', 'sub-6dof.param')
+    ardusub_params_file = os.path.join(orca_bringup_dir, 'cfg', 'sub_heavy.parm')
     mavros_params_file = os.path.join(orca_bringup_dir, 'params', 'sim_mavros_params.yaml')
     orca_params_file = os.path.join(orca_bringup_dir, 'params', 'sim_heavy_params.yaml')
-    rosbag2_record_qos_file = os.path.join(orca_bringup_dir, 'params', 'rosbag2_record_qos.yaml')
     rviz_file = os.path.join(orca_bringup_dir, 'cfg', 'heavy_sim_launch.rviz')
     world_file = os.path.join(orca_description_dir, 'worlds', 'inpetu_heavy.world')
 
-    sim_left_ini = os.path.join(orca_bringup_dir, 'cfg', 'orbslam2', 'sim_left.ini')
-    sim_right_ini = os.path.join(orca_bringup_dir, 'cfg', 'orbslam2', 'sim_right.ini')
+    sim_left_ini = os.path.join(orca_bringup_dir, 'cfg', 'camera_info', 'sim_left.ini')
+    sim_right_ini = os.path.join(orca_bringup_dir, 'cfg', 'camera_info', 'sim_right.ini')
     return LaunchDescription([
         DeclareLaunchArgument(
             'ardusub',
@@ -60,20 +59,14 @@ def generate_launch_description():
         ),
 
         DeclareLaunchArgument(
-            'bag',
-            default_value='False',
-            description='Bag interesting topics?',
-        ),
-
-        DeclareLaunchArgument(
             'base',
-            default_value='True',
+            default_value='False',
             description='Launch base controller?',
         ),
 
         DeclareLaunchArgument(
             'gzclient',
-            default_value='False',
+            default_value='True',
             description='Launch Gazebo UI?'
         ),
 
@@ -84,7 +77,7 @@ def generate_launch_description():
         ),
 
         DeclareLaunchArgument(
-            'nav',
+            'slam',
             default_value='True',
             description='Launch navigation?',
         ),
@@ -95,39 +88,7 @@ def generate_launch_description():
             description='Launch rviz?',
         ),
 
-        DeclareLaunchArgument(
-            'slam',
-            default_value='True',
-            description='Launch SLAM?',
-        ),
-
-        # Bag useful topics
-        ExecuteProcess(
-            cmd=[
-                'ros2', 'bag', 'record',
-                '--qos-profile-overrides-path', rosbag2_record_qos_file,
-                '--include-hidden-topics',
-                '/cmd_vel',
-                '/mavros/local_position/pose',
-                '/mavros/rc/override',
-                '/mavros/setpoint_position/global',
-                '/mavros/state',
-                '/mavros/vision_pose/pose',
-                '/model/orca4/odometry',
-                '/motion',
-                '/odom',
-                '/orb_slam2_stereo_node/pose',
-                '/orb_slam2_stereo_node/status',
-                '/pid_z',
-                '/rosout',
-                '/tf',
-                '/tf_static',
-            ],
-            output='screen',
-            condition=IfCondition(LaunchConfiguration('bag')),
-        ),
-
-        # Launch rviz
+       # Launch rviz
         ExecuteProcess(
             cmd=['rviz2', '-d', rviz_file],
             output='screen',
@@ -138,25 +99,39 @@ def generate_launch_description():
         # -w: wipe eeprom
         # --home: start location (lat,lon,alt,yaw). Yaw is provided by Gazebo, so the start yaw value is ignored.
         # ardusub must be on the $PATH, see src/orca4/setup.bash
+        # ExecuteProcess(
+        #     cmd=['ardusub', '-S', '-w', '-M', 'vectored_6dof', '--defaults', ardusub_params_file,
+        #          '-I0', '--home', '33.810313,-118.39386700000001,0.0,0'],
+        #     output='screen',
+        #     condition=IfCondition(LaunchConfiguration('ardusub')),
+        # ),
+
+        # 2. Define the ArduSub process
         ExecuteProcess(
-            cmd=['ardusub', '-S', '-w', '-M', 'JSON', '--defaults', ardusub_params_file,
-                 '-I0', '--home', '33.810313,-118.39386700000001,0.0,0'],
-            output='screen',
-            condition=IfCondition(LaunchConfiguration('ardusub')),
+            cmd=[
+                'ardusub',
+                '-w',
+                '-M', 'JSON',
+                # '--model','vectored_6dof',
+                '--defaults', ardusub_params_file,
+                '-I0',
+                '--home', '33.810313,-118.39386700000001,0.0,0'
+            ],
+            output='screen'
         ),
 
         # Launch Gazebo Sim
         # gz must be on the $PATH
         # libArduPilotPlugin.so must be on the GZ_SIM_SYSTEM_PLUGIN_PATH
         ExecuteProcess(
-            cmd=['gz', 'sim', '-v', '3', '-r', world_file],
+            cmd=['gz', 'sim', '3', '-r', world_file],
             output='screen',
             condition=IfCondition(LaunchConfiguration('gzclient')),
         ),
 
         # Launch Gazebo Sim server-only
         ExecuteProcess(
-            cmd=['gz', 'sim', '-v', '3', '-r', '-s', world_file],
+            cmd=['gz', 'sim', '3',  '-r', '-s', world_file],
             output='screen',
             condition=UnlessCondition(LaunchConfiguration('gzclient')),
         ),
@@ -165,7 +140,7 @@ def generate_launch_description():
         Node(
             package='ros_gz_image',
             executable='image_bridge',
-            arguments=['stereo_left', 'stereo_right'],
+            arguments=['Passive/left/image_raw', 'Passive/right/image_raw'],
             output='screen',
         ),
 
@@ -177,12 +152,12 @@ def generate_launch_description():
             output='screen',
             parameters=[{
                 'camera_info_url': 'file://' + sim_left_ini,
-                'camera_name': 'stereo_left',
-                'frame_id': 'stereo_left_frame',
+                'camera_name': 'left_sim_camera',
+                'frame_id': 'left_camera_link',
                 'timer_period_ms': 50,
             }],
             remappings=[
-                ('/camera_info', '/stereo_left/camera_info'),
+                ('/camera_info', '/Passive/left/camera_info'),
             ],
         ),
 
@@ -193,8 +168,8 @@ def generate_launch_description():
             output='screen',
             parameters=[{
                 'camera_info_url': 'file://' + sim_right_ini,
-                'camera_name': 'stereo_right',
-                'frame_id': 'stereo_right_frame',
+                'camera_name': 'right_sim_camera',
+                'frame_id': 'right_camera_link',
                 'timer_period_ms': 50,
             }],
             remappings=[
@@ -207,7 +182,7 @@ def generate_launch_description():
             package='ros_gz_bridge',
             executable='parameter_bridge',
             arguments=[
-                '/model/bluerov2_heavy/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry',
+                '/model/bluerov2/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry',
             ],
             output='screen'
         ),
@@ -215,7 +190,7 @@ def generate_launch_description():
             package='ros_gz_bridge',
             executable='parameter_bridge',
             arguments=[
-                '/model/bluerov2_heavy/pose@geometry_msgs/msg/PoseArray[gz.msgs.Pose_V',
+                '/model/bluerov2/pose@geometry_msgs/msg/PoseArray[gz.msgs.Pose_V',
             ],
             output='screen'
         ),
@@ -224,11 +199,11 @@ def generate_launch_description():
             package='ros_gz_bridge',
             executable='parameter_bridge',
             arguments=[
-                '/world/inpetu/model/bluerov2_heavy/link/base_link/sensor/imu_sensor/imu@sensor_msgs/msg/Imu[gz.msgs.IMU',
+                '/world/inpetu/model/bluerov2/link/base_link/sensor/imu_sensor/imu@sensor_msgs/msg/Imu[gz.msgs.IMU',
             ],
             output='screen',
             remappings=[
-                ('/world/inpetu/model/bluerov2_heavy/link/base_link/sensor/imu_sensor/imu', 'model/bluerov2_heavy/imu')
+                ('/world/inpetu/model/bluerov2/link/base_link/sensor/imu_sensor/imu', 'model/bluerov2/imu')
             ]
         ),
 
@@ -239,9 +214,8 @@ def generate_launch_description():
                 'base': LaunchConfiguration('base'),
                 'mavros': LaunchConfiguration('mavros'),
                 'mavros_params_file': mavros_params_file,
-                'nav': LaunchConfiguration('nav'),
-                'orca_params_file': orca_params_file,
                 'slam': LaunchConfiguration('slam'),
+                'orca_params_file': orca_params_file,
             }.items(),
         ),
     ])

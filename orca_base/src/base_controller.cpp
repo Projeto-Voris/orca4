@@ -50,7 +50,7 @@ class BaseController : public rclcpp::Node
   // Parameters
   BaseContext cxt_;
   rclcpp::Duration slam_timeout_{std::chrono::milliseconds{0}};
-  rclcpp::Duration transform_expiration_{std::chrono::milliseconds{0}};
+  rclcpp::Duration transform_expiration_{std::chrono::milliseconds{1}};
 
   enum class State
   {
@@ -100,7 +100,7 @@ class BaseController : public rclcpp::Node
   tf2::Transform tf_cam_base_;
 
   // Dynamic transforms
-  tf2::Transform tf_map_slam_;
+  // tf2::Transform tf_map_slam_;
   tf2::Transform tf_map_odom_;
   tf2::Transform tf_odom_base_;
 
@@ -139,12 +139,12 @@ class BaseController : public rclcpp::Node
 
   bool get_static_transforms()
   {
-    if (tf_buffer_->canTransform(cxt_.slam_frame_id_, cxt_.down_frame_id_, tf2::TimePointZero) &&
-      tf_buffer_->canTransform(cxt_.base_frame_id_, cxt_.camera_frame_id_, tf2::TimePointZero))
+    if //(tf_buffer_->canTransform(cxt_.slam_frame_id_, cxt_.down_frame_id_, tf2::TimePointZero) &&
+      (tf_buffer_->canTransform(cxt_.base_frame_id_, cxt_.camera_frame_id_, tf2::TimePointZero))
     {
-      tf_slam_down_ = orca::transform_msg_to_transform(
-        tf_buffer_->lookupTransform(
-          cxt_.slam_frame_id_, cxt_.down_frame_id_, tf2::TimePointZero));
+      // tf_slam_down_ = orca::transform_msg_to_transform(
+      //   tf_buffer_->lookupTransform(
+      //     cxt_.slam_frame_id_, cxt_.down_frame_id_, tf2::TimePointZero));
 
       tf_cam_base_ = orca::transform_msg_to_transform(
         tf_buffer_->lookupTransform(
@@ -245,8 +245,8 @@ class BaseController : public rclcpp::Node
     }
 
     // Build/update the TF tree
-    publish_tf(cxt_.map_frame_id_, cxt_.slam_frame_id_, tf_map_slam_);
-    publish_tf(cxt_.map_frame_id_, cxt_.odom_frame_id_, tf_map_odom_);
+    // publish_tf(cxt_.map_frame_id_, cxt_.slam_frame_id_, tf_map_slam_);
+    // publish_tf(cxt_.map_frame_id_, cxt_.odom_frame_id_, tf_map_odom_);
     publish_tf(cxt_.odom_frame_id_, cxt_.base_frame_id_, tf_odom_base_);
 
     // If we don't have a SLAM pose, send odom as external navigation to the EKF
@@ -301,12 +301,12 @@ class BaseController : public rclcpp::Node
       if (state_ == State::RUN_NO_MAP) {
         // This is our first SLAM pose, so set tf_map_slam. Note that the SLAM pose is unfiltered.
         // Future: average N SLAM poses.
-        tf_map_slam_ = tf_map_odom_ * tf_odom_base_ * tf_slam_base.inverse();
-        RCLCPP_INFO(get_logger(), "tf_map_slam %s", orca::str(tf_map_slam_).c_str());
+        // tf_map_slam_ = tf_map_odom_ * tf_odom_base_ * tf_slam_base.inverse();
+        // RCLCPP_INFO(get_logger(), "tf_map_slam %s", orca::str(tf_map_slam_).c_str());
       }
 
       // Send to ArduSub EKF
-      publish_ext_nav(tf_map_slam_ * tf_slam_base);
+      // publish_ext_nav(tf_map_slam_ * tf_slam_base);
 
       if (state_ == State::RUN_NO_MAP) {
         change_state("map created", State::RUN_LOCALIZED);
@@ -368,7 +368,7 @@ public:
     base_f_odom.position.z = -0.2;
 
     // Init dynamic transforms
-    tf_map_slam_.setIdentity();
+    // tf_map_slam_.setIdentity();
     tf_map_odom_.setIdentity();
     tf_odom_base_ = orca::pose_msg_to_transform(base_f_odom);
 

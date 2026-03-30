@@ -28,14 +28,14 @@ class KeyListenerNode(Node):
             keyboard.KeyCode(char='2'): 1 - 1,
             keyboard.KeyCode(char='4'): 2 - 1,
             keyboard.KeyCode(char='6'): 2 - 1,
-            keyboard.KeyCode(char='w'): 3 - 1,
-            keyboard.KeyCode(char='s'): 3 - 1,
-            keyboard.KeyCode(char='a'): 4 - 1,
-            keyboard.KeyCode(char='d'): 4 - 1,
-            keyboard.Key.up: 5 - 1,
-            keyboard.Key.down: 5 - 1,
-            keyboard.Key.left: 6 - 1,
-            keyboard.Key.right: 6 - 1,
+            keyboard.KeyCode(char='w'): 5 - 1,
+            keyboard.KeyCode(char='s'): 5 - 1,
+            keyboard.KeyCode(char='a'): 6 - 1,
+            keyboard.KeyCode(char='d'): 6 - 1,
+            keyboard.Key.up: 3 - 1,
+            keyboard.Key.down: 3 - 1,
+            keyboard.Key.left: 4 - 1,
+            keyboard.Key.right: 4 - 1,
         }
 
         self.listener = None

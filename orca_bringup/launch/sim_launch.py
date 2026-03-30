@@ -50,8 +50,8 @@ def generate_launch_description():
     rviz_file = os.path.join(orca_bringup_dir, 'cfg', 'sim_launch.rviz')
     world_file = os.path.join(orca_description_dir, 'worlds', 'sand.world')
 
-    sim_left_ini = os.path.join(orca_bringup_dir, 'cfg', 'orbslam2', 'sim_left.ini')
-    sim_right_ini = os.path.join(orca_bringup_dir, 'cfg', 'orbslam2', 'sim_right.ini')
+    sim_left_ini = os.path.join(orca_bringup_dir, 'cfg', 'camera_info', 'sim_left.ini')
+    sim_right_ini = os.path.join(orca_bringup_dir, 'cfg', 'camera_info', 'sim_right.ini')
     return LaunchDescription([
         DeclareLaunchArgument(
             'ardusub',
@@ -67,13 +67,13 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'base',
-            default_value='True',
+            default_value='False',
             description='Launch base controller?',
         ),
 
         DeclareLaunchArgument(
             'gzclient',
-            default_value='True',
+            default_value='False',
             description='Launch Gazebo UI?'
         ),
 
@@ -85,19 +85,19 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'nav',
-            default_value='True',
+            default_value='False',
             description='Launch navigation?',
         ),
 
         DeclareLaunchArgument(
             'rviz',
-            default_value='False',
+            default_value='True',
             description='Launch rviz?',
         ),
 
         DeclareLaunchArgument(
             'slam',
-            default_value='False',
+            default_value='True',
             description='Launch SLAM?',
         ),
 
@@ -149,14 +149,14 @@ def generate_launch_description():
         # gz must be on the $PATH
         # libArduPilotPlugin.so must be on the GZ_SIM_SYSTEM_PLUGIN_PATH
         ExecuteProcess(
-            cmd=['gz', 'sim', '-v', '3', '-r', world_file],
+            cmd=['gz', 'sim', '-v4', '3', '-r', world_file],
             output='screen',
             condition=IfCondition(LaunchConfiguration('gzclient')),
         ),
 
         # Launch Gazebo Sim server-only
         ExecuteProcess(
-            cmd=['gz', 'sim', '-v', '3', '-r', '-s', world_file],
+            cmd=['gz', 'sim', '-v4', '3', '-r', '-s', world_file],
             output='screen',
             condition=UnlessCondition(LaunchConfiguration('gzclient')),
         ),
